@@ -16,6 +16,7 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7fFwCspNYDKZZ53el6Qs0Fjjhn0X7Jhs">
     </script>
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/mobile.css" media="only screen and (min-device-width : 320px) and (max-device-width : 480px)">
     <!-- endbuild -->
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="bower_components/modernizr/modernizr.js"></script>
@@ -27,28 +28,36 @@
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-
-    <div class="container-fluid">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">yo project5</h3>
+      <div class="top-input hidden-offscreen-left">
+        <div class="paleo-search">
+          <input class="search-bar" type="text" ></input>
+        </div>
+        <div class="menu-btn">
+          <button id="open-menu" class="btn btn-default" type="submit">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </div>
       </div>
-
-      <div class="jumbotron">
+      <div class="left hidden-offscreen-left">
+        <div>
+          <ul class="paleo-list">
+            <li>stuff</li>
+            <li>more stuff</li>
+            <li>even more stuff</li>
+          </ul>
+        </div>
+        <div class="list-btn">
+          <button id="open-list" class="btn btn-default" type="submit">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+        </div>
+      </div>
+      <div class="container-map">
         <div id="map-canvas"></div>
       </div>
-
-      <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div>
-
-    </div>
-
+      <footer class="hidden-offscreen-left">
+        <a href="http://glyphicons.com/">glyphicons</a>
+      </footer>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
