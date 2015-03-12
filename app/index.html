@@ -33,22 +33,24 @@
           <input class="search-bar" type="text" ></input>
         </div>
         <div class="menu-btn">
-          <button id="open-menu" class="btn btn-default" type="submit">
-            <span class="glyphicon glyphicon-ok"></span>
+          <button id="open-menu" class="btn btn-default paleo-btn" type="submit">
+            <span class="glyphicon glyphicon-search"></span>
           </button>
         </div>
       </div>
       <div class="left hidden-offscreen-left">
+        <h2>Points of Interest</h2>
         <div>
           <ul class="paleo-list">
             <li>stuff</li>
             <li>more stuff</li>
             <li>even more stuff</li>
+            <li>random stuff</li>
           </ul>
         </div>
         <div class="list-btn">
-          <button id="open-list" class="btn btn-default" type="submit">
-            <span class="glyphicon glyphicon-ok"></span>
+          <button id="open-list" class="btn btn-default paleo-btn" type="submit">
+            <span class="glyphicon glyphicon-list"></span>
           </button>
         </div>
       </div>
@@ -88,6 +90,8 @@
     </script>
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
+        <script src="scripts/model.js"></script>
+        <script src="scripts/interface.js"></script>
         <script src="scripts/main.js"></script>
         <!-- endbuild -->
 </body>
