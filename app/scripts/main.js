@@ -1,47 +1,34 @@
 function initialize() {
-  var mapOptions = {
-    center: { lat: 35.619075, lng: -78.638199},
-    zoom: 16,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    disableDefaultUI: true
-  };
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
+  console.log(Modernizr);
+
+  if (Modernizr.geolocation) {
+    console.log("geolocation available");
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        aboutMy.position = pos.coords;
+        console.log(aboutMy.position);
+        var mapOptions = {
+          center: { lat: aboutMy.position.latitude, lng: aboutMy.position.longitude},
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          disableDefaultUI: true
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+      },
+      function(){
+        console.log("err");
+      });
+  }
+
+  //35.798124, -78.666578
+  //console.log(map);
 }
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
-$("#open-menu").click(function(){
-  $(".top-input").removeClass("hidden-offscreen-left");
-  $(".search-bar").focus();
-});
-
-$("#open-menu").focus(function(){
-  $(this).blur();
-});
-
-$(".search-bar").blur(function() {
-  $(".top-input").addClass("hidden-offscreen-left");
-  setInterval(function() {
-    $("#open-menu").prop("disabled", false);
-  }, 1000);
-});
 
 
-$("#open-list").click(function(){
-  $(".left").removeClass("hidden-offscreen-left");
-  //$(".search-bar").focus();
-});
-
-$("#open-list").focus(function(){
-  $(this).blur();
-});
-
-$(".search-bar").blur(function() {
-  $(".left").addClass("hidden-offscreen-left");
-  setInterval(function() {
-    $("#open-list").prop("disabled", false);
-  }, 1000);
-});
 
 /*
 I. Determine mobile or desktop.
