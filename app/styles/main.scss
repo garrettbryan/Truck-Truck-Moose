@@ -5,11 +5,32 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 html,
 body {
+  overflow: hidden;
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+.paleo-btn {
+  background: none;
+  border: none;
+}
+
+.paleo-btn:focus {
+  background: none;
+  border: none;
+}
+
+.paleo-btn:active {
+  background: none;
+  border: none;
+}
+
+.paleo-btn:hover {
+  background: none;
+  border: none;
 }
 
 .hidden-offscreen-left {
@@ -54,17 +75,25 @@ body {
   transition: all 1s ease;
 }
 
+.left {
+  background: linear-gradient(90deg, rgba(255,0,0,1), rgba(255,0,0,0));
+}
+
 .top-input,
 .left,
 footer {
   width: 100%;
   position: absolute;
   z-index: 1;
-  background-color: gray;
+  //background-color: gray;
 }
 
 .left {
-  bottom: 50px;
+  bottom: 0;
+}
+
+#open-list {
+  bottom: 15px;
 }
 
 footer {
