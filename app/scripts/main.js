@@ -1,5 +1,28 @@
 var map;
 
+var noPoi = [
+  {
+    featureType: "poi",
+    stylers: [
+      { visibility: "off" }
+    ]
+  }
+];
+
+var Neighborhood = function(data) {
+  this.search = ko.observable(data.search);
+  this.markers = ko.observableArray(data.markers);
+}
+
+var ViewModel = function() {
+  var that = this;
+
+  this.poi = ko.observableArray([]);
+
+
+}
+
+
 function initialize() {
   console.log(Modernizr);
 
@@ -17,8 +40,12 @@ function initialize() {
           disableDefaultUI: true
         };
 
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
+        map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
+
+        map.setOptions({styles: noPoi});
+
+        console.log("position" + aboutMy.position);
 
         var marker = new google.maps.Marker({
           position: aboutMy.position,
@@ -32,8 +59,8 @@ function initialize() {
           types: ['store']
         };
 
-        //var service = new google.maps.places.PlacesService(map);
-        //service.nearbySearch(request, searchCallback);
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, searchCallback);
 
       },
       function(){
@@ -60,11 +87,13 @@ function searchCallback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       var place = results[i];
-      console.log(results[i]);
+      //console.log(results[i]);
       createPlaceMarker(results[i]);
     }
   }
 }
+
+ko.applyBindings(new ViewModel());
 
 /*
 I. Determine mobile or desktop.
