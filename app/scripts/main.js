@@ -1,3 +1,5 @@
+var map;
+
 function initialize() {
   console.log(Modernizr);
 
@@ -5,30 +7,64 @@ function initialize() {
     console.log("geolocation available");
     navigator.geolocation.getCurrentPosition(
       function(pos){
-        aboutMy.position = pos.coords;
+        aboutMy.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         console.log(aboutMy.position);
+
         var mapOptions = {
-          center: { lat: aboutMy.position.latitude, lng: aboutMy.position.longitude},
+          center: aboutMy.position,
           zoom: 16,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           disableDefaultUI: true
         };
+
         var map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
+
+        var marker = new google.maps.Marker({
+          position: aboutMy.position,
+          map: map,
+          title: "Current Location"
+        });
+
+        var request = {
+          location: aboutMy.position,
+          radius: '500',
+          types: ['store']
+        };
+
+        //var service = new google.maps.places.PlacesService(map);
+        //service.nearbySearch(request, searchCallback);
+
       },
       function(){
         console.log("err");
       });
   }
 
-  //35.798124, -78.666578
+  //401 and tenten 35.665270, -78.699227
+  //home 35.798124, -78.666578
   //console.log(map);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
+function createPlaceMarker(place){
+  aboutMy.markers.push(new google.maps.Marker({
+    position: place.geometry.location,
+    map: map,
+    title: place.name
+  }));
+}
 
-
+function searchCallback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      var place = results[i];
+      console.log(results[i]);
+      createPlaceMarker(results[i]);
+    }
+  }
+}
 
 /*
 I. Determine mobile or desktop.
