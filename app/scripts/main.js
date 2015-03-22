@@ -9,91 +9,75 @@ var noPoi = [
   }
 ];
 
-var Neighborhood = function(data) {
-  this.search = ko.observable(data.search);
-  this.markers = ko.observableArray(data.markers);
+var POI = function(place) {
+  this.name = ko.observable(place.name);
 }
 
 var ViewModel = function() {
-  var that = this;
+  var self = this;
 
-  this.poi = ko.observableArray([]);
-
-
-}
+  this.query = ko.observable("");
+  this.pois = ko.observableArray([]);
 
 
-function initialize() {
-  console.log(Modernizr);
+  self.neighborhoodSearch = function() {
+    deleteMarkers();
+    self.pois([]);
+    var request = {
+      location: aboutMy.position,
+      radius: '500',
+      keyword: self.query()
+    };
 
-  if (Modernizr.geolocation) {
-    console.log("geolocation available");
-    navigator.geolocation.getCurrentPosition(
-      function(pos){
-        aboutMy.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-        console.log(aboutMy.position);
+    console.log(request.keyword)
 
-        var mapOptions = {
-          center: aboutMy.position,
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          disableDefaultUI: true
-        };
-
-        map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
-
-        map.setOptions({styles: noPoi});
-
-        console.log("position" + aboutMy.position);
-
-        var marker = new google.maps.Marker({
-          position: aboutMy.position,
-          map: map,
-          title: "Current Location"
-        });
-
-        var request = {
-          location: aboutMy.position,
-          radius: '500',
-          types: ['store']
-        };
-
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, searchCallback);
-
-      },
-      function(){
-        console.log("err");
-      });
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, self.searchCallback);
   }
 
-  //401 and tenten 35.665270, -78.699227
-  //home 35.798124, -78.666578
-  //console.log(map);
-}
 
-google.maps.event.addDomListener(window, 'load', initialize);
 
-function createPlaceMarker(place){
-  aboutMy.markers.push(new google.maps.Marker({
-    position: place.geometry.location,
-    map: map,
-    title: place.name
-  }));
-}
+  self.createPlaceMarker = function(place){
+    console.log(aboutMy.markers);
+    aboutMy.markers.push(new google.maps.Marker({
+      position: place.geometry.location,
+      map: map,
+      title: place.name
+    }));
+  }
 
-function searchCallback(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      var place = results[i];
-      //console.log(results[i]);
-      createPlaceMarker(results[i]);
+  self.searchCallback = function(results, status) {
+    aboutMy.markers = [];
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        var place = results[i];
+        //console.log(results[i]);
+        self.createPlaceMarker(results[i]);
+      }
     }
+    results.forEach(function(result){
+      self.pois.push(new POI(result) );
+    });
+    self.pois.sort();
   }
 }
 
 ko.applyBindings(new ViewModel());
+
+function setAllMap(map) {
+  aboutMy.markers.forEach(function(marker){
+    marker.setMap(map);
+  });
+}
+
+function clearMarkers() {
+  setAllMap(null);
+}
+
+function deleteMarkers() {
+  clearMarkers();
+  aboutMy.markers = [];
+}
 
 /*
 I. Determine mobile or desktop.
