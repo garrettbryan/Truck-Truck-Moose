@@ -1,4 +1,8 @@
-var map;
+var map,
+  autocomplete,
+  predictions,
+  predictionList,
+  autocompletePredictions = [];
 
 var noPoi = [
   {
@@ -11,14 +15,27 @@ var noPoi = [
 
 var POI = function(place) {
   this.name = ko.observable(place.name);
-}
+};
+
+var prediction = function(place) {
+  this.details = ko.observable(place);
+};
 
 var ViewModel = function() {
   var self = this;
 
   this.query = ko.observable("");
   this.pois = ko.observableArray([]);
+  this.predictions = ko.observableArray([]);
 
+  $('.search-bar').keyup(function(){
+    autocomplete.getPlacePredictions({
+      input: self.query(),
+      location: aboutMy.position,
+      radius: '500'
+      }, autocompleteCallback);
+    console.log(self.query());
+  });
 
   self.neighborhoodSearch = function() {
     deleteMarkers();
@@ -34,8 +51,6 @@ var ViewModel = function() {
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch(request, self.searchCallback);
   }
-
-
 
   self.createPlaceMarker = function(place){
     console.log(aboutMy.markers);
@@ -63,6 +78,20 @@ var ViewModel = function() {
 }
 
 ko.applyBindings(new ViewModel());
+
+function autocompleteCallback(predictions, status) {
+  autocompletePredictions = "";
+  if (status != google.maps.places.PlacesServiceStatus.OK) {
+    alert(status);
+    return;
+  }
+  console.log(predictions);
+  predictions.forEach(function(prediction){
+    autocompletePredictions += "<li>" + prediction.description + "</li>";
+  });
+  $('.prediction-list').html(autocompletePredictions);
+}
+
 
 function setAllMap(map) {
   aboutMy.markers.forEach(function(marker){
