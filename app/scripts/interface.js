@@ -36,13 +36,39 @@ The initialize function uses modernizer to test browser.
 Depending on the outcome the app will gracefully downgrade.
 The app will have two quality steps.
 With geolocation map will load with surrounding area.
-Without geolocation map will load United States map.
+Without geolocation map will load United States map, and ask user for location.
 */
 function initialize() {
   console.log(Modernizr);
 
   if (Modernizr.geolocation) {
     console.log("geolocation available");
+
+    /*
+    https://developer.mozilla.org/en-US/docs/Web/API/Geolocation
+    navigator.geolocation.getCurrentPosition(success[, error[, options]])
+      success callback that takes Position object as input parameter
+      Position.coords is a Coordinates object
+        dbl latitude decimal degrees
+        dbl longitude decimal degrees
+        dbl altitude relative to sea level in meters can be null
+        dbl accuracy of latitude longitude in meters
+        dbl altitudeAccuracy expressed in meters.
+        dbl heading 0 is north, 90 is east, speed is 0 then NaN, If unable to determine then null
+        dbl speed velocity in meters per second
+      Position.timestamp is a DOMTimeStamp
+        precision to the milisecond
+
+      error callback that takes PositionError object as input parameter
+        1 PERMISSION_DENIED
+        2 POSITION_UNAVAILABLE device internal error
+        3 TIMEOUT PostionOptions. timeout reached.
+
+      options
+        bool PositionOptions.enableHighAccuracy
+        positive long PositionOptions.timeout miliseconds
+        positive long PositionOptions.maximumAge milliseconds for cached postion to be returned.
+    */
     navigator.geolocation.getCurrentPosition(
       function(pos){
         aboutMy.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
