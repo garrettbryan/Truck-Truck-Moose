@@ -99,12 +99,23 @@ function initialize() {
 
         /*
         add current location via marker to centerpoint of map
+        https://developers.google.com/maps/documentation/javascript/markers
         */
         var marker = new google.maps.Marker({
           position: aboutMy.position,
           map: map,
           title: "Current Location",
-          icon: testImage
+          icon: testImage,
+          draggable:true
+        });
+        /*
+        verify the marker anchor is appropriate
+        */
+        var marker1 = new google.maps.Marker({
+          position: aboutMy.position,
+          map: map,
+          title: "Current Location",
+          draggable:true
         });
 
 
