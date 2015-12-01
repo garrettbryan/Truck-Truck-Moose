@@ -31,6 +31,13 @@ $(".search-bar").blur(function() {
   }, 1000);
 });
 
+/*
+The initialize function uses modernizer to test browser.
+Depending on the outcome the app will gracefully downgrade.
+The app will have two quality steps.
+With geolocation map will load with surrounding area.
+Without geolocation map will load United States map.
+*/
 function initialize() {
   console.log(Modernizr);
 
