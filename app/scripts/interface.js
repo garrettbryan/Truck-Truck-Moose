@@ -37,6 +37,8 @@ Depending on the outcome the app will gracefully downgrade.
 The app will have two quality steps.
 With geolocation map will load with surrounding area.
 Without geolocation map will load United States map, and ask user for location.
+
+Initialize will also initialize the random foodtrucks and their postions.
 */
 function initialize() {
   console.log(Modernizr);
@@ -70,6 +72,8 @@ function initialize() {
         positive long PositionOptions.maximumAge milliseconds for cached postion to be returned.
     */
     navigator.geolocation.getCurrentPosition(
+      /*Success callback uses the returned latitude and longitude to initialize a google map.
+      */
       function(pos){
         aboutMy.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         console.log(aboutMy.position);
@@ -88,15 +92,25 @@ function initialize() {
 
         console.log("position" + aboutMy.position);
 
+
+        /*
+        add current location via marker to centerpoint of map
+        */
         var marker = new google.maps.Marker({
           position: aboutMy.position,
           map: map,
-          title: "Current Location"
+          title: "Current Location",
         });
+
+
+
 
         autocomplete = new google.maps.places.AutocompleteService();
 
       },
+      /*failure callback returns err
+      TODO make this better
+      */
       function(){
         console.log("err");
       });
