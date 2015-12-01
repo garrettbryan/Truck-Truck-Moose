@@ -118,7 +118,24 @@ function initialize() {
           draggable:true
         });
 
+        /*
+        add an info window
+        */
+        var contentString = '<div id="content">'+
+          '<h3 id="heading" class="heading">A Heading</h3>' +
+          '<div id="body-content"> This is something interesting</div>' +
+          '</div>;'
 
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+        marker1.addListener('click', function() {
+          infowindow.open(map, marker1);
+        });
 
 
         autocomplete = new google.maps.places.AutocompleteService();
