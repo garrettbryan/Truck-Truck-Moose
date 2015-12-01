@@ -92,6 +92,10 @@ function initialize() {
 
         console.log("position" + aboutMy.position);
 
+        /*
+        add a new image to the current location
+        */
+        var testImage = 'images/resize_woolly_mammoth.png';
 
         /*
         add current location via marker to centerpoint of map
@@ -100,6 +104,7 @@ function initialize() {
           position: aboutMy.position,
           map: map,
           title: "Current Location",
+          icon: testImage
         });
 
 
