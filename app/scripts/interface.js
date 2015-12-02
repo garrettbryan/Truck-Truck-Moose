@@ -215,7 +215,7 @@ function initialize() {
 
           var boundLat = bounds.getNorthEast().lat()-bounds.getSouthWest().lat();
           var boundLng = bounds.getNorthEast().lng()-bounds.getSouthWest().lng();
-
+          var geocoder = new google.maps.Geocoder;
 
           aboutMy.foodTrucks.forEach(function(truck){
             var randomLat = bounds.getSouthWest().lat() + boundLat * Math.random();
@@ -227,6 +227,26 @@ function initialize() {
               icon: truck.marker,
               draggable:true
             });
+            geocodeLatLng(geocoder, map, randomLat, randomLng);
+          });
+        }
+
+        function geocodeLatLng(geocoder, map, lata, lnga) {
+          var latlng = {lat: lata, lng: lnga};
+          geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              if (results[1]) {
+               // var marker = new google.maps.Marker({
+               //   position: latlng,
+               //   map: map
+               // });
+                console.log(results[1].formatted_address);
+              } else {
+                window.alert('No results found');
+              }
+            } else {
+              window.alert('Geocoder failed due to: ' + status);
+            }
           });
         }
 
