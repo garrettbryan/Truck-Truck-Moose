@@ -91,7 +91,10 @@ function initialize() {
         map.setOptions({styles: noPoi});
 
         console.log("position" + aboutMy.position);
-        locallyRandomizeFoodTruck();
+
+        google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
+          locallyRandomizeFoodTruck(this.getBounds(), pos);
+        });
 
         /*
         add a new image to the current location
@@ -143,7 +146,7 @@ function initialize() {
         https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-hotelsearch
         */
 
-        var map, places, infoWindow;
+        var places, infoWindow;
         var markers = [];
         var autocomplete;
         var countryRestrict = {'country': 'us'};
@@ -171,7 +174,7 @@ function initialize() {
             bounds: map.getBounds(),
             types: ['lodging']
           };
-
+          console.log(bounds);
           places.nearbySearch(search, function(results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
               clearResults();
@@ -203,14 +206,27 @@ function initialize() {
           randomize the food trucks nav points within a certain radius.
           randomize the food trucks time intervals
         */
-        function locallyRandomizeFoodTruck() {
-          //determine bounds of google map. If map is larger than a normal street block
-          //randomize the local position of the food trucks.
-          console.log(map.getBounds());
+
+        function locallyRandomizeFoodTruck(bounds, pos) {
+          //determine bounds of google map.
+          //randomize the local position of the food trucks within the bounds.
+          //function to place food trucks is D0+(D1-D0)*random(0|1)
+          //Food trucks should be constrained to streets.
+
+          var boundLat = bounds.getNorthEast().lat()-bounds.getSouthWest().lat();
+          var boundLng = bounds.getNorthEast().lng()-bounds.getSouthWest().lng();
+
 
           aboutMy.foodTrucks.forEach(function(truck){
-            var randomLat = Math.random();
-            var randomLong = Math.random();
+            var randomLat = bounds.getSouthWest().lat() + boundLat * Math.random();
+            var randomLng = bounds.getSouthWest().lng() + boundLng * Math.random();
+            truck.marker = new google.maps.Marker({
+              position: new google.maps.LatLng(randomLat, randomLng),
+              map: map,
+              title: truck.name,
+              icon: truck.marker,
+              draggable:true
+            });
           });
         }
 
