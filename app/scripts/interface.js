@@ -91,6 +91,7 @@ function initialize() {
         map.setOptions({styles: noPoi});
 
         console.log("position" + aboutMy.position);
+        locallyRandomizeFoodTruck();
 
         /*
         add a new image to the current location
@@ -194,6 +195,22 @@ function initialize() {
                 addResult(results[i], i);
               }
             }
+          });
+        }
+
+        /*
+          Food truck demo requires initialization.
+          randomize the food trucks nav points within a certain radius.
+          randomize the food trucks time intervals
+        */
+        function locallyRandomizeFoodTruck() {
+          //determine bounds of google map. If map is larger than a normal street block
+          //randomize the local position of the food trucks.
+          console.log(map.getBounds());
+
+          aboutMy.foodTrucks.forEach(function(truck){
+            var randomLat = Math.random();
+            var randomLong = Math.random();
           });
         }
 
