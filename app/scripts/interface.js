@@ -97,22 +97,6 @@ function initialize() {
         });
 
         /*
-        add a new image to the current location
-        */
-        var testImage = 'images/resize_woolly_mammoth.png';
-
-        /*
-        add current location via marker to centerpoint of map
-        https://developers.google.com/maps/documentation/javascript/markers
-        */
-        var marker = new google.maps.Marker({
-          position: aboutMy.position,
-          map: map,
-          title: "Current Location",
-          icon: testImage,
-          draggable:true
-        });
-        /*
         verify the marker anchor is appropriate
         */
         var marker1 = new google.maps.Marker({
@@ -134,9 +118,6 @@ function initialize() {
           content: contentString
         });
 
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
         marker1.addListener('click', function() {
           infowindow.open(map, marker1);
         });
