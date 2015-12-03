@@ -199,21 +199,26 @@ function initialize() {
           var geocoder = new google.maps.Geocoder;
 
           aboutMy.foodTrucks.forEach(function(truck){
+            var initialTime = 0;
             for (var i = 0; i < 3; i++){
-              var randomLat = bounds.getSouthWest().lat() + boundLat * Math.random();
-              var randomLng = bounds.getSouthWest().lng() + boundLng * Math.random();
+              var time = initialTime + Math.random()*(20-initialTime);
               truck.locTime.push({
-                loc: new google.maps.Marker({
-                  position: new google.maps.LatLng(randomLat, randomLng),
-                  map: map,
-                  title: truck.name,
-                  icon: truck.img,
-                  draggable:true
-                }),
-                time: Math.random()*24
+                randomLat: bounds.getSouthWest().lat() + boundLat * Math.random(),
+                randomLng: bounds.getSouthWest().lng() + boundLng * Math.random(),
+                starttime: time,
+                endtime: time + 1
               });
-              geocodeLatLng(geocoder, map, randomLat, randomLng);
+              initialTime = truck.locTime[i].endtime + .5
+
+              truck.marker = new google.maps.Marker({
+                position: new google.maps.LatLng(truck.locTime[0].randomLat, truck.locTime[0].randomLng),
+                map: map,
+                title: truck.name,
+                icon: truck.img,
+                draggable:true
+              });
             }
+            geocodeLatLng(geocoder, map, truck.locTime[0].randomLat, truck.locTime[0].randomLng);
           });
         }
 
