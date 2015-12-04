@@ -199,6 +199,11 @@ function initialize() {
           var geocoder = new google.maps.Geocoder;
 
           aboutMy.foodTrucks.forEach(function(truck){
+            /*
+            Foodtrucks have 3  randomized 1 hour stops.
+            The function takes the initial time and adds a random fraction of the difference between initial and
+            final times.
+            */
             var initialTime = 0;
             for (var i = 0; i < 3; i++){
               var time = initialTime + Math.random()*(20-initialTime);
@@ -208,7 +213,7 @@ function initialize() {
                 starttime: time,
                 endtime: time + 1
               });
-              initialTime = truck.locTime[i].endtime + .5
+              initialTime = truck.locTime[i].endtime + .5 //possibl
 
               truck.marker = new google.maps.Marker({
                 position: new google.maps.LatLng(truck.locTime[0].randomLat, truck.locTime[0].randomLng),
