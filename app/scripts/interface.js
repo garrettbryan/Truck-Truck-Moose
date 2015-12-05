@@ -193,10 +193,16 @@ function initialize() {
           //randomize the local position of the food trucks within the bounds.
           //function to place food trucks is D0+(D1-D0)*random(0|1)
           //Food trucks should be constrained to streets.
+          //constrain random placement to smallest dimension of screen
+
+
 
           var boundLat = bounds.getNorthEast().lat()-bounds.getSouthWest().lat();
           var boundLng = bounds.getNorthEast().lng()-bounds.getSouthWest().lng();
           var geocoder = new google.maps.Geocoder;
+
+          var boundLatLng = Math.abs(boundLat) <= Math.abs(boundLng) ? boundLat : boundLng;
+          var recenterFoodTrucks = Math.abs(boundLat - boundLng)/2;
 
           aboutMy.foodTrucks.forEach(function(truck){
             /*
@@ -208,8 +214,8 @@ function initialize() {
             for (var i = 0; i < 3; i++){
               var time = initialTime + Math.random()*(20-initialTime);
               truck.locTime.push({
-                randomLat: bounds.getSouthWest().lat() + boundLat * Math.random(),
-                randomLng: bounds.getSouthWest().lng() + boundLng * Math.random(),
+                randomLat: bounds.getSouthWest().lat() + boundLatLng * Math.random() + recenterFoodTrucks,
+                randomLng: bounds.getSouthWest().lng() + boundLatLng * Math.random(),
                 starttime: time,
                 endtime: time + 1
               });
