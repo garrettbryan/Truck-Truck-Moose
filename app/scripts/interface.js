@@ -7,7 +7,7 @@ $("#open-menu").focus(function(){
   $(this).blur();
 });
 
-$(".search-bar").blur(function() {
+$(".search-bar").change(function() {
   $(".top-input").addClass("hidden-offscreen-left");
   setInterval(function() {
     $("#open-menu").prop("disabled", false);
