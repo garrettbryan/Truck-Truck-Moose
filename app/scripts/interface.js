@@ -98,6 +98,7 @@ function initialize() {
             truck.initNoSchedule(truckData);
             truck.create3RandomStopPoints(aboutMy.position, map)
             console.log(truck);
+            truck.determinePosition(aboutMy.now);
             aboutMy.foodTrucks.push(truck);
           });
         });

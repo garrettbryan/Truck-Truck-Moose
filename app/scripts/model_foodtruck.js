@@ -25,16 +25,36 @@ FoodTruck.prototype.initNoSchedule = function(truckData){
   this.img = truckData.img;
 }
 
+FoodTruck.prototype.determinePosition = function(now) {
+  console.log(now);
+  var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
+  console.log(nowSecs);
+  if (!(this.moving(nowSecs))){
+    this.marker = new google.maps.Marker({
+      position: new google.maps.LatLng(this.schedule[0].lat, this.schedule[0].lng),
+      map: map,
+      title: this.name,
+      icon: this.img,
+      draggable: true
+    });
+  }
+}
+
+
+FoodTruck.prototype.moving = function(nowSecs) {
+  var traveling = true;
+  this.schedule.forEach(function(event, i, a){
+    if (nowSecs > event.starttime.getSecs() && nowSecs < event.endtime.getSecs()){
+      traveling = false;
+    }
+  });
+  return traveling;
+}
+
 /*
 randomizeStopPoint takes the users postion and the google map(needs the bounds of the map) to randomly distribute the foodtrucks around the user within the bounds of the map. The radius of the circular distribution area is constrained by the smallest dimension of the map - 1/2 height of the custom markers.
 */
 FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
-  //function locallyRandomizeFoodTruck(bounds, pos) {
-  //determine bounds of google map.
-  //randomize the local position of the food trucks within the bounds.
-  //function to place food trucks is D0+(D1-D0)*random(0|1)
-  //Food trucks should be constrained to streets.
-  //constrain random placement to smallest dimension of screen
   var dayOver = 22 * 3600; //the food trucks last stop begins at 22 hours
   var bounds = map.getBounds();
 
