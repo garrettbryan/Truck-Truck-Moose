@@ -30,9 +30,9 @@ FoodTruck.prototype.initNoSchedule = function(truckData){
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
   this.pinPoint(nowSecs);
-  if (this.traveling && this.schedule > 0 && this.currentEvent < this.schedule.length) {
-    this.position.lat = (this.schedule[this.currentEvent].lat + this.schedule[this.currentEvent - 1 ].lat)/2;
-    this.position.lng = (this.schedule[this.currentEvent].lng + this.schedule[this.currentEvent - 1 ].lng)/2;
+  if (this.traveling && this.currentEvent > 0 && this.currentEvent < this.schedule.length) {
+    this.position.lat = (this.schedule[this.currentEvent].lat - this.schedule[this.currentEvent - 1 ].lat)*nowSecs/this.schedule[this.currentEvent].starttime.seconds + this.schedule[this.currentEvent - 1 ].lat;
+    this.position.lng = (this.schedule[this.currentEvent].lng - this.schedule[this.currentEvent - 1 ].lng)*nowSecs/this.schedule[this.currentEvent].starttime.seconds + this.schedule[this.currentEvent - 1 ].lng;
   }
 }
 
@@ -43,6 +43,8 @@ FoodTruck.prototype.pinPoint = function(nowSecs) {
     if (nowSecs > this.schedule[i].starttime.getSecs() && nowSecs < this.schedule[i].endtime.getSecs()){
       this.traveling = false;
       this.currentEvent = i;
+      this.position.lat = this.schedule[i].lat;
+      this.position.lng = this.schedule[i].lng;
     } else {
       this.currentEvent = nowSecs < this.schedule[i].starttime.getSecs() ? i : i+1;
     }
@@ -130,15 +132,19 @@ FoodTruck.prototype.clearSchedule = function(){
 
 FoodTruck.prototype.render = function() {
   console.log(this);
-  if (!(this.traveling)){
-    this.marker = new google.maps.Marker({
-      position: new google.maps.LatLng(this.schedule[this.currentEvent].lat, this.schedule[this.currentEvent].lng),
-      map: map,
-      title: this.name,
-      icon: this.img,
-      draggable: true
-    });
+  console.log(this.currentEvent);
+  var icon = this.img;
+  if (this.traveling){
+    var icon = this.img;
   }
+
+  this.marker = new google.maps.Marker({
+    position: new google.maps.LatLng(this.position.lat, this.position.lng),
+    map: map,
+    title: this.name,
+    icon: icon,
+    draggable: true
+  });
 }
 
 FoodTruck.prototype.getGeoCodeer = function() {
