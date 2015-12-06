@@ -45,7 +45,6 @@ function initialize() {
 
   if (Modernizr.geolocation) {
     console.log("geolocation available");
-
     /*
     https://developer.mozilla.org/en-US/docs/Web/API/Geolocation
     navigator.geolocation.getCurrentPosition(success[, error[, options]])
@@ -93,7 +92,14 @@ function initialize() {
         console.log("position" + aboutMy.position);
 
         google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
-          locallyRandomizeFoodTruck(this.getBounds(), pos);
+          //locallyRandomizeFoodTruck(this.getBounds(), pos);
+          foodTrucks.forEach(function(truckData){
+            var truck = new FoodTruck();
+            truck.initNoSchedule(truckData);
+            truck.create3RandomStopPoints(aboutMy.position, map)
+            console.log(truck);
+            aboutMy.foodTrucks.push(truck);
+          });
         });
 
         /*

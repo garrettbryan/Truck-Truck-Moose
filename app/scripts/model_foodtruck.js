@@ -19,7 +19,7 @@ var FoodTruck = function(){
   this.comments = [];
 }
 
-FoodTruck.prototype.initializeNoScedule = function(truckData){
+FoodTruck.prototype.initNoSchedule = function(truckData){
   this.name = truckData.name;
   this.description = truckData.description;
   this.img = truckData.img;
@@ -35,6 +35,7 @@ FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
   //function to place food trucks is D0+(D1-D0)*random(0|1)
   //Food trucks should be constrained to streets.
   //constrain random placement to smallest dimension of screen
+  var dayOver = 22 * 3600; //the food trucks last stop begins at 22 hours
   var bounds = map.getBounds();
 
   var boundLat = bounds.getNorthEast().lat()-bounds.getSouthWest().lat();
@@ -44,67 +45,49 @@ FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
 
   var recenterFoodTrucks = Math.abs(boundLat - boundLng)/2;
 
-  var initialTime = this.schedule[this.schedule.length-1] || 0
+  var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+1800 : 0; //Gives at least a 30minute buffer till the next stop.
 
-
-    var initialTime = 0;
-    for (var i = 0; i < 3; i++){
-      var time = initialTime + Math.random()*(20-initialTime);
-      truck.locTime.push({
-        randomLat: bounds.getSouthWest().lat() + boundLatLng * Math.random() + recenterFoodTrucks,
-        randomLng: bounds.getSouthWest().lng() + boundLatLng * Math.random(),
-        starttime: time,
-        endtime: time + 1
-      });
-      initialTime = truck.locTime[i].endtime + .5 //possibl
-
-      truck.marker = new google.maps.Marker({
-        position: new google.maps.LatLng(truck.locTime[0].randomLat, truck.locTime[0].randomLng),
-        map: map,
-        title: truck.name,
-        icon: truck.img,
-        draggable:true
-      });
-    }
-  });
+  if (initialTime < dayOver){
+    var time = initialTime + Math.random()*(dayOver-initialTime); //Determines when the next stop occurs
+    //console.log(time);
+    var stime = new tm();
+    stime.initSecs(time)
+    var etime = new tm();
+    etime.initSecs(time + 3600);
+    this.schedule.push({
+      lat: bounds.getSouthWest().lat() + boundLatLng * Math.random() + recenterFoodTrucks,
+      lng: bounds.getSouthWest().lng() + boundLatLng * Math.random(),
+      starttime: stime,
+      endtime: etime
+    });
+    //console.log(this);
+  }
 }
 
-
-
-}
-
-FoodTruck.prototype.create3RandomStopPoints = function() {
+/*
   var geocoder = new google.maps.Geocoder;
 
-
-
   aboutMy.foodTrucks.forEach(function(truck){
-    /*
-    Foodtrucks have 3  randomized 1 hour stops.
-    The function takes the initial time and adds a random fraction of the difference between initial and
-    final times.
-    */
-    var initialTime = 0;
-    for (var i = 0; i < 3; i++){
-      var time = initialTime + Math.random()*(20-initialTime);
-      truck.locTime.push({
-        randomLat: bounds.getSouthWest().lat() + boundLatLng * Math.random() + recenterFoodTrucks,
-        randomLng: bounds.getSouthWest().lng() + boundLatLng * Math.random(),
-        starttime: time,
-        endtime: time + 1
-      });
-      initialTime = truck.locTime[i].endtime + .5 //possibl
 
-      truck.marker = new google.maps.Marker({
-        position: new google.maps.LatLng(truck.locTime[0].randomLat, truck.locTime[0].randomLng),
-        map: map,
-        title: truck.name,
-        icon: truck.img,
-        draggable:true
-      });
-    }
-    geocodeLatLng(geocoder, map, truck.locTime[0].randomLat, truck.locTime[0].randomLng);
+        truck.marker = new google.maps.Marker({
+      position: new google.maps.LatLng(truck.locTime[0].randomLat, truck.locTime[0].randomLng),
+      map: map,
+      title: truck.name,
+      icon: truck.img,
+      draggable:true
+    });
+  }
+  geocodeLatLng(geocoder, map, truck.locTime[0].randomLat, truck.locTime[0].randomLng);
   });
+*/
+
+FoodTruck.prototype.create3RandomStopPoints = function(pos, map) {
+  /*
+  Foodtrucks have 3  randomized 1 hour stops unless the end of day is reached. The function takes the initial time and adds a random fraction of the difference between initial and final times.
+  */
+  for (var i = 0; i < 3; i++){
+    this.randomizeStopPoint(pos, map);
+  }
 }
 
 FoodTruck.prototype.getSchedule = function() {
