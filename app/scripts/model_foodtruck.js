@@ -12,11 +12,13 @@ schedule is an array of objects of stoptimes in 24hour timestamps and stoppoints
 var FoodTruck = function(){
   this.traveling = false;
   this.active = false;
+  this.position = {};
   this.name = "";
   this.description = "";
   this.img = "";
   this.schedule = [];
   this.comments = [];
+  this.currentEvent = 0;
 }
 
 FoodTruck.prototype.initNoSchedule = function(truckData){
@@ -26,29 +28,25 @@ FoodTruck.prototype.initNoSchedule = function(truckData){
 }
 
 FoodTruck.prototype.determinePosition = function(now) {
-  console.log(now);
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
-  console.log(nowSecs);
-  if (!(this.moving(nowSecs))){
-    this.marker = new google.maps.Marker({
-      position: new google.maps.LatLng(this.schedule[0].lat, this.schedule[0].lng),
-      map: map,
-      title: this.name,
-      icon: this.img,
-      draggable: true
-    });
+  this.pinPoint(nowSecs);
+  if (this.traveling && this.schedule > 0 && this.currentEvent < this.schedule.length) {
+    this.position.lat = (this.schedule[this.currentEvent].lat + this.schedule[this.currentEvent - 1 ].lat)/2;
+    this.position.lng = (this.schedule[this.currentEvent].lng + this.schedule[this.currentEvent - 1 ].lng)/2;
   }
 }
 
 
-FoodTruck.prototype.moving = function(nowSecs) {
-  var traveling = true;
-  this.schedule.forEach(function(event, i, a){
-    if (nowSecs > event.starttime.getSecs() && nowSecs < event.endtime.getSecs()){
-      traveling = false;
+FoodTruck.prototype.pinPoint = function(nowSecs) {
+  this.traveling = true;
+  for (var i = 0; i < this.schedule.length; i++) {
+    if (nowSecs > this.schedule[i].starttime.getSecs() && nowSecs < this.schedule[i].endtime.getSecs()){
+      this.traveling = false;
+      this.currentEvent = i;
+    } else {
+      this.currentEvent = nowSecs < this.schedule[i].starttime.getSecs() ? i : i+1;
     }
-  });
-  return traveling;
+  }
 }
 
 /*
@@ -131,7 +129,16 @@ FoodTruck.prototype.clearSchedule = function(){
 }
 
 FoodTruck.prototype.render = function() {
-
+  console.log(this);
+  if (!(this.traveling)){
+    this.marker = new google.maps.Marker({
+      position: new google.maps.LatLng(this.schedule[this.currentEvent].lat, this.schedule[this.currentEvent].lng),
+      map: map,
+      title: this.name,
+      icon: this.img,
+      draggable: true
+    });
+  }
 }
 
 FoodTruck.prototype.getGeoCodeer = function() {
