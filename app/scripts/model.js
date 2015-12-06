@@ -1,5 +1,5 @@
 var aboutMy = {
-  currentDate: Date.now(),
+  now: new Date(),
   position: {},
   searches: [],
   markers: [],
