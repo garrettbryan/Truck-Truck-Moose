@@ -16,6 +16,7 @@ var FoodTruck = function(){
   this.name = "";
   this.description = "";
   this.img = "";
+  this.tImg = "images/resize_Food_Truck.png",
   this.schedule = [];
   this.comments = [];
   this.currentEvent = 0;
@@ -26,6 +27,62 @@ FoodTruck.prototype.initNoSchedule = function(truckData){
   this.description = truckData.description;
   this.img = truckData.img;
 }
+
+FoodTruck.prototype.getdirections = function(){
+  this.calculateAndDisplayRoute(directionsService, directionsDisplay);
+}
+
+FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, directionsDisplay) {
+  directionsService.route({
+    origin: new google.maps.LatLng(this.schedule[this.currentEvent-1].lat, this.schedule[this.currentEvent-1].lng),
+    destination: new google.maps.LatLng(this.schedule[this.currentEvent].lat, this.schedule[this.currentEvent].lng),
+    travelMode: google.maps.TravelMode.DRIVING
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+
+
+
+/*
+function initMap() {
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7,
+    center: {lat: 41.85, lng: -87.65}
+  });
+  directionsDisplay.setMap(map);
+
+  var onChangeHandler = function() {
+    calculateAndDisplayRoute(directionsService, directionsDisplay);
+  };
+  document.getElementById('start').addEventListener('change', onChangeHandler);
+  document.getElementById('end').addEventListener('change', onChangeHandler);
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+  directionsService.route({
+    origin: document.getElementById('start').value,
+    destination: document.getElementById('end').value,
+    travelMode: google.maps.TravelMode.DRIVING
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+*/
+
+
+
+
 
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
@@ -66,7 +123,6 @@ FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
   var recenterFoodTrucks = Math.abs(boundLat - boundLng)/2;
 
   var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+1800 : 0; //Gives at least a 30minute buffer till the next stop.
-
   if (initialTime < dayOver){
     var time = initialTime + Math.random()*(dayOver-initialTime); //Determines when the next stop occurs
     //console.log(time);
@@ -135,7 +191,7 @@ FoodTruck.prototype.render = function() {
   console.log(this.currentEvent);
   var icon = this.img;
   if (this.traveling){
-    var icon = this.img;
+    var icon = this.tImg;
   }
 
   this.marker = new google.maps.Marker({

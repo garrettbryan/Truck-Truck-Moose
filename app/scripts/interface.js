@@ -77,6 +77,9 @@ function initialize() {
         aboutMy.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         console.log(aboutMy.position);
 
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+
         var mapOptions = {
           center: aboutMy.position,
           zoom: 11,
@@ -86,8 +89,10 @@ function initialize() {
 
         map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
-
         map.setOptions({styles: noPoi});
+
+        directionsDisplay.setMap(map);
+
 
         console.log("position" + aboutMy.position);
 
@@ -189,75 +194,6 @@ function initialize() {
           });
         }
 
-        /*
-          Food truck demo requires initialization.
-          randomize the food trucks nav points within a certain radius.
-          randomize the food trucks time intervals
-        */
-
-        function locallyRandomizeFoodTruck(bounds, pos) {
-          //determine bounds of google map.
-          //randomize the local position of the food trucks within the bounds.
-          //function to place food trucks is D0+(D1-D0)*random(0|1)
-          //Food trucks should be constrained to streets.
-          //constrain random placement to smallest dimension of screen
-
-
-
-          var boundLat = bounds.getNorthEast().lat()-bounds.getSouthWest().lat();
-          var boundLng = bounds.getNorthEast().lng()-bounds.getSouthWest().lng();
-          var geocoder = new google.maps.Geocoder;
-
-          var boundLatLng = Math.abs(boundLat) <= Math.abs(boundLng) ? boundLat : boundLng;
-          var recenterFoodTrucks = Math.abs(boundLat - boundLng)/2;
-
-          aboutMy.foodTrucks.forEach(function(truck){
-            /*
-            Foodtrucks have 3  randomized 1 hour stops.
-            The function takes the initial time and adds a random fraction of the difference between initial and
-            final times.
-            */
-            var initialTime = 0;
-            for (var i = 0; i < 3; i++){
-              var time = initialTime + Math.random()*(20-initialTime);
-              truck.locTime.push({
-                randomLat: bounds.getSouthWest().lat() + boundLatLng * Math.random() + recenterFoodTrucks,
-                randomLng: bounds.getSouthWest().lng() + boundLatLng * Math.random(),
-                starttime: time,
-                endtime: time + 1
-              });
-              initialTime = truck.locTime[i].endtime + .5 //possibl
-
-              truck.marker = new google.maps.Marker({
-                position: new google.maps.LatLng(truck.locTime[0].randomLat, truck.locTime[0].randomLng),
-                map: map,
-                title: truck.name,
-                icon: truck.img,
-                draggable:true
-              });
-            }
-            geocodeLatLng(geocoder, map, truck.locTime[0].randomLat, truck.locTime[0].randomLng);
-          });
-        }
-
-        function geocodeLatLng(geocoder, map, lata, lnga) {
-          var latlng = {lat: lata, lng: lnga};
-          geocoder.geocode({'location': latlng}, function(results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-              if (results[1]) {
-               // var marker = new google.maps.Marker({
-               //   position: latlng,
-               //   map: map
-               // });
-                console.log(results[1].formatted_address);
-              } else {
-                window.alert('No results found');
-              }
-            } else {
-              window.alert('Geocoder failed due to: ' + status);
-            }
-          });
-        }
 
         function clearMarkers() {
           for (var i = 0; i < markers.length; i++) {
