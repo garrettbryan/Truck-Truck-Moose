@@ -28,27 +28,71 @@ FoodTruck.prototype.initNoSchedule = function(truckData){
   this.img = truckData.img;
 }
 
-FoodTruck.prototype.getdirections = function(){
-  this.calculateAndDisplayRoute(directionsService, directionsDisplay);
+FoodTruck.prototype.getDirections = function(){
+  this.directionsService = new google.maps.DirectionsService;
+  this.directionsDisplay = new google.maps.DirectionsRenderer;
+  this.directionsDisplay.setMap(map);
+  this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
 }
-
+/*
+calculateAndDisplayRoute pushes a FoodTrucks intermediate stops into the
+waypoints array then requests a route be created from google.
+*/
 FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, directionsDisplay) {
-  directionsService.route({
-    origin: new google.maps.LatLng(this.schedule[this.currentEvent-1].lat, this.schedule[this.currentEvent-1].lng),
-    destination: new google.maps.LatLng(this.schedule[this.currentEvent].lat, this.schedule[this.currentEvent].lng),
-    travelMode: google.maps.TravelMode.DRIVING
-  }, function(response, status) {
-    if (status === google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    } else {
-      window.alert('Directions request failed due to ' + status);
+  if (this.schedule.length > 1) {
+    var waypoints = [];
+    for (var i = 1; i < this.schedule.length-1; i++) {
+      waypoints.push({
+        location: new google.maps.LatLng(this.schedule[i].lat, this.schedule[i].lng),
+        stopover:true
+      });
     }
-  });
+
+    directionsService.route(
+      {
+        origin: new google.maps.LatLng(this.schedule[0].lat, this.schedule[0].lng),
+        destination: new google.maps.LatLng(this.schedule[this.schedule.length-1].lat, this.schedule[this.schedule.length-1].lng),
+        waypoints: waypoints,
+        travelMode: google.maps.TravelMode.DRIVING
+      },
+      function(response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(response);
+          console.log(response);
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      }
+    );
+  }
 }
 
 
 
 /*
+{
+  origin: "Chicago, IL",
+  destination: "Los Angeles, CA",
+  waypoints: [
+    {
+      location:"Joplin, MO",
+      stopover:false
+    },{
+      location:"Oklahoma City, OK",
+      stopover:true
+    }],
+  provideRouteAlternatives: false,
+  travelMode: google.maps.TravelMode.DRIVING,
+  drivingOptions: {
+    departureTime: new Date(now, or future date ),
+    trafficModel: google.maps.TrafficModel.PESSIMISTIC
+  }
+  unitSystem: UnitSystem.IMPERIAL
+}
+
+
+
+
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -201,6 +245,8 @@ FoodTruck.prototype.render = function() {
     icon: icon,
     draggable: true
   });
+
+  this.getDirections();
 }
 
 FoodTruck.prototype.getGeoCodeer = function() {
