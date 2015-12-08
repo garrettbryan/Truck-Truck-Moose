@@ -77,8 +77,8 @@ function initialize() {
         aboutMy.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         console.log(aboutMy.position);
 
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
+        //var directionsService = new google.maps.DirectionsService;
+        //var directionsDisplay = new google.maps.DirectionsRenderer;
 
         var mapOptions = {
           center: aboutMy.position,
@@ -91,7 +91,7 @@ function initialize() {
             mapOptions);
         map.setOptions({styles: noPoi});
 
-        directionsDisplay.setMap(map);
+        //directionsDisplay.setMap(map);
 
 
         console.log("position" + aboutMy.position);
