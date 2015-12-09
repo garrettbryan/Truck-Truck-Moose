@@ -30,10 +30,11 @@ FoodTruck.prototype.initNoSchedule = function(truckData){
 
 FoodTruck.prototype.getDirections = function(){
   this.directionsService = new google.maps.DirectionsService;
-  this.directionsDisplay = new google.maps.DirectionsRenderer;
-  this.directionsDisplay.setMap(map);
+  //this.directionsDisplay = new google.maps.DirectionsRenderer;
+  //this.directionsDisplay.setMap(map);
   this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
 }
+
 /*
 calculateAndDisplayRoute pushes a FoodTrucks intermediate stops into the
 waypoints array then requests a route be created from google.
@@ -57,8 +58,22 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
       },
       function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
-          directionsDisplay.setDirections(response);
-          console.log(response);
+          //directionsDisplay.setDirections(response);
+
+          var flightPath = new google.maps.Polyline({
+            path: response.routes[0].overview_path,
+            geodesic: true,
+            strokeColor: getColor(),
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
+
+          flightPath.setMap(map);
+
+
+
+
+          console.log(response.routes[0].overview_path);
         } else {
           window.alert('Directions request failed due to ' + status);
         }
@@ -67,8 +82,48 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
   }
 }
 
+function getColor(){
+    return '#'+Math.floor(Math.random() * 16777215).toString(16);
+}
+
+/*
+https://developers.google.com/maps/documentation/javascript/shapes
+This is an example to replace default route styling with custom food truck
+styling
+
+// This example creates a 2-pixel-wide red polyline showing the path of William
+// Kingsford Smith's first trans-Pacific flight between Oakland, CA, and
+// Brisbane, Australia.
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 3,
+    center: {lat: 0, lng: -180},
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  });
+
+  var flightPlanCoordinates = [
+    {lat: 37.772, lng: -122.214},
+    {lat: 21.291, lng: -157.821},
+    {lat: -18.142, lng: 178.431},
+    {lat: -27.467, lng: 153.027}
+  ];
+  var flightPath = new google.maps.Polyline({
+    path: flightPlanCoordinates,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath.setMap(map);
+}
 
 
+
+
+
+*/
 /*
 {
   origin: "Chicago, IL",

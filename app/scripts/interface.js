@@ -82,7 +82,7 @@ function initialize() {
 
         var mapOptions = {
           center: aboutMy.position,
-          zoom: 11,
+          zoom: 16,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           disableDefaultUI: true
         };
