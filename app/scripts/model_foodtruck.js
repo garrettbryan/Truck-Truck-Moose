@@ -33,6 +33,7 @@ FoodTruck.prototype.getDirections = function(){
   //this.directionsDisplay = new google.maps.DirectionsRenderer;
   //this.directionsDisplay.setMap(map);
   this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
+  console.log(this)
 }
 
 /*
@@ -41,6 +42,7 @@ waypoints array then requests a route be created from google.
 */
 FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, directionsDisplay) {
   if (this.schedule.length > 1) {
+    var that = this;
     var waypoints = [];
     for (var i = 1; i < this.schedule.length-1; i++) {
       waypoints.push({
@@ -59,7 +61,7 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
       function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
           //directionsDisplay.setDirections(response);
-
+          that.getResponse(response);
           var flightPath = new google.maps.Polyline({
             path: response.routes[0].overview_path,
             geodesic: true,
@@ -69,11 +71,6 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
           });
 
           flightPath.setMap(map);
-
-
-
-
-          console.log(response.routes[0].overview_path);
         } else {
           window.alert('Directions request failed due to ' + status);
         }
@@ -84,6 +81,27 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
 
 function getColor(){
     return '#'+Math.floor(Math.random() * 16777215).toString(16);
+}
+
+function vectorize(overview_path) {
+  var vectors = [];
+  vectors.push({
+    lat: 0,
+    lng: 0
+  });
+  for (var i = 1; i < overview_path.length; i++) {
+    vectors.push({
+      lat: overview_path[i].lat() - overview_path[i-1].lat(),
+      lng: overview_path[i].lng() - overview_path[i-1].lng()
+    });
+  }
+  return vectors;
+}
+
+FoodTruck.prototype.getResponse = function(directionResponse){
+  this.response = directionResponse;
+  this.vectors = vectorize(this.response.routes[0].overview_path)
+  console.log(this);
 }
 
 /*
