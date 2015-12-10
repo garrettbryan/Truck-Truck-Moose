@@ -1,3 +1,38 @@
+dwolla.configure('uat');
+
+
+$('form').on('submit', function() {
+  dwolla.configure('uat');
+  var token = 'Z9BvpNuSrsI7Ke1mcGmTT0EpwW34GSmDaYP09frCpeWdq46JUg';
+  var bankInfo = {
+    routingNumber: $('routingNumber').val(),
+    accountNumber: $('accountNumber').val(),
+    type: $('type').val(),
+    name: $('name').val()
+  }
+  dwolla.fundingSources.create(token, bankInfo, callback);
+  return false
+})
+
+function callback(err, res) {
+  $div = $('<div />')
+  var logValue = {
+    error: err,
+    response: res
+  }
+  $div.text(JSON.stringify(logValue))
+  console.log(logValue)
+  $('#logs').append($div)
+}
+
+
+
+
+
+
+
+
+
 $("#open-menu").click(function(){
   $(".top-input").removeClass("hidden-offscreen-left");
   $(".search-bar").focus();
