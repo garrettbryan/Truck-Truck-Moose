@@ -11,7 +11,8 @@ http://api.wunderground.com/api/ec12cd13256c67c5/radar/image.gif?maxlat=42.35&ma
 http://api.wunderground.com/api/ec12cd13256c67c5/radar/image.gif?maxlat=35.693&maxlon=-78.589&minlat=35.526&minlon=-78.719&width=600&height=480&newmaps=1
 
 35.6930034910276,-78.58935914606934
-model_foodtruck.js:238 35.52678677214099,-78.71999345393067
+
+35.52678677214099,-78.71999345393067
 
 
 /Using lat/lon bounds, showing time label, transparent background
