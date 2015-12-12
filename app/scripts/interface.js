@@ -95,32 +95,12 @@ function initialize() {
 
         google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
 
-          var weatherOverlay;
+          var weather = new WeatherUnderground();
+          weather.setDimensions(map);
+          weather.render();
+          aboutMy.weather = weather;
 
-          var imageBounds = {
-            north: map.getBounds().getNorthEast().lat(),
-            south: map.getBounds().getSouthWest().lat(),
-            east: map.getBounds().getNorthEast().lng(),
-            west: map.getBounds().getSouthWest().lng(),
-          };
-
-          var mapWidth = document.getElementById('map-canvas').clientWidth;
-          var mapHeight = document.getElementById('map-canvas').clientHeight;
-
-  /*
-          var imageBounds = {
-            north: 35.693,
-            south: 35.526,
-            east: -78.589,
-            west: -78.719
-          };
-  */
-          weatherOverlay = new google.maps.GroundOverlay(
-              'http://api.wunderground.com/api/ec12cd13256c67c5/animatedradar/image.gif?maxlat=' + imageBounds.north + '&maxlon=' + imageBounds.east + '&minlat=' + imageBounds.south + '&minlon=' + imageBounds.west + '&width=' +mapWidth + '&height=' + mapHeight + '&rainsnow=1&num=5&delay=50&timelabel=1&timelabel.x=525&timelabel.y=41&smooth=1',
-              imageBounds);
-          weatherOverlay.setMap(map);
-
-
+          aboutMy.foodTrucks = [];
           //locallyRandomizeFoodTruck(this.getBounds(), pos);
           foodTrucks.forEach(function(truckData){
             var truck = new FoodTruck();

@@ -25,3 +25,33 @@ http://api.wunderground.com/api/ec12cd13256c67c5/radar/image.gif?maxlat=35.693&m
 http://api.wunderground.com/api/ec12cd13256c67c5/animatedradar/image.gif?maxlat=35.693&maxlon=-78.589&minlat=35.526&minlon=-78.719&width=760&height=1191&rainsnow=1&reproj.automerc=1&num=5&delay=50&timelabel=1&timelabel.x=525&timelabel.y=41
 
 */
+var WeatherUnderground = function(){
+  this.overlay = {};
+  this.mapBounds = {};
+  this.divWidth = 0;
+  this.divHeight = 0;
+}
+
+WeatherUnderground.prototype.setDimensions = function(map){
+  this.mapBounds  = {
+    north: map.getBounds().getNorthEast().lat(),
+    south: map.getBounds().getSouthWest().lat(),
+    east: map.getBounds().getNorthEast().lng(),
+    west: map.getBounds().getSouthWest().lng(),
+  };
+  /*
+  var mapBounds = {
+    north: 35.693,
+    south: 35.526,
+    east: -78.589,
+    west: -78.719
+  };
+  */
+  this.divWidth = document.getElementById('map-canvas').clientWidth;
+  this.divHeight = document.getElementById('map-canvas').clientHeight;
+}
+
+WeatherUnderground.prototype.render = function(){
+  this.overlay = new google.maps.GroundOverlay('http://api.wunderground.com/api/ec12cd13256c67c5/animatedradar/image.gif?maxlat=' + this.mapBounds.north + '&maxlon=' + this.mapBounds.east + '&minlat=' + this.mapBounds.south + '&minlon=' + this.mapBounds.west + '&width=' +this.divWidth + '&height=' + this.divHeight + '&rainsnow=1&num=5&delay=50&timelabel=1&timelabel.x=525&timelabel.y=41&smooth=1', this.mapBounds);
+  this.overlay.setMap(map);
+}
