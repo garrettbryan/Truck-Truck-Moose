@@ -104,103 +104,6 @@ FoodTruck.prototype.getResponse = function(directionResponse){
   console.log(this);
 }
 
-/*
-https://developers.google.com/maps/documentation/javascript/shapes
-This is an example to replace default route styling with custom food truck
-styling
-
-// This example creates a 2-pixel-wide red polyline showing the path of William
-// Kingsford Smith's first trans-Pacific flight between Oakland, CA, and
-// Brisbane, Australia.
-
-function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 3,
-    center: {lat: 0, lng: -180},
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  });
-
-  var flightPlanCoordinates = [
-    {lat: 37.772, lng: -122.214},
-    {lat: 21.291, lng: -157.821},
-    {lat: -18.142, lng: 178.431},
-    {lat: -27.467, lng: 153.027}
-  ];
-  var flightPath = new google.maps.Polyline({
-    path: flightPlanCoordinates,
-    geodesic: true,
-    strokeColor: '#FF0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 2
-  });
-
-  flightPath.setMap(map);
-}
-
-
-
-
-
-*/
-/*
-{
-  origin: "Chicago, IL",
-  destination: "Los Angeles, CA",
-  waypoints: [
-    {
-      location:"Joplin, MO",
-      stopover:false
-    },{
-      location:"Oklahoma City, OK",
-      stopover:true
-    }],
-  provideRouteAlternatives: false,
-  travelMode: google.maps.TravelMode.DRIVING,
-  drivingOptions: {
-    departureTime: new Date(now, or future date ),
-    trafficModel: google.maps.TrafficModel.PESSIMISTIC
-  }
-  unitSystem: UnitSystem.IMPERIAL
-}
-
-
-
-
-function initMap() {
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 7,
-    center: {lat: 41.85, lng: -87.65}
-  });
-  directionsDisplay.setMap(map);
-
-  var onChangeHandler = function() {
-    calculateAndDisplayRoute(directionsService, directionsDisplay);
-  };
-  document.getElementById('start').addEventListener('change', onChangeHandler);
-  document.getElementById('end').addEventListener('change', onChangeHandler);
-}
-
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-  directionsService.route({
-    origin: document.getElementById('start').value,
-    destination: document.getElementById('end').value,
-    travelMode: google.maps.TravelMode.DRIVING
-  }, function(response, status) {
-    if (status === google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    } else {
-      window.alert('Directions request failed due to ' + status);
-    }
-  });
-}
-*/
-
-
-
-
-
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
   this.pinPoint(nowSecs);
@@ -322,6 +225,14 @@ FoodTruck.prototype.render = function() {
   this.getDirections();
 }
 
+FoodTruck.prototype.calculateTravelPosition = function(currentTime){
+  var position = {
+    lat: 0,
+    lng: 0
+  };
+
+}
+
 FoodTruck.prototype.getGeoCodeer = function() {
 /*
           function geocodeLatLng(geocoder, map, lata, lnga) {
@@ -344,3 +255,99 @@ FoodTruck.prototype.getGeoCodeer = function() {
         }
 */
 }
+
+
+
+/*
+https://developers.google.com/maps/documentation/javascript/shapes
+This is an example to replace default route styling with custom food truck
+styling
+
+// This example creates a 2-pixel-wide red polyline showing the path of William
+// Kingsford Smith's first trans-Pacific flight between Oakland, CA, and
+// Brisbane, Australia.
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 3,
+    center: {lat: 0, lng: -180},
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  });
+
+  var flightPlanCoordinates = [
+    {lat: 37.772, lng: -122.214},
+    {lat: 21.291, lng: -157.821},
+    {lat: -18.142, lng: 178.431},
+    {lat: -27.467, lng: 153.027}
+  ];
+  var flightPath = new google.maps.Polyline({
+    path: flightPlanCoordinates,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath.setMap(map);
+}
+
+
+
+
+
+*/
+/*
+{
+  origin: "Chicago, IL",
+  destination: "Los Angeles, CA",
+  waypoints: [
+    {
+      location:"Joplin, MO",
+      stopover:false
+    },{
+      location:"Oklahoma City, OK",
+      stopover:true
+    }],
+  provideRouteAlternatives: false,
+  travelMode: google.maps.TravelMode.DRIVING,
+  drivingOptions: {
+    departureTime: new Date(now, or future date ),
+    trafficModel: google.maps.TrafficModel.PESSIMISTIC
+  }
+  unitSystem: UnitSystem.IMPERIAL
+}
+
+
+
+
+function initMap() {
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7,
+    center: {lat: 41.85, lng: -87.65}
+  });
+  directionsDisplay.setMap(map);
+
+  var onChangeHandler = function() {
+    calculateAndDisplayRoute(directionsService, directionsDisplay);
+  };
+  document.getElementById('start').addEventListener('change', onChangeHandler);
+  document.getElementById('end').addEventListener('change', onChangeHandler);
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+  directionsService.route({
+    origin: document.getElementById('start').value,
+    destination: document.getElementById('end').value,
+    travelMode: google.maps.TravelMode.DRIVING
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+*/
+
