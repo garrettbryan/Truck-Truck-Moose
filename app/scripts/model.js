@@ -1,5 +1,5 @@
 var aboutMy = {
-  now: new Date(15,12,07,13,00,00),
+  now: new Date(15,12,07,13,30,00),
   position: {},
   searches: [],
   markers: [],

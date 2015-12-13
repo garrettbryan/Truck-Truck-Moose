@@ -106,8 +106,10 @@ function initialize() {
           foodTrucks.forEach(function(truckData){
             var truck = new FoodTruck();
             truck.initNoSchedule(truckData);
-            truck.create3RandomStopPoints(aboutMy.position, map);
+        //    truck.create3RandomStopPoints(aboutMy.position, map);
+            truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
             truck.getDirections();
+            truck.determinePosition(aboutMy.now);
             truck.render();
           });
 /*

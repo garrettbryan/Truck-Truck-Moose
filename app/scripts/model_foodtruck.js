@@ -72,6 +72,44 @@ FoodTruck.prototype.create3RandomStopPoints = function(pos, map) {
   }
 }
 
+/*
+specificStopPoint takes the users postion and the google map(needs the bounds of the map) to randomly distribute the foodtrucks around the user within the bounds of the map. The radius of the circular distribution area is constrained by the smallest dimension of the map - 1/2 height of the custom markers.
+*/
+FoodTruck.prototype.specificStopPoint = function(pos, map, now) {
+  var dayOver = 22 * 3600; //the food trucks last stop begins at 22 hours
+  var bounds = map.getBounds();
+
+  var boundLat = bounds.getNorthEast().lat()-bounds.getSouthWest().lat();
+  var boundLng = bounds.getNorthEast().lng()-bounds.getSouthWest().lng();
+
+  var boundLatLng = Math.abs(boundLat) <= Math.abs(boundLng) ? boundLat : boundLng;
+
+  var recenterFoodTrucks = Math.abs(boundLat - boundLng)/2;
+
+  var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+3600 : 28800; //Gives at least a 30minute buffer till the next stop.
+  if (initialTime < dayOver){
+    var time = initialTime; //Determines when the next stop occurs
+    //console.log(time);s
+    var stime = new tm();
+    stime.initSecs(time)
+    var etime = new tm();
+    etime.initSecs(time + 3600 * 2);
+    this.schedule.push({
+      lat: bounds.getSouthWest().lat() + boundLatLng * Math.random() + recenterFoodTrucks,
+      lng: bounds.getSouthWest().lng() + boundLatLng * Math.random(),
+      starttime: stime,
+      endtime: etime
+    });
+    //console.log(this);
+  }
+}
+
+FoodTruck.prototype.create3SpecificStopPoints = function(pos, map) {
+  for (var i = 0; i < 3; i++){
+    this.specificStopPoint(pos, map, aboutMy.now);
+  }
+}
+
 
 FoodTruck.prototype.getDirections = function(){
   this.directionsService = new google.maps.DirectionsService;
@@ -111,7 +149,7 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
               geodesic: true,
               strokeColor: getColor(),
               strokeOpacity: 1.0,
-              strokeWeight: i * 5
+              strokeWeight: (that.schedule.length - i) * 5
             });
 
             flightPath.setMap(map);
@@ -187,7 +225,11 @@ FoodTruck.prototype.calculateTravelPosition = function(now){
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
   this.pinPoint(nowSecs);
+  console.log(nowSecs);
+
   if (this.traveling && this.currentEvent > 0 && this.currentEvent < this.schedule.length) {
+    console.log(this.schedule[this.currentEvent-1].endtime.seconds);
+    console.log(this.finishDrive = this.schedule[this.currentEvent].starttime.seconds);
     //this.beginDrive = this.schedule[this.currentEvent-1].endtime.getSecs());
     //this.finishDrive = this.schedule[this.currentEvent].starttime.getSecs()
 
@@ -195,8 +237,8 @@ FoodTruck.prototype.determinePosition = function(now) {
     this.position.lat = (this.schedule[this.currentEvent].lat - this.schedule[this.currentEvent - 1 ].lat)*nowSecs/this.schedule[this.currentEvent].starttime.seconds + this.schedule[this.currentEvent - 1 ].lat;
     this.position.lng = (this.schedule[this.currentEvent].lng - this.schedule[this.currentEvent - 1 ].lng)*nowSecs/this.schedule[this.currentEvent].starttime.seconds + this.schedule[this.currentEvent - 1 ].lng;
   */
-    this.position.lat = (this.schedule[this.currentEvent].lat);
-    this.position.lng = (this.schedule[this.currentEvent].lng);
+    //this.position.lat = (this.schedule[this.currentEvent].lat);
+    //this.position.lng = (this.schedule[this.currentEvent].lng);
   }
 }
 
@@ -204,10 +246,15 @@ FoodTruck.prototype.determinePosition = function(now) {
 FoodTruck.prototype.pinPoint = function(nowSecs) {
   this.traveling = true;
   for (var i = 0; i < this.schedule.length; i++) {
-    if (nowSecs > this.schedule[i].starttime.getSecs() && nowSecs < this.schedule[i].endtime.getSecs()){
+    if (nowSecs < this.schedule[i].starttime.getSecs() ){
+      this.currentEvent = i;
+      i = this.schedule.length;
+    }else if (nowSecs > this.schedule[i].starttime.getSecs() && nowSecs < this.schedule[i].endtime.getSecs()){
+      this.currentEvent = i;
       this.traveling = false;
+      i = this.schedule.length;
     } else {
-      this.currentEvent = nowSecs < this.schedule[i].starttime.getSecs() ? i : i+1;
+      this.currentEvent = i+1;
     }
   }
 }
