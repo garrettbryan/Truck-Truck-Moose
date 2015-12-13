@@ -106,11 +106,11 @@ function initialize() {
           foodTrucks.forEach(function(truckData){
             var truck = new FoodTruck();
             truck.initNoSchedule(truckData);
-        //    truck.create3RandomStopPoints(aboutMy.position, map);
-            truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
+            truck.create3RandomStopPoints(aboutMy.position, map);
+      //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
             truck.getDirections();
-            truck.determinePosition(aboutMy.now);
-            truck.render();
+            truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
+            aboutMy.foodTrucks.push(truck);
           });
 /*
           foodTrucks.forEach(function(truckData){
@@ -119,7 +119,6 @@ function initialize() {
             truck.create3RandomStopPoints(aboutMy.position, map)
             truck.determinePosition(aboutMy.now);
             truck.render();
-            aboutMy.foodTrucks.push(truck);
           });
 */
         });

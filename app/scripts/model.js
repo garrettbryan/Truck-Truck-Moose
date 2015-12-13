@@ -7,7 +7,7 @@ var aboutMy = {
   foodTrucks: []
 }
 
-var foodTrucks = [
+var foodTrucks1 = [
   {
     name: "Mammoth Meats",
     description: "Grass fed cows cooked up caveman style.",
@@ -16,8 +16,40 @@ var foodTrucks = [
   }
 ];
 
+var foodTrucks = [
+  {
+    name: "Mammoth Meats",
+    description: "Grass fed cows cooked up caveman style.",
+    img: "images/resize_Woolly_Mammoth.png",
+    locTime: []
+  },
+  {
+    name: "The Big Cuban",
+    description: "Authentic cuban sandwiches now that the embargo is lifted.!",
+    img: "images/resize_SandwichSU.png",
+    locTime: []
+  },
+  {
+    name: "The Icee Snowman",
+    description: "Snocones! Try the high fructose corn syrup flavor!",
+    img: "images/resize_Snowman_SU.png",
+    locTime: []
+  },
+  {
+    name: "Tail of the Whale",
+    description: "Sushi from a food truck - awesome!",
+    img: "images/resize_Blue_Whale.png",
+    locTime: []
+  },
+  {
+    name: "Cicada Poppers",
+    description: "Awesome crunch",
+    img: "images/resize_Cicada.png",
+    locTime: []
+  }
+]
 
-var foodTrucks1 = [
+var foodTrucks10 = [
   {
     name: "Mammoth Meats",
     description: "Grass fed cows cooked up caveman style.",

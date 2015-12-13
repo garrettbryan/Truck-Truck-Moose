@@ -22,7 +22,8 @@ var FoodTruck = function(){
   this.schedule = [];
   this.comments = [];
   this.currentEvent = 0;
-  this.response = [];
+  this.responses = [];
+  this.mapPath = [];
 }
 
 FoodTruck.prototype.initNoSchedule = function(truckData){
@@ -115,7 +116,6 @@ FoodTruck.prototype.getDirections = function(){
   this.directionsService = new google.maps.DirectionsService;
   //this.directionsDisplay = new google.maps.DirectionsRenderer;
   //this.directionsDisplay.setMap(map);
-  this.calculateAndDisplayRoute(this.directionsService, this.directionsDisplay);
   //console.log(this)
 }
 
@@ -125,39 +125,44 @@ calculateAndDisplayRoute pushes a FoodTrucks intermediate stops into the
 waypoints array then requests a route be created from google.
 */
 FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, directionsDisplay) {
+  var pathsRemaining = this.schedule.length-1
   this.position.lat = this.schedule[0].lat;
   this.position.lng = this.schedule[0].lng;
   if (this.schedule.length > 1) {
     var that = this;
-    for (let i = 1; i < this.schedule.length; i++) {
+    var count = 1;
+    for (var i = 1; i < this.schedule.length; i++) {
+      (function(icopy){
+        directionsService.route(
+          {
+            origin: new google.maps.LatLng(that.schedule[icopy-1].lat, that.schedule[icopy-1].lng),
+            destination: new google.maps.LatLng(that.schedule[icopy].lat, that.schedule[icopy].lng),
+            //waypoints: waypoints,
+            travelMode: google.maps.TravelMode.DRIVING
+          },
+          function(response, status) {
+            if (status === google.maps.DirectionsStatus.OK) {
+              count++;
+              that.setResponses(icopy - 1, response);
 
-      directionsService.route(
-        {
-          origin: new google.maps.LatLng(this.schedule[i-1].lat, this.schedule[i-1].lng),
-          destination: new google.maps.LatLng(this.schedule[i].lat, this.schedule[i].lng),
-          //waypoints: waypoints,
-          travelMode: google.maps.TravelMode.DRIVING
-        },
-        function(response, status) {
-
-
-          if (status === google.maps.DirectionsStatus.OK) {
-            //directionsDisplay.setDirections(response);
-            that.getResponse(response);
-            var flightPath = new google.maps.Polyline({
-              path: response.routes[0].overview_path,
-              geodesic: true,
-              strokeColor: getColor(),
-              strokeOpacity: 1.0,
-              strokeWeight: (that.schedule.length - i) * 5
-            });
-
-            flightPath.setMap(map);
-          } else {
-            window.alert('Directions request failed due to ' + status);
+              var flightPath = new google.maps.Polyline({
+                path: response.routes[0].overview_path,
+                geodesic: true,
+                strokeColor: getColor(),
+                strokeOpacity: 1.0,
+                strokeWeight: (that.schedule.length - icopy) * 5
+              });
+              flightPath.setMap(map);
+            } else {
+              window.alert('Directions request failed due to ' + status);
+            }
+            --pathsRemaining;
+            if (pathsRemaining <= 0){
+              that.determinePosition(aboutMy.now);
+            }
           }
-        }
-      );
+        );
+      })(i);
     }
   }
 }
@@ -188,73 +193,60 @@ function vectorize(overview_path) {
   return vectors;
 }
 
-FoodTruck.prototype.getResponse = function(directionResponse){
-  this.response.push(directionResponse);
-  //console.log(this.response[0]);
-  //this.vectors = vectorize(this.response.routes[0].overview_path)
-  //this.calculateTravelPosition(aboutMy.now);
-  //console.log(this);
+FoodTruck.prototype.setResponses = function(index, directionResponse){
+  this.responses[index] = directionResponse;
 }
-
-FoodTruck.prototype.calculateTravelPosition = function(now){
-  var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
-  if (this.traveling && this.currentEvent > 0 && this.currentEvent < this.schedule.length) {
-    this.beginDrive = this.schedule[this.currentEvent-1].endtime.seconds;
-    this.finishDrive = this.schedule[this.currentEvent].starttime.seconds;
-    this.totalDriveTime = this.finishDrive-this.beginDrive;
-    this.currentDriveTime = nowSecs-this.beginDrive;
-    //console.log(this.response);
-    this.overviewLength = this.response[this.currentEvent-1].routes[0].overview_path.length;
-    this.point = Math.floor(this.currentDriveTime/this.totalDriveTime*this.overviewLength)
-    console.log("Travel Position")
-    console.log(now);
-    console.log(now.getHours()*3600);
-    console.log(now.getMinutes());
-    console.log(this.beginDrive);
-    console.log(this.finishDrive);
-    console.log(this.totalDriveTime);
-    console.log(this.currentDriveTime); //neg
-    console.log(this.overviewLength);
-    console.log();
-    console.log(this.point);
-  }
-}
-
 
 
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
   this.pinPoint(nowSecs);
-  console.log(nowSecs);
 
   if (this.traveling && this.currentEvent > 0 && this.currentEvent < this.schedule.length) {
-    console.log(this.schedule[this.currentEvent-1].endtime.seconds);
-    console.log(this.finishDrive = this.schedule[this.currentEvent].starttime.seconds);
-    //this.beginDrive = this.schedule[this.currentEvent-1].endtime.getSecs());
-    //this.finishDrive = this.schedule[this.currentEvent].starttime.getSecs()
-
+    var direction = this.currentEvent - 1;
+    var beginDrive = this.schedule[this.currentEvent-1].endtime.seconds;
+    var finishDrive = this.schedule[this.currentEvent].starttime.seconds;
+    var totalDriveTime = finishDrive-beginDrive;
+    var currentDriveTime = nowSecs-beginDrive;
+    var directionLength = this.responses[direction].routes[0].overview_path.length;
+    var directionPosition = Math.floor(currentDriveTime/totalDriveTime*directionLength);
 /*
-    this.position.lat = (this.schedule[this.currentEvent].lat - this.schedule[this.currentEvent - 1 ].lat)*nowSecs/this.schedule[this.currentEvent].starttime.seconds + this.schedule[this.currentEvent - 1 ].lat;
-    this.position.lng = (this.schedule[this.currentEvent].lng - this.schedule[this.currentEvent - 1 ].lng)*nowSecs/this.schedule[this.currentEvent].starttime.seconds + this.schedule[this.currentEvent - 1 ].lng;
-  */
-    //this.position.lat = (this.schedule[this.currentEvent].lat);
-    //this.position.lng = (this.schedule[this.currentEvent].lng);
+    console.log("current event " + this.currentEvent)
+    console.log("direction " + direction);
+    console.log(this);
+    console.log(this.responses);
+    console.log(beginDrive);
+    console.log(finishDrive);
+    console.log(totalDriveTime);
+    console.log(currentDriveTime);
+    console.log(directionPosition);
+*/
+    this.position.lat = (this.responses[direction].routes[0].overview_path[directionPosition].lat());
+    this.position.lng = (this.responses[direction].routes[0].overview_path[directionPosition].lng());
+
+  } else if (this.currentEvent < this.schedule.length) {
+    this.position.lat = this.schedule[this.currentEvent].lat;
+    this.position.lng = this.schedule[this.currentEvent].lng;
   }
+
+  this.render();
+
 }
 
 
 FoodTruck.prototype.pinPoint = function(nowSecs) {
+  var that = this;
   this.traveling = true;
-  for (var i = 0; i < this.schedule.length; i++) {
-    if (nowSecs < this.schedule[i].starttime.getSecs() ){
-      this.currentEvent = i;
-      i = this.schedule.length;
-    }else if (nowSecs > this.schedule[i].starttime.getSecs() && nowSecs < this.schedule[i].endtime.getSecs()){
-      this.currentEvent = i;
-      this.traveling = false;
-      i = this.schedule.length;
+  for (var i = 0; i < that.schedule.length; i++) {
+    if (nowSecs < that.schedule[i].starttime.getSecs() ){
+      that.currentEvent = i;
+      i = that.schedule.length;
+    }else if (nowSecs > that.schedule[i].starttime.getSecs() && nowSecs < that.schedule[i].endtime.getSecs()){
+      that.currentEvent = i;
+      that.traveling = false;
+      i = that.schedule.length;
     } else {
-      this.currentEvent = i+1;
+      that.currentEvent = i+1;
     }
   }
 }
