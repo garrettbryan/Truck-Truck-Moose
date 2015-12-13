@@ -97,11 +97,20 @@ function initialize() {
 
           var weather = new WeatherUnderground();
           weather.setDimensions(map);
-          weather.render();
+          //weather.render();
           aboutMy.weather = weather;
 
           aboutMy.foodTrucks = [];
           //locallyRandomizeFoodTruck(this.getBounds(), pos);
+
+          foodTrucks.forEach(function(truckData){
+            var truck = new FoodTruck();
+            truck.initNoSchedule(truckData);
+            truck.create3RandomStopPoints(aboutMy.position, map);
+            truck.getDirections();
+            truck.render();
+          });
+/*
           foodTrucks.forEach(function(truckData){
             var truck = new FoodTruck();
             truck.initNoSchedule(truckData);
@@ -110,6 +119,7 @@ function initialize() {
             truck.render();
             aboutMy.foodTrucks.push(truck);
           });
+*/
         });
 
         /*

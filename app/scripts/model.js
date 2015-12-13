@@ -13,6 +13,16 @@ var foodTrucks = [
     description: "Grass fed cows cooked up caveman style.",
     img: "images/resize_Woolly_Mammoth.png",
     locTime: []
+  }
+];
+
+
+var foodTrucks1 = [
+  {
+    name: "Mammoth Meats",
+    description: "Grass fed cows cooked up caveman style.",
+    img: "images/resize_Woolly_Mammoth.png",
+    locTime: []
   },
   {
     name: "The Big Cuban",
