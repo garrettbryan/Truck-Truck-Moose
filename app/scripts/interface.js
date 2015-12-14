@@ -95,6 +95,9 @@ function initialize() {
 
         google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
 
+          var meetupRequest = new MeetupRequest();
+          meetupRequest.CORopenEvents(aboutMy.position);
+
           var weather = new WeatherUnderground();
           weather.setDimensions(map);
           //weather.render();

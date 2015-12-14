@@ -4,7 +4,8 @@ var aboutMy = {
   searches: [],
   markers: [],
   weather: {},
-  foodTrucks: []
+  foodTrucks: [],
+  meetups: []
 }
 
 var foodTrucks1 = [
