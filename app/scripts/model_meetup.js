@@ -23,7 +23,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
           var meetup = new Meetup();
           meetup.init(result);
           aboutMy.meetups.push(meetup);
-          console.log(Date(meetup.data.time))
+          console.log(Date(meetup.time))
         });
         clearTimeout(meetupRequestTimeout);
       },
@@ -31,9 +31,11 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
 }
 
 var Meetup = function() {
-  this.data = {}
 }
 
 Meetup.prototype.init = function(data) {
-  this.data = data;
+  for (var i in data) {
+    this[i] = data[i];
+  }
+  console.log(this);
 }
