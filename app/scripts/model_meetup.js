@@ -24,8 +24,12 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
           meetup.init(result);
           aboutMy.meetups.push(meetup);
           console.log(Date(meetup.time))
+          meetup.render();
         });
         clearTimeout(meetupRequestTimeout);
+        aboutMy.meetups.sort(function(a,b){
+          return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
+        });
       },
   });
 }
@@ -38,4 +42,14 @@ Meetup.prototype.init = function(data) {
     this[i] = data[i];
   }
   console.log(this);
+}
+
+Meetup.prototype.render = function() {
+  if (this.venue){
+    this.marker = new google.maps.Marker({
+      position: new google.maps.LatLng(this.venue.lat, this.venue.lon),
+      map: map,
+      title: this.group.name
+    });
+  }
 }
