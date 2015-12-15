@@ -5,7 +5,68 @@ var aboutMy = {
   markers: [],
   weather: {},
   foodTrucks: [],
-  meetups: []
+  meetups: [],
+  meetupMapBounds: {},
+  mapBounds: {},
+
+  determineMeetupMapBounds: function(){
+    var that = this
+    this.meetups.forEach(function(meetup){
+      if (meetup.venue){
+        if (!that.meetupMapBounds.max) {
+          that.meetupMapBounds.max = {
+            lat: meetup.venue.lat,
+            lng: meetup.venue.lon
+          };
+          that.meetupMapBounds.min = {
+            lat: meetup.venue.lat,
+            lng: meetup.venue.lon
+          };
+        }
+        that.meetupMapBounds.max.lat =
+          that.meetupMapBounds.max.lat > meetup.venue.lat ?
+          that.meetupMapBounds.max.lat :
+          meetup.venue.lat;
+        that.meetupMapBounds.max.lng =
+          that.meetupMapBounds.max.lng > meetup.venue.lon ?
+          that.meetupMapBounds.max.lng :
+          meetup.venue.lon;
+        that.meetupMapBounds.min.lat =
+          that.meetupMapBounds.min.lat < meetup.venue.lat ?
+          that.meetupMapBounds.min.lat :
+          meetup.venue.lat;
+        that.meetupMapBounds.min.lng =
+          that.meetupMapBounds.min.lng < meetup.venue.lon ?
+          that.meetupMapBounds.min.lng :
+          meetup.venue.lon;
+      }
+    });
+  console.log(that.meetupMapBounds);
+  that.mapBounds = {
+    north: that.meetupMapBounds.max.lat,
+    south: that.meetupMapBounds.min.lat,
+    east: that.meetupMapBounds.max.lng,
+    west: that.meetupMapBounds.min.lng
+  };
+  map.fitBounds(that.mapBounds);
+  var weather = new WeatherUnderground();
+  weather.setDimensions(map);
+  //weather.render();
+  aboutMy.weather = weather;
+
+  aboutMy.foodTrucks = [];
+  //locallyRandomizeFoodTruck(this.getBounds(), pos);
+
+  foodTrucks.forEach(function(truckData){
+    var truck = new FoodTruck();
+    truck.initNoSchedule(truckData);
+    truck.create3RandomStopPoints(aboutMy.position, map);
+  //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
+    truck.getDirections();
+    truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
+    aboutMy.foodTrucks.push(truck);
+  });
+  }
 }
 
 var foodTrucks1 = [

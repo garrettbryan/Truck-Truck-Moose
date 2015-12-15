@@ -30,6 +30,8 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
         aboutMy.meetups.sort(function(a,b){
           return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
         });
+        aboutMy.determineMeetupMapBounds();
+
       },
   });
 }

@@ -98,23 +98,7 @@ function initialize() {
           var meetupRequest = new MeetupRequest();
           meetupRequest.CORopenEvents(aboutMy.position);
 
-          var weather = new WeatherUnderground();
-          weather.setDimensions(map);
-          //weather.render();
-          aboutMy.weather = weather;
 
-          aboutMy.foodTrucks = [];
-          //locallyRandomizeFoodTruck(this.getBounds(), pos);
-
-          foodTrucks.forEach(function(truckData){
-            var truck = new FoodTruck();
-            truck.initNoSchedule(truckData);
-            truck.create3RandomStopPoints(aboutMy.position, map);
-      //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
-            truck.getDirections();
-            truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
-            aboutMy.foodTrucks.push(truck);
-          });
 /*
           foodTrucks.forEach(function(truckData){
             var truck = new FoodTruck();
