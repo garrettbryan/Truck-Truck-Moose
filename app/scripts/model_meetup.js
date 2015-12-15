@@ -9,15 +9,6 @@ var MeetupRequest = function() {
   this.data = {};
 }
 
-MeetupRequest.prototype.openEvents = function(position) {
-  $.getJSON( "https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=" + position.lng() + "&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&category=21&lat=" + position.lat() + "&desc=False&status=upcoming&sig_id=130469302&sig=7006cd129d92fb41b11784e6fc1d6ddd8bc6c5dc", function( data ){
-      console.log(data);
-      this.data = data;
-  }).error(function() {
-      console.log("Meetups Could Not Be Loaded");
-  });
-}
-
 MeetupRequest.prototype.CORopenEvents = function(position) {
   var meetupRequestTimeout = setTimeout(function(){
       console.log("Failed to get Meetups.");
