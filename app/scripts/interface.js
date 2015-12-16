@@ -1,3 +1,8 @@
+$(document).ready(function() {
+  console.log("doocument.ready")});
+  $('body').prepend('<p>test</p>');
+$(function() { /* code here */ });
+/*
 $("#open-menu").click(function(){
   $(".top-input").removeClass("hidden-offscreen-left");
   $(".search-bar").focus();
@@ -30,6 +35,7 @@ $(".search-bar").blur(function() {
     $("#open-list").prop("disabled", false);
   }, 1000);
 });
+*/
 
 /*
 The initialize function uses modernizer to test browser.

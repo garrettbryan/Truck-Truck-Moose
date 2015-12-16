@@ -1,3 +1,10 @@
+var program = {
+  name: "Meet Truck",
+  description: "Meetups and Food Trucks",
+  extendedDescription : "Coordinate your love of socializing with your love for food trucks",
+  icon: ""
+};
+
 var aboutMy = {
   now: new Date(15,12,07,13,30,00),
   position: {},
