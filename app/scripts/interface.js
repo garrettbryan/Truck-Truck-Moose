@@ -1,6 +1,81 @@
 $(document).ready(function() {
   console.log("doocument.ready")});
-  $('body').prepend('<p>test</p>');
+  var pageHTML = [
+'<div class="container" id="kitty-klicker">',
+'  <div class="row">',
+'      <h1 id="title" class="title col-sm-12 center">Kitty Klicker</h1>',
+'  </div>',
+'  <div class="row">',
+'      <div id="kitty-kontainer" class="col-sm-12">',
+'          <h2>cat 1 Clicks <span id="kitty-klicks">0</span></h2>',
+'      </div>',
+'  </div>',
+'  <div class="row">',
+'      <div id="kitty-img" class="col-sm-10">',
+'          <img src="img/cat1.jpg">',
+'      </div>',
+'      <div class="col-sm-2">',
+'          <ul id="kitty-list" class="list-unstyled">',
+'          </ul>',
+'      </div>',
+'  </div>',
+'  <div class="row">',
+'      <div class="col-sm-2">',
+'          <button id="admin" class="btn btn-default btn-block" type="button">Admin</button>',
+'      </div>',
+'      <div id="form" class="col-sm-4">',
+'      </div>',
+'      <div class="col-sm-6"></div>',
+'  </div>',
+'</div>'
+  ].join("\n");
+
+  var HTML = [
+'<div class="container-fluid">',
+'  <div class="row">',
+'      <h1 id="title" class="title col-sm-12 center">MeeTruck</h1>',
+'  </div>',
+'  <div class="row">',
+'      <div id="logo" class="col-md-12">',
+'          <img src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
+'      </div>',
+'  </div>',
+'  <div class="row">',
+'      <div id="kitty-img" class="col-xs-10">',
+'          ',
+'      </div>',
+'      <div class="col-xs-2">',
+'          <ul id="kitty-list" class="list-unstyled">',
+'          </ul>',
+'      </div>',
+'  </div>',
+'  <div class="row">',
+'      <div class="col-sm-1">',
+'          <button type="button" class="btn btn-primary">Primary</button>',
+'      </div>',
+'      <div class="col-sm-1">',
+'          <button type="button" class="btn btn-primary">Primary</button>',
+'      </div>',
+'      <div class="col-sm-2">',
+'          <button type="button" class="btn btn-primary">Primary</button>',
+'      </div>',
+'      <div class="col-sm-1">',
+'          <button type="button" class="btn btn-primary">Primary</button>',
+'      </div>',
+'      <div class="col-sm-1">',
+'          <button type="button" class="btn btn-primary">Primary</button>',
+'      </div>',
+'      <div class="col-sm-2">',
+'          <button type="button" class="btn btn-primary">Primary</button>',
+'      </div>',
+'      <div class="col-sm-4">',
+'          <button type="button" class="btn btn-primary">Primary</button>',
+'      </div>',
+'  </div>',
+'</div>'
+  ].join("\n");
+
+  $('body').prepend(HTML);
 $(function() { /* code here */ });
 /*
 $("#open-menu").click(function(){

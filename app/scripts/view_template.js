@@ -6,55 +6,56 @@ The user marker should be in the center of the map and the meetups/food truck st
 when specific meetups/foodtrucks are chosen then the map details should be highest intensity and the map should rebound itself to show the relevant selections. There should also be buttons to give more information about the meetup and about the foodtruck. such as menu and possibly a way to place an online order.
 This could be extended to fixed restaurants the user could place a takeout order or book a table.
 */
+$(function(){
+  landingPageView = {
+    /*
+    the landing page is the first view given to the user.
+    Centered Title and logo on black background.
+    */
+    init: function() {
+      console.log('landingPageView init');
+      this.logo = 'http://dummyimage.com/200/000/fff';
+      this.appName = 'MeeTruck';
+    },
+    render: function() {
+      console.log('landingPageView render');
+    },
+  },
 
-landingPageView = {
-  /*
-  the landing page is the first view given to the user.
-  Centered Title and logo on black background.
-  */
-  init: function() {
-    console.log('landingPageView init');
-    this.logo = 'http://dummyimage.com/200/000/fff';
-    this.appName = 'MeeTruck';
-  },
-  render: function() {
-    console.log('landingPageView render');
-  },
-},
 
+  foodTruckMoreDetailView = {
+    /*
+    this is the more detailed view of the food truck
+    */
+    init: function() {
+      console.log('foodTruckMoreDetailView init');
+    },
+    render: function() {
+      console.log('foodTruckMoreDetailView render');
+    },
+  },
 
-foodTruckMoreDetailView = {
-  /*
-  this is the more detailed view of the food truck
-  */
-  init: function() {
-    console.log('foodTruckMoreDetailView init');
+  meetupMoreDetailView = {
+    /*
+    this is the more detailed view of the meetup
+    */
+    init: function() {
+      console.log('meetupMoreDetailView init');
+    },
+    render: function() {
+      console.log('meetupMoreDetailView render');
+    }
   },
-  render: function() {
-    console.log('foodTruckMoreDetailView render');
-  },
-},
 
-meetupMoreDetailView = {
-  /*
-  this is the more detailed view of the meetup
-  */
-  init: function() {
-    console.log('meetupMoreDetailView init');
-  },
-  render: function() {
-    console.log('meetupMoreDetailView render');
+  mainView = {
+    /*
+    this is the main view of the search fields over the map.
+    */
+    init: function() {
+
+    },
+    render: function() {
+
+    },
   }
-},
-
-mainView = {
-  /*
-  this is the main view of the search fields over the map.
-  */
-  init: function() {
-
-  },
-  render: function() {
-
-  },
-},
+});
