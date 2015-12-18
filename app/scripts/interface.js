@@ -36,8 +36,8 @@ $(document).ready(function() {
 '      <h1 id="title" class="title col-sm-12 center">MeeTruck</h1>',
 '  </div>',
 '  <div class="row">',
-'      <div id="logo" class="col-md-12">',
-'          <img src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
+'      <div class="col-md-12">',
+'          <img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
 '      </div>',
 '  </div>',
 '  <div class="row">',
@@ -73,6 +73,15 @@ $(document).ready(function() {
 '      </div>',
 '  </div>',
 '</div>'
+  ].join("\n");
+
+  var addressHTML = [
+'<address>',
+'  <strong>Twitter, Inc.</strong><br>',
+'  1355 Market Street, Suite 900<br>',
+'  San Francisco, CA 94103<br>',
+'  <abbr title="Phone">P:</abbr> (123) 456-7890',
+'</address>'
   ].join("\n");
 
   $('body').prepend(HTML);
