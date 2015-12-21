@@ -1,88 +1,8 @@
 $(document).ready(function() {
-  console.log("doocument.ready")});
-  var pageHTML = [
-'<div class="container" id="kitty-klicker">',
-'  <div class="row">',
-'      <h1 id="title" class="title col-sm-12 center">Kitty Klicker</h1>',
-'  </div>',
-'  <div class="row">',
-'      <div id="kitty-kontainer" class="col-sm-12">',
-'          <h2>cat 1 Clicks <span id="kitty-klicks">0</span></h2>',
-'      </div>',
-'  </div>',
-'  <div class="row">',
-'      <div id="kitty-img" class="col-sm-10">',
-'          <img src="img/cat1.jpg">',
-'      </div>',
-'      <div class="col-sm-2">',
-'          <ul id="kitty-list" class="list-unstyled">',
-'          </ul>',
-'      </div>',
-'  </div>',
-'  <div class="row">',
-'      <div class="col-sm-2">',
-'          <button id="admin" class="btn btn-default btn-block" type="button">Admin</button>',
-'      </div>',
-'      <div id="form" class="col-sm-4">',
-'      </div>',
-'      <div class="col-sm-6"></div>',
-'  </div>',
-'</div>'
-  ].join("\n");
-
-  var HTML = [
-'<div class="container-fluid">',
-'  <div class="row">',
-'      <h1 id="title" class="title col-sm-12 center">MeeTruck</h1>',
-'  </div>',
-'  <div class="row">',
-'      <div class="col-md-12">',
-'          <img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
-'      </div>',
-'  </div>',
-'  <div class="row">',
-'      <div id="kitty-img" class="col-xs-10">',
-'          ',
-'      </div>',
-'      <div class="col-xs-2">',
-'          <ul id="kitty-list" class="list-unstyled">',
-'          </ul>',
-'      </div>',
-'  </div>',
-'  <div class="row">',
-'      <div class="col-sm-1">',
-'          <button type="button" class="btn btn-primary">Primary</button>',
-'      </div>',
-'      <div class="col-sm-1">',
-'          <button type="button" class="btn btn-primary">Primary</button>',
-'      </div>',
-'      <div class="col-sm-2">',
-'          <button type="button" class="btn btn-primary">Primary</button>',
-'      </div>',
-'      <div class="col-sm-1">',
-'          <button type="button" class="btn btn-primary">Primary</button>',
-'      </div>',
-'      <div class="col-sm-1">',
-'          <button type="button" class="btn btn-primary">Primary</button>',
-'      </div>',
-'      <div class="col-sm-2">',
-'          <button type="button" class="btn btn-primary">Primary</button>',
-'      </div>',
-'      <div class="col-sm-4">',
-'          <button type="button" class="btn btn-primary">Primary</button>',
-'      </div>',
-'  </div>',
-'</div>'
-  ].join("\n");
-
-  var addressHTML = [
-'<address>',
-'  <strong>Twitter, Inc.</strong><br>',
-'  1355 Market Street, Suite 900<br>',
-'  San Francisco, CA 94103<br>',
-'  <abbr title="Phone">P:</abbr> (123) 456-7890',
-'</address>'
-  ].join("\n");
+  console.log("doocument.ready")
+  //wait fo title page to load before requesting google map.
+  fiveSecLoad(google.maps.event.addDomListener(window, 'load', initialize));
+});
 
   $('body').prepend(HTML);
 $(function() { /* code here */ });
@@ -130,6 +50,12 @@ Without geolocation map will load United States map, and ask user for location.
 
 Initialize will also initialize the random foodtrucks and their postions.
 */
+
+function fiveSecLoad(cb) {
+  console.log(cb);
+  pretendMapLoad = window.setTimeout(cb, 5000);
+}
+
 function initialize() {
   console.log(Modernizr);
 
@@ -358,4 +284,4 @@ function initialize() {
   //console.log(map);
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+//fiveSecLoad(google.maps.event.addDomListener(window, 'load', initialize));
