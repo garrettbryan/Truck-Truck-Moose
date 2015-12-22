@@ -51,14 +51,6 @@ body {
   width: 100%;
 }
 
-.container-map {
-  z-index: 0;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
 .menu-btn,
 .list-btn {
   position: absolute;
@@ -109,12 +101,42 @@ footer {
   bottom: 0;
 }
 
-#map-canvas {
-  //position: fixed;
+#main-title {
+  text-align: center;
+}
+
+.main-title-overlay {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.container-map {
+  opacity: 0.5;
+  position: absolute;
+  z-index: 0;
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  border: 0;
+}
+
+#map-canvas {
+  position: absolute;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+#navi {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
 }
 
 .browsehappy {
