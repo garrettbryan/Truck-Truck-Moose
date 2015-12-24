@@ -128,6 +128,7 @@ function initialize() {
             truck.render();
           });
 */
+          $('.container-map').css('opacity', 1.0);
         });
 
         /*
