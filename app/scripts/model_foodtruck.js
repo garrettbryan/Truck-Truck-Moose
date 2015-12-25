@@ -165,6 +165,8 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
       })(i);
     }
   }
+  //$('.container-map').css('opacity', 1.0);
+
 }
 
 function differentWidth(value){

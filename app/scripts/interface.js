@@ -5,7 +5,8 @@ $(document).ready(function() {
   $('#navi').append(queryForm);
 
   //google.maps.event.addDomListener(window, 'load', initialize);
-  fiveSecLoad(initialize);
+  initialize();
+  fiveSecLoad();
 });
 
 
@@ -55,9 +56,16 @@ Without geolocation map will load United States map, and ask user for location.
 Initialize will also initialize the random foodtrucks and their postions.
 */
 
-function fiveSecLoad(cb) {
-  console.log(cb);
-  pretendMapLoad = window.setTimeout(cb, 5000);
+/*
+fiveSecLoad fades in the map after five seconds.
+TODO successful load of all entities fade in map.
+TODO failure to load all entities fade in try again later.
+*/
+function fiveSecLoad() {
+  console.log();
+  pretendMapLoad = window.setTimeout( function(){
+    $('.container-map').css('opacity', 1.0);
+  }, 5000);
 }
 
 function initialize() {
@@ -128,7 +136,11 @@ function initialize() {
             truck.render();
           });
 */
-          $('.container-map').css('opacity', 1.0);
+
+          /*
+          Map should turn on only if google maps is online.
+          */
+          //$('.container-map').css('opacity', 1.0);
         });
 
         /*
