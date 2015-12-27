@@ -36,7 +36,9 @@
 '    </div>',
 '    <div class="row">',
 '        <div class="col-md-12">',
-'            <img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
+'           <div class="main-logo-container">',
+'             <img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
+'           </div>',
 '        </div>',
 '    </div>',
 '  </div>',
@@ -46,6 +48,10 @@
 '</div>',
   ].join("\n");
 
+
+/*
+Use Bootstrap's predefined grid classes to align labels and groups of form controls in a horizontal layout by adding .form-horizontal to the form (which doesn't have to be a <form>). Doing so changes .form-groups to behave as grid rows, so no need for .row.
+*/
   var queryForm = [
 '<form class="form-horizontal">',
 '  <div class="form-group">',

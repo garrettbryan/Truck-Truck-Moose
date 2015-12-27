@@ -18,6 +18,10 @@ body {
   transition: opacity 2s ease-in-out;
 }
 
+.main-logo-container {
+  padding-bottom: 5%;
+}
+
 #main-logo:hover {
   opacity: 0;
 }
