@@ -19,7 +19,7 @@ body {
 }
 
 .main-logo-container {
-  padding-bottom: 5%;
+  margin-bottom: 5%;
 }
 
 #main-logo:hover {
@@ -105,8 +105,14 @@ footer {
   bottom: 0;
 }
 
+.main-title-row {
+  background-color: white;
+  margin-bottom: 5%;
+}
+
 #main-title {
   text-align: center;
+  opacity: 1;
 }
 
 .main-title-overlay {

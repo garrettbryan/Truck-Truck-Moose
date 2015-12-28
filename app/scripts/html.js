@@ -31,7 +31,7 @@
   var HTML = [
 '<div class="main-title-overlay">',
 '  <div class="container-fluid" id="navi">',
-'    <div class="row">',
+'    <div class="row main-title-row">',
 '        <h1 id="main-title" class="main-title col-sm-12">MeeTruck</h1>',
 '    </div>',
 '    <div class="row">',
