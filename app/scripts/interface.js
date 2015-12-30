@@ -2,13 +2,26 @@ $(document).ready(function() {
   console.log("doocument.ready")
   //wait fo title page to load before requesting google map.
   $('body').prepend(HTML);
-  $('#navi').append(queryForm);
+  $('#navi').append(loginForm);
 
 
   //google.maps.event.addDomListener(window, 'load', initialize);
   initialize();
   fiveSecLoad();
 });
+
+
+
+
+/*
+
+  localStorage.setItem('bgcolor', 'red');
+  var currentColor = localStorage.getItem('bgcolor');
+  window.addEventListener('storage', function(e) {
+    document.querySelector('.my-key').textContent = e.key;
+  });
+
+*/
 
 
 $(function() { /* code here */ });
