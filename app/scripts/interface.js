@@ -1,5 +1,18 @@
+$(document).ready(function() {
+  console.log("doocument.ready")
+  //wait fo title page to load before requesting google map.
+  $('body').prepend(HTML);
+  $('#navi').append(queryForm);
 
 
+  //google.maps.event.addDomListener(window, 'load', initialize);
+  initialize();
+  fiveSecLoad();
+});
+
+
+$(function() { /* code here */ });
+/*
 $("#open-menu").click(function(){
   $(".top-input").removeClass("hidden-offscreen-left");
   $(".search-bar").focus();
@@ -32,6 +45,7 @@ $(".search-bar").blur(function() {
     $("#open-list").prop("disabled", false);
   }, 1000);
 });
+*/
 
 /*
 The initialize function uses modernizer to test browser.
@@ -42,6 +56,36 @@ Without geolocation map will load United States map, and ask user for location.
 
 Initialize will also initialize the random foodtrucks and their postions.
 */
+
+/*
+fiveSecLoad fades in the map after five seconds.
+TODO successful load of all entities fade in map.
+TODO failure to load all entities fade in try again later.
+*/
+function fiveSecLoad() {
+  console.log();
+  pretendMapLoad = window.setTimeout( function(){
+    $('.container-map').css('opacity', 1.0);
+    removeSignInForm();
+  }, 5000);
+}
+
+
+
+/*
+sign-in-btn
+*/
+function removeSignInForm() {
+  $('form').submit(function( event ){
+    $('#navi').css('opacity', 0);
+    window.setTimeout( function(){
+      $('#navi').remove();
+    }, 1000);
+    event.preventDefault();
+  });
+}
+
+
 function initialize() {
   console.log(Modernizr);
 
@@ -97,23 +141,10 @@ function initialize() {
 
         google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
 
-          var weather = new WeatherUnderground();
-          weather.setDimensions(map);
-          //weather.render();
-          aboutMy.weather = weather;
+          var meetupRequest = new MeetupRequest();
+          meetupRequest.CORopenEvents(aboutMy.position);
 
-          aboutMy.foodTrucks = [];
-          //locallyRandomizeFoodTruck(this.getBounds(), pos);
 
-          foodTrucks.forEach(function(truckData){
-            var truck = new FoodTruck();
-            truck.initNoSchedule(truckData);
-            truck.create3RandomStopPoints(aboutMy.position, map);
-      //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
-            truck.getDirections();
-            truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
-            aboutMy.foodTrucks.push(truck);
-          });
 /*
           foodTrucks.forEach(function(truckData){
             var truck = new FoodTruck();
@@ -123,6 +154,11 @@ function initialize() {
             truck.render();
           });
 */
+
+          /*
+          Map should turn on only if google maps is online.
+          */
+          //$('.container-map').css('opacity', 1.0);
         });
 
         /*
@@ -283,4 +319,4 @@ function initialize() {
   //console.log(map);
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
+//fiveSecLoad(google.maps.event.addDomListener(window, 'load', initialize));

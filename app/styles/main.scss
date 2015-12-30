@@ -5,12 +5,25 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 html,
 body {
-  overflow: hidden;
+  //overflow: hidden;
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+#main-logo {
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+}
+
+.main-logo-container {
+  margin-bottom: 5%;
+}
+
+#main-logo:hover {
+  opacity: 0;
 }
 
 .paleo-btn {
@@ -40,14 +53,6 @@ body {
 .search-bar,
 .paleo-list {
   width: 100%;
-}
-
-.container-map {
-  z-index: 0;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
 }
 
 .menu-btn,
@@ -100,12 +105,65 @@ footer {
   bottom: 0;
 }
 
-#map-canvas {
-  //position: fixed;
+.main-title-row {
+  background-color: white;
+  margin-bottom: 5%;
+}
+
+#main-title {
+  text-align: center;
+  opacity: 1;
+}
+
+.main-title-overlay {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.map-invisable {
+  opacity: 0;
+}
+
+.map-visable {
+  opacity: 1;
+}
+
+.container-map {
+  opacity: 0;
+  position: fixed;
+  z-index: 0;
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  border: 0;
+
+  transition-property: opacity;
+  transition-duration: 2s;
+  transition-timing-function: ease;
+
+}
+
+#map-canvas {
+  position: absolute;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+#navi {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+
+  transition-property: opacity;
+  transition-duration: 1s;
+  transition-timing-function: ease;
 }
 
 .browsehappy {

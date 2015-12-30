@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Neighborhood Map</title>
     <meta name="description" content="">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link rel="shortcut icon" href="/favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
@@ -12,12 +12,6 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7fFwCspNYDKZZ53el6Qs0Fjjhn0X7Jhs">
-    </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-
-
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/mobile.css" media="only screen and (min-device-width : 320px) and (max-device-width : 480px)">
     <!-- endbuild -->
@@ -26,56 +20,16 @@
     <script src="bower_components/knockout/build/knockout-raw.js"></script>
     <!-- endbuild -->
 
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7fFwCspNYDKZZ53el6Qs0Fjjhn0X7Jhs">
+    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
   </head>
   <body>
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-<form action="" method="POST">
-  <script
-    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_dHhCNbOllO60gCcd9AV7s3Ev"
-    data-amount="2000"
-    data-name="Demo Site"
-    data-description="2 widgets ($20.00)"
-    data-image="/128x128.png"
-    data-locale="auto">
-  </script>
-</form>
-      <div class="top-input hidden-offscreen-left">
-        <div class="paleo-search">
-          <form data-bind="submit: neighborhoodSearch">
-            <input class="search-bar" id="search-bar" type="text" ></input>
-            <ul class="prediction-list">
-            </ul>
-          </form>
-        </div>
-        <div class="menu-btn">
-          <button id="open-menu" class="btn btn-default paleo-btn" type="submit">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </div>
-      </div>
-      <div class="left hidden-offscreen-left">
-        <h2 data-bind="text: query">Points of Interest</h2>
-        <div>
-          <ul class="paleo-list" data-bind="foreach: pois">
-            <li data-bind="text: name"></li>
-          </ul>
-        </div>
-        <div class="list-btn">
-          <button id="open-list" class="btn btn-default paleo-btn" type="submit">
-            <span class="glyphicon glyphicon-list"></span>
-          </button>
-        </div>
-      </div>
-      <div class="container-map">
-        <div id="map-canvas"></div>
-      </div>
-      <footer class="hidden-offscreen-left">
-        <a href="http://glyphicons.com/">glyphicons</a>
-      </footer>
-
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -105,7 +59,10 @@
     </script>
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
+        <script src="scripts/html.js"></script>
+        <script src="scripts/view_template.js"></script>
         <script src="scripts/tm.js"></script>
+        <script src="scripts/model_meetup.js"></script>
         <script src="scripts/model_foodtruck.js"></script>
         <script src="scripts/model_weather.js"></script>
         <script src="scripts/model.js"></script>
