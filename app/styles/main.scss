@@ -160,6 +160,10 @@ footer {
   z-index: 10;
   height: 100%;
   width: 100%;
+
+  transition-property: opacity;
+  transition-duration: 1s;
+  transition-timing-function: ease;
 }
 
 .browsehappy {

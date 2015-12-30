@@ -4,6 +4,7 @@ $(document).ready(function() {
   $('body').prepend(HTML);
   $('#navi').append(queryForm);
 
+
   //google.maps.event.addDomListener(window, 'load', initialize);
   initialize();
   fiveSecLoad();
@@ -65,8 +66,25 @@ function fiveSecLoad() {
   console.log();
   pretendMapLoad = window.setTimeout( function(){
     $('.container-map').css('opacity', 1.0);
+    removeSignInForm();
   }, 5000);
 }
+
+
+
+/*
+sign-in-btn
+*/
+function removeSignInForm() {
+  $('form').submit(function( event ){
+    $('#navi').css('opacity', 0);
+    window.setTimeout( function(){
+      $('#navi').remove();
+    }, 1000);
+    event.preventDefault();
+  });
+}
+
 
 function initialize() {
   console.log(Modernizr);
