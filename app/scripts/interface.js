@@ -2,7 +2,7 @@ $(document).ready(function() {
   console.log("doocument.ready")
   //wait fo title page to load before requesting google map.
   $('body').prepend(HTML);
-  $('#navi').append(loginForm);
+  $('#navi').append(signupForm);
 
 
   //google.maps.event.addDomListener(window, 'load', initialize);
