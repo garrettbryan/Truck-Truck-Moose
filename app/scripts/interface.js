@@ -10,11 +10,10 @@ $(document).ready(function() {
   fiveSecLoad();
 
   var user = new User();
-  user.saveSession();
-  user.restoreSession();
   user.init();
-  user.saveSession();
+  console.log(user);
   user.restoreSession();
+  console.log(user);
 
 });
 

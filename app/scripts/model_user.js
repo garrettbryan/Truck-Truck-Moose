@@ -84,6 +84,7 @@ User.prototype.restoreSession = function() {
       console.log('doesnot have own property ' + prop);
     }
   }
+  this.now = (this.now instanceof Date) ? this.now : new Date(this.now);
   console.log(this);
 };
 
