@@ -78,7 +78,11 @@ User.prototype.saveSession = function() {
 User.prototype.restoreSession = function() {
   var restoredSession = JSON.parse(localStorage.getItem("sessionData"));
   for (var prop in restoredSession) {
+    if (this.hasOwnProperty(prop)) {
     this[prop] = restoredSession[prop];
+    } else {
+      console.log('doesnot have own property ' + prop);
+    }
   }
   console.log(this);
 };
