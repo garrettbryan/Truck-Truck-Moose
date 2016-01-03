@@ -146,7 +146,6 @@ footer {
   transition-property: opacity;
   transition-duration: 2s;
   transition-timing-function: ease;
-
 }
 
 #map-canvas {
@@ -157,6 +156,24 @@ footer {
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+.container-search {
+  opacity: 0.5;
+  position: fixed;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: green;
+
+  left: -50%;
+
+  transition-property: opacity;
+  transition-duration: 2s;
+  transition-timing-function: ease;
 }
 
 #navi {

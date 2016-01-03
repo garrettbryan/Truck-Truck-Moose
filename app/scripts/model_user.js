@@ -16,8 +16,12 @@ var User = function(){
   //previous selections
   this.previousSearches = [];
   this.previousLocations = [];
-  this.previousMeetups = [];
-  this.previousFoodtrucks = [];
+
+  this.previousMeetupsSearches = [];
+  this.previousFoodtruckSearches = [];
+
+  this.previouslySelectedMeetups = [];
+  this.previouslySelectedFoodtrucks = [];
 
   this.position = {};
 };

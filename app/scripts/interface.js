@@ -2,6 +2,7 @@ $(document).ready(function() {
   console.log("doocument.ready")
   //wait fo title page to load before requesting google map.
   $('body').prepend(HTML);
+  $('.main-title-overlay').append(SearchHTML);
   $('#navi').append(loginForm);
 
 
