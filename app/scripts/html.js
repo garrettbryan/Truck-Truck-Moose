@@ -78,8 +78,6 @@ Use Bootstrap's predefined grid classes to align labels and groups of form contr
 '  <div class="form-group">',
 '    <div class="col-sm-3 col-sm-offset-3">',
 '      <button type="submit" class="btn btn-default" id="sign-in-btn">Sign in</button>',
-'    </div>',
-'    <div class="col-sm-3">',
 '      <button class="btn btn-default" id="sign-up-btn">Sign up</button>',
 '    </div>',
 '  </div>',
