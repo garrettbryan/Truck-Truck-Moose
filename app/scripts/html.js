@@ -48,11 +48,18 @@
 '</div>',
   ].join("\n");
 
+  var SearchHTML = function(num){
+    return [
+  '<div class="container-search" id="list-container-'+num+'">',
+  '</div>'
+    ].join("\n");
+
+}
 
 /*
 Use Bootstrap's predefined grid classes to align labels and groups of form controls in a horizontal layout by adding .form-horizontal to the form (which doesn't have to be a <form>). Doing so changes .form-groups to behave as grid rows, so no need for .row.
 */
-  var queryForm = [
+  var loginForm = [
 '<form class="form-horizontal">',
 '  <div class="form-group">',
 //'    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>',
@@ -76,12 +83,58 @@ Use Bootstrap's predefined grid classes to align labels and groups of form contr
 '    </div>',
 '  </div>',
 '  <div class="form-group">',
-'    <div class="col-sm-6 col-sm-offset-3">',
+'    <div class="col-sm-3 col-sm-offset-3">',
 '      <button type="submit" class="btn btn-default" id="sign-in-btn">Sign in</button>',
+'      <button class="btn btn-default" id="sign-up-btn">Sign up</button>',
 '    </div>',
 '  </div>',
 '</form>',
   ].join("\n");
+
+
+  var signupForm = [
+'<form class="form-horizontal">',
+'  <div class="form-group">',
+//'    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>',
+'    <div class="col-sm-6 col-sm-offset-3">',
+'      <input type="email" class="form-control" id="inputEmail" placeholder="Email">',
+'    </div>',
+'  </div>',
+'  <div class="form-group">',
+//'    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>',
+'    <div class="col-sm-6 col-sm-offset-3">',
+'      <input type="text" class="form-control" id="handle" placeholder="Handle">',
+'    </div>',
+'  </div>',
+'  <div class="form-group">',
+//'    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>',
+'    <div class="col-sm-6 col-sm-offset-3">',
+'      <input type="password" class="form-control" id="createPassword" placeholder="Password">',
+'    </div>',
+'  </div>',
+'  <div class="form-group">',
+//'    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>',
+'    <div class="col-sm-6 col-sm-offset-3">',
+'      <input type="password" class="form-control" id="verifyPassword" placeholder="Verify Password">',
+'    </div>',
+'  </div>',
+'  <div class="form-group">',
+'    <div class="col-sm-6 col-sm-offset-3">',
+'      <div class="checkbox">',
+'        <label>',
+'          <input type="checkbox"> Remember me',
+'        </label>',
+'      </div>',
+'    </div>',
+'  </div>',
+'  <div class="form-group">',
+'    <div class="col-sm-6 col-sm-offset-3">',
+'      <button type="submit" class="btn btn-default" id="sign-in-btn">Sign up</button>',
+'    </div>',
+'  </div>',
+'</form>',
+  ].join("\n");
+
 
   var testingHTML = [
 '<div class="top-input hidden-offscreen-left">',

@@ -2,13 +2,34 @@ $(document).ready(function() {
   console.log("doocument.ready")
   //wait fo title page to load before requesting google map.
   $('body').prepend(HTML);
-  $('#navi').append(queryForm);
+  //function hideAddressBar()
+$('.main-title-overlay').append(SearchHTML(1));
+  //$('.main-title-overlay').append(SearchHTML(1));
+  $('#navi').append(loginForm);
 
 
   //google.maps.event.addDomListener(window, 'load', initialize);
   initialize();
   fiveSecLoad();
+
+  var user = new User();
+  user.init();
+  console.log(user);
+  user.restoreSession();
+  console.log(user);
+
 });
+
+
+/*
+
+  localStorage.setItem('bgcolor', 'red');
+  var currentColor = localStorage.getItem('bgcolor');
+  window.addEventListener('storage', function(e) {
+    document.querySelector('.my-key').textContent = e.key;
+  });
+
+*/
 
 
 $(function() { /* code here */ });
