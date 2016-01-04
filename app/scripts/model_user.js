@@ -45,7 +45,9 @@ User.prototype.continuingSession = function() {
 
 User.prototype.staleSessionData = function () {
   var stale = true;
-  if ((this.now.getTime() + 3600000) > aboutMy.now){
+  console.log(this.now.getTime() + 3600000);
+  console.log(aboutMy.now.getTime());
+  if ((this.now.getTime() + 3600000) > aboutMy.now.getTime()){
     console.log("not stale");
     stale = false;
   }

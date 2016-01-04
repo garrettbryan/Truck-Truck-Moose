@@ -2,7 +2,9 @@ $(document).ready(function() {
   console.log("doocument.ready")
   //wait fo title page to load before requesting google map.
   $('body').prepend(HTML);
-  $('.main-title-overlay').append(SearchHTML);
+  //function hideAddressBar()
+$('.main-title-overlay').append(SearchHTML(1));
+  //$('.main-title-overlay').append(SearchHTML(1));
   $('#navi').append(loginForm);
 
 
@@ -17,8 +19,6 @@ $(document).ready(function() {
   console.log(user);
 
 });
-
-
 
 
 /*

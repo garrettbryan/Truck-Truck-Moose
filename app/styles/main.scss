@@ -161,7 +161,6 @@ footer {
 .container-search {
   opacity: 0.5;
   position: fixed;
-  z-index: 1;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -174,6 +173,10 @@ footer {
   transition-property: opacity;
   transition-duration: 2s;
   transition-timing-function: ease;
+}
+
+#list-container-1 {
+    z-index: 1;
 }
 
 #navi {

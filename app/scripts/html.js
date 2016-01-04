@@ -48,11 +48,13 @@
 '</div>',
   ].join("\n");
 
-  var SearchHTML = [
-'<div class="container-search">',
-'</div>'
-  ].join("\n");
+  var SearchHTML = function(num){
+    return [
+  '<div class="container-search" id="list-container-'+num+'">',
+  '</div>'
+    ].join("\n");
 
+}
 
 /*
 Use Bootstrap's predefined grid classes to align labels and groups of form controls in a horizontal layout by adding .form-horizontal to the form (which doesn't have to be a <form>). Doing so changes .form-groups to behave as grid rows, so no need for .row.

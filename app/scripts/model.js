@@ -6,7 +6,7 @@ var program = {
 };
 
 var aboutMy = {
-  now: new Date(15,12,07,13,30,00),
+  now: new Date(2015,12,07,13,30,00),
   position: {},
   searches: [],
   markers: [],
