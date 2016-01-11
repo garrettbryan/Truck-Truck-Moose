@@ -15,7 +15,7 @@ $('.main-title-overlay').append(SearchHTML(1));
   var user = new User();
   user.init();
   console.log(user);
-  user.restoreSession();
+  //user.restoreSession();
   console.log(user);
 
 });
@@ -218,11 +218,16 @@ function initialize() {
         var autocomplete;
         var countryRestrict = {'country': 'us'};
 
+
+
         //autocomplete = new google.maps.places.AutocompleteService();
         // Create the autocomplete object and associate it with the UI input control.
         // Restrict the search to the default country, and to place type "cities".
+
+
+        /*
         autocomplete = new google.maps.places.Autocomplete(
-        /** @type {!HTMLInputElement} */ (
+        // @type {!HTMLInputElement}  (
           document.getElementById('search-bar')), {
           types: ['(cities)'],
           componentRestrictions: countryRestrict
@@ -316,8 +321,8 @@ function initialize() {
             results.removeChild(results.childNodes[0]);
           }
         }
-
-
+}
+*/
 
 
 

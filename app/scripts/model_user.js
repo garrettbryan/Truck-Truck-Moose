@@ -11,7 +11,7 @@ var User = function(){
   this.password = "";
   this.rememberMe = false;
 
-  this.now = new Date();
+  this.now = new Date(2015,12,07,13,30,00);
 
   //previous selections
   this.previousSearches = [];
@@ -33,7 +33,7 @@ User.prototype.init = function(){
   this.email = "garrettdavisbryan@gmail.com";
   this.handle = "G-Money";
   this.password = "cool";
-  this.rememberMe = true;
+  this.rememberMe = false;
 };
 
 /*
