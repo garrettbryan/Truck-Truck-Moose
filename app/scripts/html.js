@@ -50,8 +50,8 @@
 
   var SearchHTML = function(num){
     return [
-  '<div class="container-search" id="list-container-'+num+'">',
-  '</div>'
+  //'<div class="container-search" id="list-container-'+num+'">',
+  //'</div>'
     ].join("\n");
 
 }
