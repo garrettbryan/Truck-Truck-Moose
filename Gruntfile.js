@@ -68,7 +68,7 @@ module.exports = function (grunt) {
         },
         files: [
           '<%= config.app %>/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',
+          '<%= config.app %>{,*/}*.css',
           '<%= config.app %>/images/{,*/}*'
         ]
       }
@@ -241,8 +241,14 @@ module.exports = function (grunt) {
           '<%= config.dist %>',
           '<%= config.dist %>/images',
           '<%= config.dist %>/styles'
-        ]
+        ],
+        patterns: {
+            js: [
+                [/(images\/.*?\.(?:gif|jpeg|jpg|png|webp))/gm, 'Update the JS to reference our revved images']
+            ]//images/resize_Woolly_Mammoth.png
+        }
       },
+      js: ['<%= config.dist %>/scripts/*.js'],
       html: ['<%= config.dist %>/{,*/}*.html'],
       css: ['<%= config.dist %>/styles/{,*/}*.css']
     },
