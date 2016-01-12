@@ -16,8 +16,15 @@ var aboutMy = {
   meetupMapBounds: {},
   mapBounds: {},
 
+/*
+meetup map bounds expands the map bounds. But this function should ignore any outliers.
+*/
   determineMeetupMapBounds: function(){
     var that = this
+
+    var bounds = new google.maps.LatLngBounds();
+    console.log(bounds.toString());
+
     this.meetups.forEach(function(meetup){
       if (meetup.venue){
         if (!that.meetupMapBounds.max) {

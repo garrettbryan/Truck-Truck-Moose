@@ -53,5 +53,17 @@ Meetup.prototype.render = function() {
       map: map,
       title: this.group.name
     });
+    var contentString = '<div id="content">'+
+      '<h3 id="heading" class="heading">A Heading</h3>' +
+      '<div id="body-content"> ' + this.group.name + '</div>' +
+      '</div>;'
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    this.marker.addListener('click', function() {
+      infowindow.open(map, this.marker);
+    });
   }
 }
