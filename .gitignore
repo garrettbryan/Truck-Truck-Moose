@@ -1,0 +1,13 @@
+node_modules/
+.tmp
+.sass-cache
+bower_components/
+node_modules-old/
+.bowerrc
+.editorconfig
+.gitattributes
+.jshintrc
+.yo-rc.json
+test/.bowerrc
+dwolla_test_data/
+dist/
