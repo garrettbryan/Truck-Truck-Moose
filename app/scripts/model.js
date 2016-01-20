@@ -17,42 +17,48 @@ var aboutMy = {
   mapBounds: {},
 
 /*
-meetup map bounds expands the map bounds. But this function should ignore any outliers.
+meetup map bounds expands the map bounds. But this function should ignore any outliers.  Often times the meetup request returns meetups that do not have the  coorrect lat lons.
 */
   determineMeetupMapBounds: function(){
     var that = this
 
     var bounds = new google.maps.LatLngBounds();
     console.log(bounds.toString());
+    console.log("hmm");
 
     this.meetups.forEach(function(meetup){
-      if (meetup.venue){
-        if (!that.meetupMapBounds.max) {
-          that.meetupMapBounds.max = {
-            lat: meetup.venue.lat,
-            lng: meetup.venue.lon
-          };
-          that.meetupMapBounds.min = {
-            lat: meetup.venue.lat,
-            lng: meetup.venue.lon
-          };
+      var meetupLatLng;
+      if (typeof meetup.venue !== 'undefined'){
+        meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon)
+        console.dir(google.maps);
+        if (meetupLatLng && (google.maps.geometry.spherical.computeDistanceBetween(aboutMy.position,meetupLatLng) < 40000)){
+          if (!that.meetupMapBounds.max) {
+            that.meetupMapBounds.max = {
+              lat: meetup.venue.lat,
+              lng: meetup.venue.lon
+            };
+            that.meetupMapBounds.min = {
+              lat: meetup.venue.lat,
+              lng: meetup.venue.lon
+            };
+          }
+          that.meetupMapBounds.max.lat =
+            that.meetupMapBounds.max.lat > meetup.venue.lat ?
+            that.meetupMapBounds.max.lat :
+            meetup.venue.lat;
+          that.meetupMapBounds.max.lng =
+            that.meetupMapBounds.max.lng > meetup.venue.lon ?
+            that.meetupMapBounds.max.lng :
+            meetup.venue.lon;
+          that.meetupMapBounds.min.lat =
+            that.meetupMapBounds.min.lat < meetup.venue.lat ?
+            that.meetupMapBounds.min.lat :
+            meetup.venue.lat;
+          that.meetupMapBounds.min.lng =
+            that.meetupMapBounds.min.lng < meetup.venue.lon ?
+            that.meetupMapBounds.min.lng :
+            meetup.venue.lon;
         }
-        that.meetupMapBounds.max.lat =
-          that.meetupMapBounds.max.lat > meetup.venue.lat ?
-          that.meetupMapBounds.max.lat :
-          meetup.venue.lat;
-        that.meetupMapBounds.max.lng =
-          that.meetupMapBounds.max.lng > meetup.venue.lon ?
-          that.meetupMapBounds.max.lng :
-          meetup.venue.lon;
-        that.meetupMapBounds.min.lat =
-          that.meetupMapBounds.min.lat < meetup.venue.lat ?
-          that.meetupMapBounds.min.lat :
-          meetup.venue.lat;
-        that.meetupMapBounds.min.lng =
-          that.meetupMapBounds.min.lng < meetup.venue.lon ?
-          that.meetupMapBounds.min.lng :
-          meetup.venue.lon;
       }
     });
   console.log(that.meetupMapBounds);
