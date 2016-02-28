@@ -13,11 +13,12 @@ $(document).ready(function() {
   console.log("doocument.ready")
     var mySwiper = new Swiper ('.swiper-container', {
     // Optional parameters
-    direction: 'horizontal',
-    loop: true,
-    slidesPerView: 3,
+    pagination: '.swiper-pagination',
+    slidesPerView: 'auto',
+    centeredSlides: true,
     paginationClickable: true,
-    spaceBetween: 30
+    spaceBetween: 30,
+    loop: true
   });
 
   //google.maps.event.addDomListener(window, 'load', initialize);

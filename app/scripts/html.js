@@ -114,7 +114,7 @@
 '</form>'
   ].join("\n");
 
-    var addSpecialRequestButton = [
+  var addSpecialRequestButton = [
 '  <div class="form-group">',
 '    <div class="col-sm-9 col-sm-offset-4">',
 '        <button type="button" class="btn btn-primary">Add Special Request</button>',
