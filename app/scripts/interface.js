@@ -1,11 +1,14 @@
 $(document).ready(function() {
   console.log("doocument.ready")
   //wait fo title page to load before requesting google map.
-  $('body').prepend(HTML);
+  //$('body').prepend(HTML);
+  $('body').prepend(foodTruckDetail);
   //function hideAddressBar()
-$('.main-title-overlay').append(SearchHTML(1));
+  $('.main-title-overlay').append(SearchHTML(1));
   //$('.main-title-overlay').append(SearchHTML(1));
-  $('#navi').append(loginForm);
+  $('#main-form').append(item);
+  $('#special-requests-item-1').append(specialRequest);
+  $('#special-requests-item-1').append(specialRequest);
 
 
   //google.maps.event.addDomListener(window, 'load', initialize);
@@ -87,27 +90,50 @@ function fiveSecLoad() {
   console.log();
   pretendMapLoad = window.setTimeout( function(){
     $('.container-map').css('opacity', 1.0);
-    removeSignInForm();
   }, 5000);
 }
 
 
+function updateForm(html){
+  removeForm( function() {
+    console.log(html);
+    loadForm(html);
+  });
+}
 
 /*
-sign-in-btn
+remove html
 */
-function removeSignInForm() {
-  $('form').submit(function( event ){
-    $('#navi').css('opacity', 0);
-    window.setTimeout( function(){
-      $('#navi').remove();
-    }, 1000);
-    event.preventDefault();
-  });
+function removeForm( cb ) {
+  $('#main-form').css('opacity', 0);
+  window.setTimeout( function(){
+    $('#main-form').html("");
+    cb && cb()
+  }, 1000);
+}
+
+/*
+add html
+*/
+function loadForm(html) {
+  $('#main-form').html(html);
+  $('#main-form').css('opacity', 1);
 }
 
 
 function initialize() {
+  $('#sign-in-btn').click( function(event) {
+    event.preventDefault();
+    $('#navi').css('opacity', 0);
+    removeForm( function() {
+      $('#navi').remove();
+    });
+  });
+  $('#sign-up-btn').click( function(event) {
+    event.preventDefault();
+    updateForm(signupForm);
+  });
+
   console.log(Modernizr);
 
   if (Modernizr.geolocation) {

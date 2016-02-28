@@ -30,7 +30,7 @@
 
   var HTML = [
 '<div class="main-title-overlay">',
-'  <div class="container-fluid" id="navi">',
+'  <div class="container-fluid" id="truck-navi">',
 '    <div class="row main-title-row">',
 '        <h1 id="main-title" class="main-title col-sm-12">MeeTruck</h1>',
 '    </div>',
@@ -40,6 +40,8 @@
 '             <img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
 '           </div>',
 '        </div>',
+'    </div>',
+'    <div id="main-form">',
 '    </div>',
 '  </div>',
 '  <div class="container-map">',
@@ -55,6 +57,69 @@
     ].join("\n");
 
 }
+
+  var foodTruckDetail = [
+'<div class="main-title-overlay">',
+'  <div class="container-fluid" id="navi">',
+'    <div class="row truck-title-row">',
+//'        <h1 id="truck-title" class="truck-title col-sm-12">MeeTruck</h1>',
+'          <select class="form-control">',
+'            <option>1</option>',
+'            <option>2</option>',
+'            <option>3</option>',
+'            <option>4</option>',
+'            <option>5</option>',
+'          </select>',
+'    </div>',
+'    <div class="row">',
+'        <div class="col-md-12">',
+'           <div class="truck-logo-container">',
+'             <img id="truck-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
+'           </div>',
+'        </div>',
+'    </div>',
+'    <div id="main-form">',
+'    </div>',
+'  </div>',
+'  <div class="container-map">',
+'    <div id="map-canvas"></div>',
+'  </div>',
+'</div>',
+  ].join("\n");
+
+  var item = [
+'<form class="form-horizontal">',
+'  <div class="form-group">',
+'    <div class="col-sm-6 col-sm-offset-3">',
+'       <select class="form-control">',
+'         <option>1</option>',
+'         <option>2</option>',
+'         <option>3</option>',
+'         <option>4</option>',
+'         <option>5</option>',
+'       </select>',
+'    </div>',
+'  </div>',
+'  <div class="form-group" id="special-requests-item-1">',
+'  </div>',
+'</form>',
+  ].join("\n");
+
+  var specialRequest = [
+'  <div class="form-group special-requests">',
+'    <div class="col-sm-3 col-sm-offset-4">',
+'      <button type="button" class="btn btn-primary">No</button>',
+'      <select class="form-control">',
+'        <option>1</option>',
+'        <option>2</option>',
+'        <option>3</option>',
+'        <option>4</option>',
+'        <option>5</option>',
+'      </select>',
+'    </div>',
+'  </div>',
+  ].join("\n");
+
 
 /*
 Use Bootstrap's predefined grid classes to align labels and groups of form controls in a horizontal layout by adding .form-horizontal to the form (which doesn't have to be a <form>). Doing so changes .form-groups to behave as grid rows, so no need for .row.
@@ -84,7 +149,7 @@ Use Bootstrap's predefined grid classes to align labels and groups of form contr
 '  </div>',
 '  <div class="form-group">',
 '    <div class="col-sm-3 col-sm-offset-3">',
-'      <button type="submit" class="btn btn-default" id="sign-in-btn">Sign in</button>',
+'      <button class="btn btn-default" id="sign-in-btn">Sign in</button>',
 '      <button class="btn btn-default" id="sign-up-btn">Sign up</button>',
 '    </div>',
 '  </div>',
