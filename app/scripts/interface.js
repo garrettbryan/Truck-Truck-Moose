@@ -1,15 +1,24 @@
 $(document).ready(function() {
-  console.log("doocument.ready")
   //wait fo title page to load before requesting google map.
   //$('body').prepend(HTML);
   $('body').prepend(foodTruckDetail);
   //function hideAddressBar()
   $('.main-title-overlay').append(SearchHTML(1));
   //$('.main-title-overlay').append(SearchHTML(1));
-  $('#main-form').append(item);
+  $('#main-form').append(swiper);
+  $('#main-form').append(addMenuItemButton);
   $('#special-requests-item-1').append(specialRequest);
-  $('#special-requests-item-1').append(specialRequest);
+  $('#special-requests-item-1').append(addSpecialRequestButton);
 
+  console.log("doocument.ready")
+    var mySwiper = new Swiper ('.swiper-container', {
+    // Optional parameters
+    direction: 'horizontal',
+    loop: true,
+    slidesPerView: 3,
+    paginationClickable: true,
+    spaceBetween: 30
+  });
 
   //google.maps.event.addDomListener(window, 'load', initialize);
   initialize();

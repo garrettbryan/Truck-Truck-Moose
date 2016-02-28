@@ -61,7 +61,10 @@
   var foodTruckDetail = [
 '<div class="main-title-overlay">',
 '  <div class="container-fluid" id="navi">',
-'    <div class="row truck-title-row">',
+'    <div class="form-group">',
+'      <input type="input" class="form-control" id="filter" placeholder="Filter">',
+'    </div>',
+'    <div class="form-group">',
 //'        <h1 id="truck-title" class="truck-title col-sm-12">MeeTruck</h1>',
 '          <select class="form-control">',
 '            <option>1</option>',
@@ -72,10 +75,8 @@
 '          </select>',
 '    </div>',
 '    <div class="row">',
-'        <div class="col-md-12">',
-'           <div class="truck-logo-container">',
-'             <img id="truck-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo">',
-'           </div>',
+'        <div class="col-md-12">'
+] + swiper + [
 '        </div>',
 '    </div>',
 '    <div id="main-form">',
@@ -87,7 +88,13 @@
 '</div>',
   ].join("\n");
 
-  var item = [
+    var addMenuItemButton = [
+'    <div class="col-sm-3 col-sm-offset-4">',
+'        <button type="button" class="btn btn-primary">Add Menu Item</button>',
+'    </div>',
+  ].join("\n");
+
+  var menuItem = [
 '<form class="form-horizontal">',
 '  <div class="form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
@@ -100,26 +107,49 @@
 '       </select>',
 '    </div>',
 '  </div>',
-'  <div class="form-group" id="special-requests-item-1">',
+'  <div id="special-requests-item-1">',
 '  </div>',
-'</form>',
+'  <div id="add-special-request-button">',
+'  </div>',
+'</form>'
+  ].join("\n");
+
+    var addSpecialRequestButton = [
+'  <div class="form-group">',
+'    <div class="col-sm-9 col-sm-offset-4">',
+'        <button type="button" class="btn btn-primary">Add Special Request</button>',
+'    </div>',
+'  </div>'
   ].join("\n");
 
   var specialRequest = [
-'  <div class="form-group special-requests">',
-'    <div class="col-sm-3 col-sm-offset-4">',
-'      <button type="button" class="btn btn-primary">No</button>',
-'      <select class="form-control">',
-'        <option>1</option>',
-'        <option>2</option>',
-'        <option>3</option>',
-'        <option>4</option>',
-'        <option>5</option>',
-'      </select>',
-'    </div>',
-'  </div>',
+'    <div class="form-group special-requests">',
+'      <div class="col-sm-3 col-sm-offset-4">',
+'        <button type="button" class="btn btn-primary">No</button>',
+'        <select class="form-control">',
+'          <option>1</option>',
+'          <option>2</option>',
+'          <option>3</option>',
+'          <option>4</option>',
+'          <option>5</option>',
+'        </select>',
+'      </div>',
+'    </div>'
   ].join("\n");
 
+var swiper = [
+'<div class="swiper-container">',
+'    <!-- Additional required wrapper -->',
+'    <div class="swiper-wrapper">',
+'        <!-- Slides -->',
+'        <div class="swiper-slide"><img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/333/fff" alt="MeeTruck Logo"></div>',
+'        <div class="swiper-slide"><img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo"></div>',
+'        <div class="swiper-slide"><img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/999/fff" alt="MeeTruck Logo"></div>',
+'    </div>',
+'    <!-- If we need pagination -->',
+'    <div class="swiper-pagination"></div>',
+'</div>'
+].join("\n");
 
 /*
 Use Bootstrap's predefined grid classes to align labels and groups of form controls in a horizontal layout by adding .form-horizontal to the form (which doesn't have to be a <form>). Doing so changes .form-groups to behave as grid rows, so no need for .row.
