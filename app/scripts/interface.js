@@ -1,12 +1,13 @@
 $(document).ready(function() {
   //wait fo title page to load before requesting google map.
-  //$('body').prepend(HTML);
-  $('body').prepend(foodTruckDetail);
+  $('body').prepend(HTML);
+  //$('body').prepend(foodTruckDetail);
   //function hideAddressBar()
-  $('.main-title-overlay').append(SearchHTML(1));
+//  $('.main-title-overlay').append(SearchHTML(1));
   //$('.main-title-overlay').append(SearchHTML(1));
-  $('#main-form').append(swiper);
-  $('#main-form').append(addMenuItemButton);
+  $('#main-form').append(foodTruckDetail);
+  $('#main-form').append(menuItem);
+ // $('#main-form').append(addMenuItemButton);
   $('#special-requests-item-1').append(specialRequest);
   $('#special-requests-item-1').append(addSpecialRequestButton);
 
