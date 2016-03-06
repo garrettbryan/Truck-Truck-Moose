@@ -11,3 +11,4 @@ node_modules-old/
 test/.bowerrc
 dwolla_test_data/
 dist/
+app/scripts/temp.html
