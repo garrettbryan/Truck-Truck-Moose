@@ -5,11 +5,11 @@ $(document).ready(function() {
   //function hideAddressBar()
 //  $('.main-title-overlay').append(SearchHTML(1));
   //$('.main-title-overlay').append(SearchHTML(1));
-  $('#main-form').append(foodTruckDetail);
-  $('#main-form').append(menuItem);
+  $('#main-form').append(foodLocation);
+ // $('#main-form').append(menuItem);
  // $('#main-form').append(addMenuItemButton);
-  $('#special-requests-item-1').append(specialRequest);
-  $('#special-requests-item-1').append(addSpecialRequestButton);
+ // $('#special-requests-item-1').append(specialRequest);
+ // $('#special-requests-item-1').append(addSpecialRequestButton);
 
   console.log("doocument.ready")
     var mySwiper = new Swiper ('.swiper-container', {

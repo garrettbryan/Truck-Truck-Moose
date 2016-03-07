@@ -60,6 +60,42 @@
 '</form>',
   ].join("\n");
 
+var puNumber = [
+'<div class="row">',
+'    <div class="col-xs-12 col-md-12">',
+'      <h2>PU Phrase:</h2>',
+'      <h1>Pink Flamingo</h1>',
+'    </div>',
+'    <div class="col-xs-12 col-md-12">',
+'      <h2>PU TIME:</h2>',
+'      <h1>9:29PM</h1>',
+'    </div>',
+'</div>',
+].join("\n");
+
+var foodLocation = [
+'<div class="row">',
+'    <div class="col-xs-12 col-md-12">',
+'      <p>',
+'        <button type="button" class="btn btn-primary btn-lg">Bring to Car</button>',
+'      </p>',
+'      <p>',
+'        <button type="button" class="btn btn-primary btn-lg">Pick Up</button>',
+'      </p>',
+'    </div>',
+'<div class="row">',
+'    <div class="col-xs-12 col-md-12">',
+'      <h2>PU Phrase:</h2>',
+'      <h1>Pink Flamingo</h1>',
+'    </div>',
+'<div class="row">',
+'    <div class="col-xs-12 col-md-12">',
+'      <p>',
+'        <button type="button" class="btn btn-primary btn-lg">Done</button>',
+'      </p>',
+'    </div>',
+'</div>',
+].join("\n");
 
   var DestinationSelection = [
 '<form class="form-horizontal">',
