@@ -23,8 +23,8 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     var that = this
 
     var bounds = new google.maps.LatLngBounds();
-    console.log(bounds.toString());
-    console.log("hmm");
+//    console.log(bounds.toString());
+//    console.log("hmm");
 
     this.meetups.forEach(function(meetup){
       var meetupLatLng;
@@ -85,7 +85,7 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     truck.getDirections();
     truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
     truck.initRandomMenu;
-    console.log(truck);
+//    console.log(truck);
   });
   }
 }

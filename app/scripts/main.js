@@ -23,6 +23,18 @@ var prediction = function(place) {
 
 var ViewModel = function() {
   var self = this;
+  this.details = ko.observable();
+  this.details(logo + signInForm);
+
+  this.signIn = function(formElement) {
+    console.log(formElement);
+  }
+
+  this.signUp = function() {
+    console.log("signUp");
+  }
+
+
 
   this.query = ko.observable("");
   this.pois = ko.observableArray([]);
@@ -77,7 +89,7 @@ var ViewModel = function() {
   }
 }
 
-ko.applyBindings(new ViewModel());
+
 
 function autocompleteCallback(predictions, status) {
   autocompletePredictions = "";

@@ -26,7 +26,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
           var meetup = new Meetup();
           meetup.init(result);
           aboutMy.meetups.push(meetup);
-          console.log(Date(meetup.time))
+//          console.log(Date(meetup.time))
           meetup.render();
         });
         clearTimeout(meetupRequestTimeout);
@@ -46,7 +46,7 @@ Meetup.prototype.init = function(data) {
   for (var i in data) {
     this[i] = data[i];
   }
-  console.log(this);
+//  console.log(this);
   this.img = "images/resize_meetup.png";
 }
 

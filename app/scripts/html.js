@@ -159,13 +159,14 @@ var logo = [
 '           </div>',
 '        </div>',
 '    </div>',
-]
+'    <br />'
+].join("\n");
 
   var HTML = [
 '<div class="main-title-overlay">',
 '  <div class="container-fluid" id="truck-navi">',
 '  </div>',
-'  <div class="container-fluid" id="main-form">',
+'  <div class="container-fluid" data-bind="html: details" id="main-form">',
 '  </div>',
 '  <div class="container-map">',
 '    <div id="map-canvas"></div>',
@@ -289,8 +290,8 @@ var swiper = [
 /*
 Use Bootstrap's predefined grid classes to align labels and groups of form controls in a horizontal layout by adding .form-horizontal to the form (which doesn't have to be a <form>). Doing so changes .form-groups to behave as grid rows, so no need for .row.
 */
-  var loginForm = [
-'<form class="form-horizontal">',
+  var signInForm = [
+'<form class="form-horizontal" data-bind="submit: signIn">',
 '  <div class="form-group">',
 //'    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>',
 '    <div class="col-sm-6 col-sm-offset-3">',
@@ -314,8 +315,8 @@ Use Bootstrap's predefined grid classes to align labels and groups of form contr
 //'  </div>',
 '  <div class="form-group">',
 '    <div class="col-sm-3 col-sm-offset-3">',
-'      <button class="btn btn-default" id="sign-in-btn">Sign in</button>',
-'      <button class="btn btn-default" id="sign-up-btn">Sign up</button>',
+'      <button type="submit" class="btn btn-default" id="sign-in-btn">Sign in</button>',
+'      <button class="btn btn-default" id="sign-up-btn" data-bind="click: signUp">Sign up</button>',
 '    </div>',
 '  </div>',
 '</form>'
@@ -367,39 +368,7 @@ Use Bootstrap's predefined grid classes to align labels and groups of form contr
 
 
   var testingHTML = [
-'<div class="top-input hidden-offscreen-left">',
-'  <div class="paleo-search">',
-'    <form data-bind="submit: neighborhoodSearch">',
-'      <input class="search-bar" id="search-bar" type="text" ></input>',
-'      <ul class="prediction-list">',
-'      </ul>',
-'    </form>',
-'  </div>',
-'  <div class="menu-btn">',
-'    <button id="open-menu" class="btn btn-default paleo-btn" type="submit">',
-'      <span class="glyphicon glyphicon-search"></span>',
-'    </button>',
-'  </div>',
-'</div>',
-'<div class="left hidden-offscreen-left">',
-'  <h2 data-bind="text: query">Points of Interest</h2>',
-'  <div>',
-'    <ul class="paleo-list" data-bind="foreach: pois">',
-'      <li data-bind="text: name"></li>',
-'    </ul>',
-'  </div>',
-'  <div class="list-btn">',
-'    <button id="open-list" class="btn btn-default paleo-btn" type="submit">',
-'      <span class="glyphicon glyphicon-list"></span>',
-'    </button>',
-'  </div>',
-'</div>',
-'<div class="container-map">',
-'  <div id="map-canvas"></div>',
-'</div>',
-'<footer class="hidden-offscreen-left">',
-'  <a href="http://glyphicons.com/">glyphicons</a>',
-'</footer>',
+
   ].join("/n");
 
   var addressHTML = [

@@ -307,8 +307,8 @@ FoodTruck.prototype.clearSchedule = function(){
 }
 
 FoodTruck.prototype.render = function() {
-  console.log(this);
-  console.log(this.currentEvent);
+//  console.log(this);
+//  console.log(this.currentEvent);
   var icon = this.img;
   if (this.traveling){
     var icon = this.tImg;

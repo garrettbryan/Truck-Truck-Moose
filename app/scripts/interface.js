@@ -5,13 +5,13 @@ $(document).ready(function() {
   //function hideAddressBar()
 //  $('.main-title-overlay').append(SearchHTML(1));
   //$('.main-title-overlay').append(SearchHTML(1));
-  $('#main-form').append(rendevoux);
- // $('#main-form').append(menuItem);
+  $('#main-form').append(logo);
+  $('#main-form').append(signInForm);
  // $('#main-form').append(addMenuItemButton);
  // $('#special-requests-item-1').append(specialRequest);
  // $('#special-requests-item-1').append(addSpecialRequestButton);
 
-  console.log("doocument.ready")
+  console.log("document.ready")
     var mySwiper = new Swiper ('.swiper-container', {
     // Optional parameters
     pagination: '.swiper-pagination',
@@ -32,6 +32,8 @@ $(document).ready(function() {
   //user.restoreSession();
   console.log(user);
 
+  var viewModel = new ViewModel();
+  ko.applyBindings(viewModel);
 });
 
 
@@ -133,7 +135,7 @@ function loadForm(html) {
 
 
 function initialize() {
-  $('#sign-in-btn').click( function(event) {
+/*  $('#sign-in-btn').click( function(event) {
     event.preventDefault();
     $('#navi').css('opacity', 0);
     removeForm( function() {
@@ -144,7 +146,7 @@ function initialize() {
     event.preventDefault();
     updateForm(signupForm);
   });
-
+*/
   console.log(Modernizr);
 
   if (Modernizr.geolocation) {
@@ -179,7 +181,7 @@ function initialize() {
       */
       function(pos){
         aboutMy.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-        console.log(aboutMy.position);
+//        console.log(aboutMy.position);
 
         //var directionsService = new google.maps.DirectionsService;
         //var directionsDisplay = new google.maps.DirectionsRenderer;
