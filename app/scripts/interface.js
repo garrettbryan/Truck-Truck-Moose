@@ -5,7 +5,7 @@ $(document).ready(function() {
   //function hideAddressBar()
 //  $('.main-title-overlay').append(SearchHTML(1));
   //$('.main-title-overlay').append(SearchHTML(1));
-  $('#main-form').append(foodLocation);
+  $('#main-form').append(rendevoux);
  // $('#main-form').append(menuItem);
  // $('#main-form').append(addMenuItemButton);
  // $('#special-requests-item-1').append(specialRequest);

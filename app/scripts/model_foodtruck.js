@@ -17,6 +17,9 @@ var FoodTruck = function(){
   this.position = {};
   this.name = "";
   this.description = "";
+  this.tags = [];
+  this.menuOfferings = [];
+  this.dailyMenu = [];
   this.img = "";
   this.tImg = "images/resize_Food_Truck.png",
   this.schedule = [];
@@ -24,13 +27,25 @@ var FoodTruck = function(){
   this.currentEvent = 0;
   this.responses = [];
   this.mapPath = [];
+  this.menu = {};
 }
 
 FoodTruck.prototype.initNoSchedule = function(truckData){
   this.name = truckData.name;
   this.description = truckData.description;
   this.img = truckData.img;
+  this.tags = truckData.tags;
+  this.menuOfferings = truckData.menuOfferings;
+  this.initRandomMenu();
+
 }
+
+FoodTruck.prototype.initRandomMenu = function(){
+  this.menuOfferings.forEach(function(offering){
+    this.dailyMenu.push(makeRandomMenuItem(offering));
+  }, this);
+}
+
 
 /*
 randomizeStopPoint takes the users postion and the google map(needs the bounds of the map) to randomly distribute the foodtrucks around the user within the bounds of the map. The radius of the circular distribution area is constrained by the smallest dimension of the map - 1/2 height of the custom markers.
