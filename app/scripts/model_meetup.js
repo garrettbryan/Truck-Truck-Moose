@@ -10,15 +10,15 @@
 
 var MeetupRequest = function() {
   this.data = {};
-}
+};
 
 MeetupRequest.prototype.CORopenEvents = function(position) {
   var meetupRequestTimeout = setTimeout(function(){
-      console.log("Failed to get Meetups.");
+      console.log('Failed to get Meetups.');
   }, 8000);
 
   $.ajax({
-      url: "https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=" + position.lng() + "&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=" + position.lat() + "&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d",
+      url: 'https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=' + position.lng() + '&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=' + position.lat() + '&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d',
       dataType: 'jsonp',
       success: function(data) {
         console.log(data);
@@ -34,21 +34,24 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
           return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
         });
         aboutMy.determineMeetupMapBounds();
-
       },
+      error: function(data) {
+        console.log('meetup Error');
+        console.log(data);
+      }
   });
-}
+};
 
 var Meetup = function() {
-}
+};
 
 Meetup.prototype.init = function(data) {
   for (var i in data) {
     this[i] = data[i];
   }
 //  console.log(this);
-  this.img = "images/resize_meetup.png";
-}
+  this.img = 'images/resize_meetup.png';
+};
 
 Meetup.prototype.render = function() {
   if (this.venue){
@@ -61,7 +64,7 @@ Meetup.prototype.render = function() {
     var contentString = '<div id="content">'+
       '<h3 id="heading" class="heading">' + this.group.name + '</h3>' +
       '<div id="body-content"> ' + this.description + '</div>' +
-      '</div>;'
+      '</div>;';
 
     var infowindow = new google.maps.InfoWindow({
       content: contentString,
@@ -72,4 +75,4 @@ Meetup.prototype.render = function() {
       infowindow.open(map, this.marker);
     });
   }
-}
+};

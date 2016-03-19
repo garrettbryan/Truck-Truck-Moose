@@ -1,26 +1,15 @@
 $(document).ready(function() {
   //wait fo title page to load before requesting google map.
-  $('body').prepend(HTML);
+ // $('body').prepend(HTML);
   //$('body').prepend(foodTruckDetail);
   //function hideAddressBar()
 //  $('.main-title-overlay').append(SearchHTML(1));
   //$('.main-title-overlay').append(SearchHTML(1));
-  $('#main-form').append(logo);
-  $('#main-form').append(signInForm);
+ // $('#main-form').append(logo);
+ // $('#main-form').append(signInForm);
  // $('#main-form').append(addMenuItemButton);
  // $('#special-requests-item-1').append(specialRequest);
  // $('#special-requests-item-1').append(addSpecialRequestButton);
-
-  console.log("document.ready")
-    var mySwiper = new Swiper ('.swiper-container', {
-    // Optional parameters
-    pagination: '.swiper-pagination',
-    slidesPerView: 'auto',
-    centeredSlides: true,
-    paginationClickable: true,
-    spaceBetween: 30,
-    loop: true
-  });
 
   //google.maps.event.addDomListener(window, 'load', initialize);
   initialize();
@@ -34,6 +23,7 @@ $(document).ready(function() {
 
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
+  viewModel.details(logo + signInForm);
 });
 
 
@@ -121,7 +111,9 @@ function removeForm( cb ) {
   $('#main-form').css('opacity', 0);
   window.setTimeout( function(){
     $('#main-form').html("");
-    cb && cb()
+    if (cb) {
+      cb();
+    }
   }, 1000);
 }
 
@@ -237,7 +229,7 @@ function initialize() {
         var contentString = '<div id="content">'+
           '<h3 id="heading" class="heading">A Heading</h3>' +
           '<div id="body-content"> This is something interesting</div>' +
-          '</div>;'
+          '</div>;';
 
         var infowindow = new google.maps.InfoWindow({
           content: contentString

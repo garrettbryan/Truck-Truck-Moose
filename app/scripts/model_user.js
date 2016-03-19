@@ -1,17 +1,14 @@
-//"use strict";
-
-
 /*
 The user data is complex enough to warrrant it's own Model.
 
 */
 var User = function(){
-  this.email = "";
-  this.handle = "";
-  this.password = "";
+  this.email = '';
+  this.handle = '';
+  this.password = '';
   this.rememberMe = false;
 
-  this.now = new Date(2015,12,07,13,30,00);
+  this.now = new Date(2015,12,7,13,30,0);
 
   //previous selections
   this.previousSearches = [];
@@ -30,9 +27,9 @@ var User = function(){
 initialize user by checking if the session is continuing and if the data is relevant, then reload the last session data. If the data is stale timestamp old then reinitialize the foodtrucks, meetup, and weather data.
 */
 User.prototype.init = function(){
-  this.email = "garrettdavisbryan@gmail.com";
-  this.handle = "G-Money";
-  this.password = "cool";
+  this.email = 'garrettdavisbryan@gmail.com';
+  this.handle = 'G-Money';
+  this.password = 'cool';
   this.rememberMe = false;
 };
 
@@ -48,12 +45,12 @@ User.prototype.staleSessionData = function () {
   console.log(this.now.getTime() + 3600000);
   console.log(aboutMy.now.getTime());
   if ((this.now.getTime() + 3600000) > aboutMy.now.getTime()){
-    console.log("not stale");
+    console.log('not stale');
     stale = false;
   }
 
   return stale;
-}
+};
 
 User.prototype.signIn = function(){
 
@@ -88,11 +85,11 @@ User.prototype.sessionWeather = function() {
 };
 
 User.prototype.saveSession = function() {
-  localStorage.setItem("sessionData", JSON.stringify(this));
+  localStorage.setItem('sessionData', JSON.stringify(this));
 };
 
 User.prototype.restoreSession = function() {
-  var restoredSession = JSON.parse(localStorage.getItem("sessionData"));
+  var restoredSession = JSON.parse(localStorage.getItem('sessionData'));
   for (var prop in restoredSession) {
     if (this.hasOwnProperty(prop)) {
     this[prop] = restoredSession[prop];
@@ -107,13 +104,13 @@ User.prototype.restoreSession = function() {
 
 User.prototype.addSessionData = function(type, value) {
   switch (type) {
-    case "food truck":
+    case 'food truck':
 
     break;
-    case "meetup":
+    case 'meetup':
 
     break;
-    case "weather":
+    case 'weather':
 
     break;
   }

@@ -6,7 +6,7 @@ var program = {
 };
 
 var aboutMy = {
-  now: new Date(2015,12,07,13,30,00),
+  now: new Date(2015,12,7,13,30,0),
   position: {},
   searches: [],
   markers: [],
@@ -20,7 +20,7 @@ var aboutMy = {
 meetup map bounds expands the map bounds. But this function should ignore any outliers.  Often times the meetup request returns meetups that do not have the  coorrect lat lons.
 */
   determineMeetupMapBounds: function(){
-    var that = this
+    var that = this;
 
     var bounds = new google.maps.LatLngBounds();
 //    console.log(bounds.toString());
@@ -29,7 +29,7 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     this.meetups.forEach(function(meetup){
       var meetupLatLng;
       if (typeof meetup.venue !== 'undefined'){
-        meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon)
+        meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
         //console.dir(google.maps);
         if (meetupLatLng && (google.maps.geometry.spherical.computeDistanceBetween(aboutMy.position,meetupLatLng) < 40000)){
           if (!that.meetupMapBounds.max) {
@@ -61,34 +61,34 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
         }
       }
     });
-  console.log(that.meetupMapBounds);
-  that.mapBounds = {
-    north: that.meetupMapBounds.max.lat,
-    south: that.meetupMapBounds.min.lat,
-    east: that.meetupMapBounds.max.lng,
-    west: that.meetupMapBounds.min.lng
-  };
-  map.fitBounds(that.mapBounds);
-  var weather = new WeatherUnderground();
-  weather.setDimensions(map);
-  //weather.render();
-  aboutMy.weather = weather;
+    console.log(that.meetupMapBounds);
+    that.mapBounds = {
+      north: that.meetupMapBounds.max.lat,
+      south: that.meetupMapBounds.min.lat,
+      east: that.meetupMapBounds.max.lng,
+      west: that.meetupMapBounds.min.lng
+    };
+    map.fitBounds(that.mapBounds);
+    var weather = new WeatherUnderground();
+    weather.setDimensions(map);
+    //weather.render();
+    aboutMy.weather = weather;
 
-  aboutMy.foodTrucks = [];
-  //locallyRandomizeFoodTruck(this.getBounds(), pos);
+    aboutMy.foodTrucks = [];
+    //locallyRandomizeFoodTruck(this.getBounds(), pos);
 
-  foodTrucks.forEach(function(truckData){
-    var truck = new FoodTruck();
-    truck.initNoSchedule(truckData);
-    truck.create3RandomStopPoints(aboutMy.position, map);
-  //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
-    truck.getDirections();
-    truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
-    truck.initRandomMenu;
-//    console.log(truck);
-  });
+    foodTrucks.forEach(function(truckData){
+      var truck = new FoodTruck();
+      truck.initNoSchedule(truckData);
+      truck.create3RandomStopPoints(aboutMy.position, map);
+    //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
+      truck.getDirections();
+      truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
+      truck.initRandomMenu();
+  //    console.log(truck);
+    });
   }
-}
+};
 
 
 

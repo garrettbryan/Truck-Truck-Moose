@@ -12,7 +12,6 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css">
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -31,6 +30,42 @@
 
   </head>
   <body>
+    <div class="main-title-overlay">
+        <div class="container-fluid" id="truck-navi">
+        </div>
+        <div class="container-fluid" id="main-form">
+            <div  data-bind="if: loginScreen">
+                <sign-in-form params='userEmail: userEmail, userPassword: userPassword'></sign-in-form>
+            </div>
+            <div  data-bind="if: signUpScreen">
+                <sign-up-form></sign-up-form>
+            </div>
+            <div  data-bind="if: settingsScreen">
+                <settings></settings>
+            </div>
+            <div  data-bind="if: destinationSelectionScreen">
+                <destination-selection></destination-selection>
+            </div>
+            <div  data-bind="if: foodTruckScreen">
+                <food-truck-selection></food-truck-selection>
+            </div>
+            <div  data-bind="if: orderScreen">
+                <food-order></food-order>
+            </div>
+            <div  data-bind="if: confirmationScreen">
+                <order-confirmation></order-confirmation>
+            </div>
+            <div  data-bind="if: arrivedScreen">
+                <rendevoux></rendevoux>
+            </div>
+            <div
+      </div>
+      <div class="container-map">
+        <div id="map-canvas"></div>
+      </div>
+    </div>
+
+
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -50,7 +85,6 @@
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="bower_components/swiper/dist/js/swiper.jquery.js"></script>
     <script src="bower_components/knockout/dist/knockout.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
@@ -74,9 +108,14 @@
         <script src="scripts/model_menu_item.js"></script>
         <script src="scripts/model_foodtruck.js"></script>
         <script src="scripts/model_weather.js"></script>
+        <script src="scripts/map_model.js"></script>
         <script src="scripts/model.js"></script>
         <script src="scripts/interface.js"></script>
+        <script src="scripts/ko-bindings.js"></script>
+        <script src="scripts/components.js"></script>
+        <script src="scripts/app.js"></script>
         <script src="scripts/main.js"></script>
+
         <!-- endbuild -->
 </body>
 </html>

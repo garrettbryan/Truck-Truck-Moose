@@ -179,7 +179,7 @@ var logo = [
   '<div class="container-search" id="list-container-'+num+'">',
   '</div>'
     ].join("\n");
-}
+};
 
 var swiper = [
 '<div class="swiper-container">',

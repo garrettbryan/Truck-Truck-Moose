@@ -12,37 +12,37 @@ var loc = function() {
     hour = hour < 10 ? "0" + hour : hour;
     minute = minute < 10 ? "0" + minute : minute;
     return hour + ":" + minute;
-  }
+  };
 
-}
+};
 
 
 loc.prototype.getStartTime = function(){
   return this.convertToTime(this.startSeconds);
-}
+};
 
 loc.prototype.getEndTime = function (){
   return this.convertToTime(this.endSeconds);
-}
+};
 
 
 loc.prototype.initSecs = function(start, end){
   this.startSeconds = this.verifySeconds(start);
   this.endSeconds = this.verifySeconds(end);
-}
+};
 
 loc.prototype.startSecs = function(start){
   this.startSeconds = this.verifySeconds(start);
-}
+};
 
 loc.prototype.endSecs = function(end){
   this.endSeconds = this.verifySeconds(end);
-}
+};
 
 loc.prototype.getStartSecs = function(){
   return this.startSeconds;
-}
+};
 
 loc.prototype.getEndSecs = function (){
   return this.endSeconds;
-}
+};

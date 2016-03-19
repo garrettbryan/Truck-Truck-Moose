@@ -6,7 +6,7 @@ The user marker should be in the center of the map and the meetups/food truck st
 when specific meetups/foodtrucks are chosen then the map details should be highest intensity and the map should rebound itself to show the relevant selections. There should also be buttons to give more information about the meetup and about the foodtruck. such as menu and possibly a way to place an online order.
 This could be extended to fixed restaurants the user could place a takeout order or book a table.
 */
-$(function(){
+
   landingPageView = {
     /*
     the landing page is the first view given to the user.
@@ -19,8 +19,8 @@ $(function(){
     },
     render: function() {
       console.log('landingPageView render');
-    },
-  },
+    }
+  };
 
 
   foodTruckMoreDetailView = {
@@ -32,8 +32,8 @@ $(function(){
     },
     render: function() {
       console.log('foodTruckMoreDetailView render');
-    },
-  },
+    }
+  };
 
   meetupMoreDetailView = {
     /*
@@ -45,7 +45,7 @@ $(function(){
     render: function() {
       console.log('meetupMoreDetailView render');
     }
-  },
+  };
 
   mainView = {
     /*
@@ -56,6 +56,5 @@ $(function(){
     },
     render: function() {
 
-    },
-  }
-});
+    }
+  };
