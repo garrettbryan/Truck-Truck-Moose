@@ -21,9 +21,9 @@ $(document).ready(function() {
   //user.restoreSession();
   console.log(user);
 
-  var viewModel = new ViewModel();
-  ko.applyBindings(viewModel);
-  viewModel.details(logo + signInForm);
+//  var viewModel = new ViewModel();
+//  ko.applyBindings(viewModel);
+//  viewModel.details(logo + signInForm);
 });
 
 

@@ -21,7 +21,7 @@ var prediction = function(place) {
   this.details = ko.observable(place);
 };
 
-var ViewModel = function() {
+var ViewModelNG = function() {
   var self = this;
 
   this.details = ko.observable();
