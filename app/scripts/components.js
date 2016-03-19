@@ -111,7 +111,7 @@ var foodTruckSelection = [
 '    </div>',
 '    <div class="row">',
 '        <div class="col-md-12">',
-].join("\n") + swiper + [
+//].join("\n") + swiper + [
 '        </div>',
 '    </div>',
 '  <div class="form-group">',

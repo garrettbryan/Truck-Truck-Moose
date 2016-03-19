@@ -21,7 +21,7 @@ var ViewModel = function() {
   this.weatherDisplay = ko.observable(false);
 
 
-  this.meetups = ko.observableArray(aboutMy.meetups);
+  this.meetups = ko.observableArray([]);
 
   this.userStart = ko.observable('');
   this.userEnd = ko.observable('');
