@@ -18,6 +18,7 @@ var ViewModel = function() {
 
   this.filter = ko.observable('');
 
+  this.meetupRequest = new MeetupRequest();
   this.meetups = ko.observableArray();
   this.selectedMeetup = ko.observable('');
 
@@ -238,6 +239,8 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
 };
 
 ViewModel.prototype.meetUpInit = function() {
+};
+
 var MeetupRequest = function() {
   this.data = {};
 };
@@ -273,6 +276,22 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
       }
   });
 };
+
+
+
+ViewModel.prototype.getCurrentPosition = function() {
+  if (Modernizr.geolocation) {
+    console.log("geolocation available");
+    navigator.geolocation.getCurrentPosition(
+      function(position){
+        this.user.position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        console.log(this.user.position.toString());
+      }.bind(this),
+      function(){
+        console.log("err");
+      }.bind(this)
+    );
+  }
 };
 
 
@@ -357,6 +376,7 @@ $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
   viewModel.toLogin();
-  viewModel.mapInit();
+  viewModel.getPosition();
+  //viewModel.mapInit();
 
 });
