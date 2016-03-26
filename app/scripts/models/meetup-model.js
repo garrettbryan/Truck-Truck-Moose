@@ -13,20 +13,19 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
       success: function(data) {
         console.log(data);
         data.results.forEach(function(result){
-          console.log(result);
-          var meetup = new Meetup();
-          meetup.init(result);
-          this.meetups.push(meetup);
-          console.log(Date(meetup.time));
-          meetup.render();
+//          console.log(result);
+          this.meetups.push(new Meetup(result));
+//          console.log(Date(meetup.time));
         }.bind(this));
-
         clearTimeout(meetupRequestTimeout);
+
+        console.log(this.meetups());
         this.meetups().sort(function(a,b){
           return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
         });
-        console.log(this);
-        this.addMeetupsToMap();
+        console.log(this.meetups());
+
+        //console.log(this);
       }.bind(this),
       error: function(data) {
         console.log('meetup Error');
@@ -35,10 +34,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
   });
 };
 
-var Meetup = function() {
-};
-
-Meetup.prototype.init = function(data) {
+var Meetup = function(data) {
   for (var i in data) {
     this[i] = data[i];
   }

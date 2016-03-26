@@ -1,5 +1,5 @@
 var loginForm = [
-'<form class="form-horizontal" data-bind="submit: $parent.loginToMap">',
+'<form class="form-horizontal" data-bind="submit: $parent.toMap">',
 '  <div class="form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <input type="email" data-bind="value: $parent.user.email" class="form-control" id="inputEmail3" placeholder="email">',
@@ -13,7 +13,7 @@ var loginForm = [
 '  <div class="form-group">',
 '    <div class="col-sm-3 col-sm-offset-3">',
 '      <button type="submit" class="btn btn-default" id="sign-in-btn">Sign in</button>',
-'      <button class="btn btn-default" id="sign-up-btn" data-bind="click: $parent.loginTosignUp">Sign up</button>',
+'      <button class="btn btn-default" id="sign-up-btn" data-bind="click: $parent.loginToSignUp">Sign up</button>',
 '      <button class="btn btn-default" id="reset-btn" data-bind="click: $parent.resetUser">Reset</button>',
 '    </div>',
 '  </div>',
@@ -32,7 +32,6 @@ ko.components.register('login-form', {
 
 var signupForm = [
 '<form class="form-horizontal" data-bind="submit: $parent.signUpToSettings">',
-'    <div data-bind="text: ko.toJSON($parent)"></div>',
 '  <div class="form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <input type="text" data-bind="value: $parent.user.name" class="form-control" id="name" placeholder="Name">',
@@ -74,8 +73,8 @@ ko.components.register('sign-up-form', {
 
 
 var settings = [
-'<form class="form-horizontal" data-bind="submit: $parent.toMap">',
-'    <div data-bind="text: ko.toJSON($parent)"></div>',
+'<form class="form-horizontal" data-bind="submit: $parent.settingsToMap">',
+//'    <div data-bind="text: ko.toJSON($parent)"></div>',
 '  <div class="form-group">',
 '    <label for="" class="col-xs-3 col-md-3 control-label">Name</label>',
 '    <div class="col-xs-6 col-md-6">',
@@ -175,7 +174,7 @@ var destinationSelection = [
 '</form>'
 ].join("\n");
 ko.components.register('destination-selection', {
-  viewModel: function(formData) {
+  viewModel: function(params) {
 
     this.submit = function(formElement){
       console.log(formElement);

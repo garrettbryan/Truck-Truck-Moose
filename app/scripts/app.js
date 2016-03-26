@@ -56,12 +56,7 @@ var ViewModel = function() {
     this.thankYouScreen(false);
     this.loginScreen(true);
   }.bind(this);
-  this.loginToMap = function(){
-    console.log("to Map");
-    this.loginScreen(false);
-    this.destinationSelectionScreen(true);
-  }.bind(this);
-  this.loginTosignUp = function(){
+  this.loginToSignUp = function(){
     console.log("signup");
     console.log("this.user");
     this.loginScreen(false);
@@ -74,10 +69,19 @@ var ViewModel = function() {
     this.signUpScreen(false);
     this.settingsScreen(true);
   }.bind(this);
+  this.settingsToMap = function() {
+    localStorage.setItem('MeetUpTruck', ko.toJSON(this.user));
+    this.toMap();
+  }.bind(this);
   this.toMap = function(){
     console.log("to map");
     console.log(this.user);
+    if(this.meetups()){
+      this.addMeetupsToMap();
+      this.renderMeetups();
+    }
     this.settingsScreen(false);
+    this.loginScreen(false);
     this.destinationSelectionScreen(true);
   }.bind(this);
   this.toFoodTrucks = function() {
@@ -164,6 +168,14 @@ var noPoi = [
     ]
   }
 ];
+
+ViewModel.prototype.renderMeetups = function() {
+  console.log(this);
+  console.log(this.meetups());
+  this.meetups().forEach( function(meetup){
+    meetup.render();
+  });
+};
 
 
 ViewModel.prototype.addMeetupsToMap = function() {

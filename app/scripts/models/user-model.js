@@ -20,9 +20,9 @@ User.prototype.clearUserFields = function() {
 
 User.prototype.populateFields = function(existingUser) {
   for (var key in existingUser) {
-    console.log(typeof this[key]);
+//    console.log(typeof this[key]);
     if (typeof this[key] === "function"){
-    console.log(typeof this[key]);
+//    console.log(typeof this[key]);
       this[key](existingUser[key]);
     }else if (typeof this[key] === "string"){
       this[key] = existingUser[key];
