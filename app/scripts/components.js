@@ -155,15 +155,16 @@ ko.components.register('settings', {
 
 
 var destinationSelection = [
+'    <div data-bind="text: ko.toJSON($parent.user.start)"></div>',
 '<form class="form-horizontal" data-bind="submit: $parent.toFoodTrucks">',
 '  <div class="form-group">',
 '    <div class="col-xs-12 col-md-12">',
-'      <input class="form-control data-bind="value: $parent.userStart" col-sm-6 search-bar" placeholder="Start" type="text">',
+'      <input class="form-control col-sm-6" data-bind="value: $parent.user.start" placeholder="Start" type="text">',
 '    </div>',
 '  </div>',
 '  <div class="form-group">',
 '    <div class="col-xs-12 col-md-12">',
-'      <input class="form-control data-bind="value: $parent.userEnd" col-sm-6 search-bar" placeholder="End" type="text">',
+'      <input class="form-control col-sm-6" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="End" type="text">',
 '    </div>',
 '  </div>',
 '  <div class="form-group">',
@@ -174,7 +175,7 @@ var destinationSelection = [
 '</form>'
 ].join("\n");
 ko.components.register('destination-selection', {
-  viewModel: function(params) {
+  viewModel: function(formData) {
 
     this.submit = function(formElement){
       console.log(formElement);

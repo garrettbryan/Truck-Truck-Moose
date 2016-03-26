@@ -25,6 +25,8 @@ var User = function(userData) { //populate from the local storage first.
   this.rememberMe = ko.observable(false);
   this.favoriteFood = ko.observableArray('');
   this.currentLogin = '';
+  this.start = ko.observable('');
+  this.end = ko.observable('');
   //this.lastLogin = '';
   Entity.call(this);
 };

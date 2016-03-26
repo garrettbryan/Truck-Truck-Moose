@@ -1,6 +1,100 @@
-ko.bindingHandlers.loginPage = {
+/*
+http://knockoutjs.com/documentation/custom-bindings.html
 
+The “update” callback
+
+Knockout will call the update callback initially when the binding is applied to an element and track any dependencies (observables/computeds) that you access. When any of these dependencies change, the update callback will be called once again. The following parameters are passed to it:
+
+element — The DOM element involved in this binding
+valueAccessor — A JavaScript function that you can call to get the current model property that is involved in this binding. Call this without passing any parameters (i.e., call valueAccessor()) to get the current model property value. To easily accept both observable and plain values, call ko.unwrap on the returned value.
+allBindings — A JavaScript object that you can use to access all the model values bound to this DOM element. Call allBindings.get('name') to retrieve the value of the name binding (returns undefined if the binding doesn’t exist); or allBindings.has('name') to determine if the name binding is present for the current element.
+viewModel — This parameter is deprecated in Knockout 3.x. Use bindingContext.$data or bindingContext.$rawData to access the view model instead.
+bindingContext — An object that holds the binding context available to this element’s bindings. This object includes special properties including $parent, $parents, and $root that can be used to access data that is bound against ancestors of this context.
+
+The “init” callback
+
+Knockout will call your init function once for each DOM element that you use the binding on. There are two main uses for init:
+
+To set any initial state for the DOM element
+To register any event handlers so that, for example, when the user clicks on or modifies the DOM element, you can change the state of the associated observable
+
+
+*/
+
+ko.bindingHandlers.yourBindingName = {
+    init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        // This will be called when the binding is first applied to an element
+        // Set up any initial state, event handlers, etc. here
+    },
+    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        // This will be called once when the binding is first applied to an element,
+        // and again whenever any observables/computeds that are accessed change
+        // Update the DOM element based on the supplied values here.
+    }
 };
+
+ko.bindingHandlers.meetupsGoogleAutoComplete = {
+    init: function(element, valueAccessor, allBindings, data, context){
+
+        console.log(context);
+        console.log(document.getElementById('search'));
+        var places, infoWindow;
+        var markers = [];
+        var autocomplete;
+        var countryRestrict = {'country': 'us'};
+
+        this.autocomplete = new google.maps.places.Autocomplete(
+          element, {
+          types: ['(cities)'],
+          componentRestrictions: countryRestrict
+        });
+
+        $('element').keyup(function(){
+            autocomplete.getPlacePredictions({
+                input: valueAccessor(),
+                location: $root.user.position,
+                radius: '500'
+            }, autocompleteCallback);
+            console.log(valueAccessor());
+        });
+    },
+    update: function(element, valueAccessor, allBindings) {
+        console.log("hey there");
+    }
+};
+
+function autocompleteCallback(predictions, status) {
+  var autocompletePredictions = "";
+  if (status != google.maps.places.PlacesServiceStatus.OK) {
+    alert(status);
+    return;
+  }
+  console.log(predictions);
+  predictions.forEach(function(prediction){
+    autocompletePredictions += "<li>" + prediction.description + "</li>";
+  });
+}
+
+
+ko.bindingHandlers.slideVisible = {
+    update: function(element, valueAccessor, allBindings) {
+        // First get the latest data that we're bound to
+        var value = valueAccessor();
+ 
+        // Next, whether or not the supplied model property is observable, get its current value
+        var valueUnwrapped = ko.unwrap(value);
+ 
+        // Grab some more data from another binding property
+        var duration = allBindings.get('slideDuration') || 400; // 400ms is default duration unless otherwise specified
+ 
+        // Now manipulate the DOM element
+        if (valueUnwrapped == true)
+            $(element).slideDown(duration); // Make the element visible
+        else
+            $(element).slideUp(duration);   // Make the element invisible
+    }
+};
+
 
 
 ko.bindingHandlers.starRating = {

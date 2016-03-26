@@ -277,11 +277,11 @@ ViewModel.prototype.getCurrentPosition = function(successCB, errorCB) {
       function(position){
         this.user.position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         console.log(this.user.position.toString());
-        alert(this.user.position.toString());
+//        alert(this.user.position.toString());
         successCB.call(this);
       }.bind(this),
       function(){
-        console.log("err");
+        alert("err");
         errorCB.call(this);
       }.bind(this)
     );
@@ -337,10 +337,6 @@ ViewModel.prototype.mapInit = function() {
     infowindow.open(map, marker1);
   });
 
-  var places, infoWindow;
-  var markers = [];
-  var autocomplete;
-  var countryRestrict = {'country': 'us'};
 };
 
 
