@@ -32,7 +32,7 @@ User.prototype = Object.create(Entity.prototype);
 User.prototype.constructor = User;
 
 var Institution = function(institutionData){
-  this.description = ko.observable(institutionData.description || '');
+  this.description = ko.observable('');
   Entity.call(this);
 };
 Institution.prototype = Object.create(Entity.prototype);

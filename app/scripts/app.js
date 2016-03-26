@@ -241,54 +241,29 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
 ViewModel.prototype.meetUpInit = function() {
 };
 
-var MeetupRequest = function() {
-  this.data = {};
+var generalSuccess = function() {
+  console.log(this);
 };
 
-MeetupRequest.prototype.CORopenEvents = function(position) {
-  var meetupRequestTimeout = setTimeout(function(){
-      console.log('Failed to get Meetups.');
-  }, 8000);
-
-  $.ajax({
-      url: 'https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=' + position.lng() + '&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=' + position.lat() + '&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d',
-      dataType: 'jsonp',
-      success: function(data) {
-        console.log(data);
-        /*
-        data.results.forEach(function(result){
-          var meetup = new Meetup();
-          meetup.init(result);
-          aboutMy.meetups.push(meetup);
-//          console.log(Date(meetup.time))
-          meetup.render();
-        });
-*/
-        clearTimeout(meetupRequestTimeout);
-        aboutMy.meetups.sort(function(a,b){
-          return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
-        });
-        aboutMy.determineMeetupMapBounds();
-      },
-      error: function(data) {
-        console.log('meetup Error');
-        console.log(data);
-      }
-  });
+var generalError = function(){
+  alert('error');
 };
 
 
-
-ViewModel.prototype.getCurrentPosition = function() {
+ViewModel.prototype.getCurrentPosition = function(successCB, errorCB) {
+  var self = this;
   if (Modernizr.geolocation) {
     console.log("geolocation available");
     navigator.geolocation.getCurrentPosition(
       function(position){
         this.user.position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         console.log(this.user.position.toString());
+        alert(this.user.position.toString());
+        successCB.call(this);
       }.bind(this),
       function(){
         console.log("err");
+        errorCB.call(this);
       }.bind(this)
     );
   }
@@ -296,68 +271,57 @@ ViewModel.prototype.getCurrentPosition = function() {
 
 
 ViewModel.prototype.mapInit = function() {
-  var self = this;
-  if (Modernizr.geolocation) {
-    console.log("geolocation available");
-    navigator.geolocation.getCurrentPosition(
-      /*
-      Success callback uses the returned latitude and longitude to initialize a google map.
-      */
-      function(pos){
-        self.user.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+  console.log(this);
 
-        var mapOptions = {
-          center: self.user.position,
-          zoom: 7,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          disableDefaultUI: true
-        };
+  this.meetupRequest.CORopenEvents.call(this,this.user.position);
 
-        map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
-        map.setOptions({styles: noPoi});
 
-        console.log("position" + self.user.position);
+  var mapOptions = {
+    center: this.user.position,
+    zoom: 7,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    disableDefaultUI: true
+  };
 
-        google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
-        });
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+  map.setOptions({styles: noPoi});
 
-        /*
-        verify the marker anchor is appropriate
-        */
-        var marker1 = new google.maps.Marker({
-          position: self.user.position,
-          map: map,
-          title: "Current Location",
-          draggable:true
-        });
+  console.log("position" + this.user.position);
 
-        /*
-        add an info window
-        */
-        var contentString = '<div id="content">'+
-          '<h3 id="heading" class="heading">A Heading</h3>' +
-          '<div id="body-content"> This is something interesting</div>' +
-          '</div>;';
+  google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
+  });
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
+  /*
+  verify the marker anchor is appropriate
+  */
+  var marker1 = new google.maps.Marker({
+    position: this.user.position,
+    map: map,
+    title: "Current Location",
+    draggable:true
+  });
 
-        marker1.addListener('click', function() {
-          infowindow.open(map, marker1);
-        });
+  /*
+  add an info window
+  */
+  var contentString = '<div id="content">'+
+    '<h3 id="heading" class="heading">A Heading</h3>' +
+    '<div id="body-content"> This is something interesting</div>' +
+    '</div>;';
 
-        var places, infoWindow;
-        var markers = [];
-        var autocomplete;
-        var countryRestrict = {'country': 'us'};
-      },
-      function(){
-        console.log("err");
-      }
-    );
-  }
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+
+  marker1.addListener('click', function() {
+    infowindow.open(map, marker1);
+  });
+
+  var places, infoWindow;
+  var markers = [];
+  var autocomplete;
+  var countryRestrict = {'country': 'us'};
 };
 
 
@@ -376,7 +340,7 @@ $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
   viewModel.toLogin();
-  viewModel.getPosition();
+  viewModel.getCurrentPosition(viewModel.mapInit,generalError);
   //viewModel.mapInit();
 
 });
