@@ -21,6 +21,7 @@ var ViewModel = function() {
   this.meetupRequest = new MeetupRequest();
   this.meetups = ko.observableArray();
   this.selectedMeetup = ko.observable('');
+  this.meetupMapBounds = {};
 
   this.foodTrucks = ko.observableArray();
   this.selectedTruck = ko.observable('');
@@ -167,57 +168,62 @@ var noPoi = [
 
 ViewModel.prototype.addMeetupsToMap = function() {
 /*
-meetup map bounds expands the map bounds. But this function should ignore any outliers.  Often times the meetup request returns meetups that do not have the  coorrect lat lons.
+meetup map bounds expands the map bounds. But this function should ignore any outliers.  Often times the meetup request returns meetups this do not have the  coorrect lat lons.
 */
-    var that = this;
+    //var this = this;
 
     var bounds = new google.maps.LatLngBounds();
 //    console.log(bounds.toString());
 //    console.log("hmm");
 
-    this.meetups.forEach(function(meetup){
-      var meetupLatLng;
+    this.meetups().forEach(function(meetup){
       if (typeof meetup.venue !== 'undefined'){
-        meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
+        var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
         //console.dir(google.maps);
-        if (meetupLatLng && (google.maps.geometry.spherical.computeDistanceBetween(aboutMy.position,meetupLatLng) < 40000)){
-          if (!that.meetupMapBounds.max) {
-            that.meetupMapBounds.max = {
+        if (meetupLatLng && ( google.maps.geometry.spherical.computeDistanceBetween(this.user.position,meetupLatLng) < 40000)){
+          if (!this.meetupMapBounds.max) {
+            this.meetupMapBounds.max = {
               lat: meetup.venue.lat,
               lng: meetup.venue.lon
             };
-            that.meetupMapBounds.min = {
+            this.meetupMapBounds.min = {
               lat: meetup.venue.lat,
               lng: meetup.venue.lon
             };
           }
-          that.meetupMapBounds.max.lat =
-            that.meetupMapBounds.max.lat > meetup.venue.lat ?
-            that.meetupMapBounds.max.lat :
+          this.meetupMapBounds.max.lat =
+            this.meetupMapBounds.max.lat > meetup.venue.lat ?
+            this.meetupMapBounds.max.lat :
             meetup.venue.lat;
-          that.meetupMapBounds.max.lng =
-            that.meetupMapBounds.max.lng > meetup.venue.lon ?
-            that.meetupMapBounds.max.lng :
+          this.meetupMapBounds.max.lng =
+            this.meetupMapBounds.max.lng > meetup.venue.lon ?
+            this.meetupMapBounds.max.lng :
             meetup.venue.lon;
-          that.meetupMapBounds.min.lat =
-            that.meetupMapBounds.min.lat < meetup.venue.lat ?
-            that.meetupMapBounds.min.lat :
+          this.meetupMapBounds.min.lat =
+            this.meetupMapBounds.min.lat < meetup.venue.lat ?
+            this.meetupMapBounds.min.lat :
             meetup.venue.lat;
-          that.meetupMapBounds.min.lng =
-            that.meetupMapBounds.min.lng < meetup.venue.lon ?
-            that.meetupMapBounds.min.lng :
+          this.meetupMapBounds.min.lng =
+            this.meetupMapBounds.min.lng < meetup.venue.lon ?
+            this.meetupMapBounds.min.lng :
             meetup.venue.lon;
         }
       }
-    });
-    console.log(that.meetupMapBounds);
-    that.mapBounds = {
-      north: that.meetupMapBounds.max.lat,
-      south: that.meetupMapBounds.min.lat,
-      east: that.meetupMapBounds.max.lng,
-      west: that.meetupMapBounds.min.lng
+    }.bind(this));
+
+    console.log(this.meetupMapBounds);
+    this.mapBounds = {
+      north: this.meetupMapBounds.max.lat,
+      south: this.meetupMapBounds.min.lat,
+      east: this.meetupMapBounds.max.lng,
+      west: this.meetupMapBounds.min.lng
     };
-    map.fitBounds(that.mapBounds);
+
+
+    map.fitBounds(this.mapBounds);
+
+/*
+
     var weather = new WeatherUnderground();
     weather.setDimensions(map);
     //weather.render();
@@ -236,6 +242,7 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
       truck.initRandomMenu();
   //    console.log(truck);
     });
+*/
 };
 
 ViewModel.prototype.meetUpInit = function() {
@@ -342,5 +349,6 @@ $(document).ready(function() {
   viewModel.toLogin();
   viewModel.getCurrentPosition(viewModel.mapInit,generalError);
   //viewModel.mapInit();
+
 
 });

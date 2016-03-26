@@ -11,7 +11,7 @@
 var MeetupRequest = function() {
   this.data = {};
 };
-
+/*
 MeetupRequest.prototype.CORopenEvents = function(position) {
   var meetupRequestTimeout = setTimeout(function(){
       console.log('Failed to get Meetups.');
@@ -41,7 +41,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
       }
   });
 };
-
+*/
 var Meetup = function() {
 };
 

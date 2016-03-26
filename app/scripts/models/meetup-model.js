@@ -25,8 +25,8 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
         this.meetups().sort(function(a,b){
           return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
         });
-        console.log(this.meetups());
-        //aboutMy.determineMeetupMapBounds();
+        console.log(this);
+        this.addMeetupsToMap();
       }.bind(this),
       error: function(data) {
         console.log('meetup Error');
