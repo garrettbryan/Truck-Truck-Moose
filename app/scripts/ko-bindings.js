@@ -33,47 +33,151 @@ ko.bindingHandlers.yourBindingName = {
     }
 };
 
+ko.bindingHandlers.displayWeather = {
+    init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+          var WeatherUnderground = function(){
+        this.overlay = {};
+        this.mapBounds = {};
+        this.divWidth = 0;
+        this.divHeight = 0;
+      };
+
+      WeatherUnderground.prototype.setDimensions = function(map){
+        this.mapBounds  = {
+          north: map.getBounds().getNorthEast().lat(),
+          south: map.getBounds().getSouthWest().lat(),
+          east: map.getBounds().getNorthEast().lng(),
+          west: map.getBounds().getSouthWest().lng(),
+        };
+        /*
+        var mapBounds = {
+          north: 35.693,
+          south: 35.526,
+          east: -78.589,
+          west: -78.719
+        };
+        */
+        this.divWidth = document.getElementById('map-canvas').clientWidth;
+        this.divHeight = document.getElementById('map-canvas').clientHeight;
+      };
+
+      WeatherUnderground.prototype.render = function(){
+        this.overlay = new google.maps.GroundOverlay('http://api.wunderground.com/api/ec12cd13256c67c5/animatedradar/image.gif?maxlat=' + this.mapBounds.north + '&maxlon=' + this.mapBounds.east + '&minlat=' + this.mapBounds.south + '&minlon=' + this.mapBounds.west + '&width=' +this.divWidth + '&height=' + this.divHeight + '&rainsnow=1&num=5&delay=50&timelabel=1&timelabel.x=525&timelabel.y=41&smooth=1', this.mapBounds);
+        this.overlay.setMap(map);
+      };
+    },
+
+    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+
+    }
+
+};
+
+ko.bindingHandlers.geoToAddress = {
+    init: function(element, valueAccessor, allbindings, data, context) {
+        var observable = valueAccessor();
+        console.log(element);
+        //valueAccessor(20);
+        console.log(valueAccessor());
+        console.log(allbindings);
+        console.log(data);
+        console.log(context);
+
+        //observable(context.$root.)
+
+        var geocoder = new google.maps.Geocoder();
+        //var address = geocodeLatLng(geocoder, context.$root.map,valueAccessor());
+            geocoder.geocode({'location': context.$root.user.position()}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                  if (results[1]) {
+                    context.$root.map.setZoom(11);
+                    var marker = new google.maps.Marker({
+                      position: context.$root.user.position(),
+                      map: context.$root.map
+                    });
+                    console.log(results[1].formatted_address);
+                    observable(results[1].formatted_address);
+                    console.log(observable());
+                    //ko.bindingHandlers.value.update(element,valueAccessor);
+                  } else {
+                    window.alert('No results found');
+                  }
+                } else {
+                  window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+
+
+        //console.log(address);
+
+        //ko.bindingHandlers.value.update(element,valueAccessor);
+    },
+    update: function(element, valueAccessor) {
+        console.log(valueAccessor());
+        //ko.bindingHandlers.value.update(element,valueAccessor);
+    }
+};
+
+
 ko.bindingHandlers.meetupsGoogleAutoComplete = {
     init: function(element, valueAccessor, allBindings, data, context){
 
         console.log(context);
-        console.log(document.getElementById('search'));
         var places, infoWindow;
         var markers = [];
-        var autocomplete;
         var countryRestrict = {'country': 'us'};
 
-        this.autocomplete = new google.maps.places.Autocomplete(
-          element, {
-          types: ['(cities)'],
-          componentRestrictions: countryRestrict
-        });
+        var autocompleteCallback = function(predictions, status){
+            var autocompletePredictions = "";
+            alert(status);
+            if (status === google.maps.places.AutocompleteService.OK) {
+                alert(status);
+                return;
+            }
+            predictions.forEach(function(pred){
+                context.$root.prunedPossibleDestinations.push(pred);
+            });
+            console.log(context.$root.prunedPossibleDestinations());
+        };
 
-        $('element').keyup(function(){
-            autocomplete.getPlacePredictions({
-                input: valueAccessor(),
-                location: $root.user.position,
-                radius: '500'
+        var searchMeetups = function(regexp) {
+            var re = new RegExp(regexp,'i');
+            console.log(regexp);
+            console.log(context.$root.meetups());
+            context.$root.meetups().forEach( function(meetup) {
+                console.log(meetup);
+                if(re.test(meetup.description) || re.test(meetup.group.name) || re.test(meetup.name)) {
+                    context.$root.prunedPossibleDestinations.push(meetup);
+                }
+            });
+            console.log(context.$root.prunedPossibleDestinations());
+        };
+
+        var autocomplete = new google.maps.places.AutocompleteService();
+        console.log(element);
+        $(element).keyup( function(){
+            context.$root.prunedPossibleDestinations([]);
+            var observable = valueAccessor();
+            observable($(element).val());
+            autocomplete.getQueryPredictions({
+                input: $(element).val(),
+                location: context.$root.user.position(),
+                radius: '500',
+               // type: ['store']
             }, autocompleteCallback);
-            console.log(valueAccessor());
+            searchMeetups($(element).val());
+            console.log(observable());
         });
     },
     update: function(element, valueAccessor, allBindings) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        //$(element).val(value);
+        console.log($(element).val());
         console.log("hey there");
+        //valueAccessor()(element);
     }
 };
 
-function autocompleteCallback(predictions, status) {
-  var autocompletePredictions = "";
-  if (status != google.maps.places.PlacesServiceStatus.OK) {
-    alert(status);
-    return;
-  }
-  console.log(predictions);
-  predictions.forEach(function(prediction){
-    autocompletePredictions += "<li>" + prediction.description + "</li>";
-  });
-}
 
 
 ko.bindingHandlers.slideVisible = {
@@ -88,7 +192,7 @@ ko.bindingHandlers.slideVisible = {
         var duration = allBindings.get('slideDuration') || 400; // 400ms is default duration unless otherwise specified
  
         // Now manipulate the DOM element
-        if (valueUnwrapped == true)
+        if (valueUnwrapped === true)
             $(element).slideDown(duration); // Make the element visible
         else
             $(element).slideUp(duration);   // Make the element invisible

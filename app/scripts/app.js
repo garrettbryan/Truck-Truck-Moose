@@ -1,6 +1,7 @@
 
 var ViewModel = function() {
-  var self = this;
+  this.map = {};
+
   //this.now = new Date(2015,12,7,13,30,0);
   this.now = ko.observable(Date().toString());
   this.loginScreen = ko.observable(false); // Start empty
@@ -20,7 +21,8 @@ var ViewModel = function() {
 
   this.meetupRequest = new MeetupRequest();
   this.meetups = ko.observableArray();
-  this.selectedMeetup = ko.observable('');
+  this.prunedPossibleDestinations = ko.observableArray();
+  this.selectedDestination = ko.observable('');
   this.meetupMapBounds = {};
 
   this.foodTrucks = ko.observableArray();
@@ -82,12 +84,15 @@ var ViewModel = function() {
     }
     this.settingsScreen(false);
     this.loginScreen(false);
+    this.foodTruckScreen(false);
     this.destinationSelectionScreen(true);
   }.bind(this);
   this.toFoodTrucks = function() {
     console.log("to Trucks");
-    this.destinationSelectionScreen(false);
-    this.foodTruckScreen(true);
+    if(this.user.begin() && this.user.end()){
+      this.destinationSelectionScreen(false);
+      this.foodTruckScreen(true);
+    }
   }.bind(this);
   this.toOrder = function() {
     console.log("to Order");
@@ -173,8 +178,8 @@ ViewModel.prototype.renderMeetups = function() {
   console.log(this);
   console.log(this.meetups());
   this.meetups().forEach( function(meetup){
-    meetup.render();
-  });
+    meetup.render(this.map);
+  }.bind(this));
 };
 
 
@@ -187,12 +192,13 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     var bounds = new google.maps.LatLngBounds();
 //    console.log(bounds.toString());
 //    console.log("hmm");
-
+  if (this.meetups.length > 0){
+    console.log(this.meetups());
     this.meetups().forEach(function(meetup){
       if (typeof meetup.venue !== 'undefined'){
         var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
         //console.dir(google.maps);
-        if (meetupLatLng && ( google.maps.geometry.spherical.computeDistanceBetween(this.user.position,meetupLatLng) < 40000)){
+        if (meetupLatLng && ( google.maps.geometry.spherical.computeDistanceBetween(this.user.position(),meetupLatLng) < 40000)){
           if (!this.meetupMapBounds.max) {
             this.meetupMapBounds.max = {
               lat: meetup.venue.lat,
@@ -222,6 +228,10 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
         }
       }
     }.bind(this));
+  } else {
+    alert("dang no meetups");
+    console.log("dang no meetups");
+  }
 
     console.log(this.meetupMapBounds);
     this.mapBounds = {
@@ -232,7 +242,7 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     };
 
 
-    map.fitBounds(this.mapBounds);
+    this.map.fitBounds(this.mapBounds);
 
 /*
 
@@ -270,13 +280,13 @@ var generalError = function(){
 
 
 ViewModel.prototype.getCurrentPosition = function(successCB, errorCB) {
-  var self = this;
   if (Modernizr.geolocation) {
     console.log("geolocation available");
     navigator.geolocation.getCurrentPosition(
       function(position){
-        this.user.position = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        console.log(this.user.position.toString());
+        this.user.position(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+        console.log(this.user.position().toString());
+        //this.user.begin = this.user.position();
 //        alert(this.user.position.toString());
         successCB.call(this);
       }.bind(this),
@@ -296,27 +306,27 @@ ViewModel.prototype.mapInit = function() {
 
 
   var mapOptions = {
-    center: this.user.position,
-    zoom: 7,
+    center: this.user.position(),
+    zoom: 11,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     disableDefaultUI: true
   };
 
-  map = new google.maps.Map(document.getElementById('map-canvas'),
+  this.map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
-  map.setOptions({styles: noPoi});
+  this.map.setOptions({styles: noPoi});
 
-  console.log("position" + this.user.position);
+  console.log("position" + this.user.position());
 
-  google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
+  google.maps.event.addListenerOnce(this.map, 'bounds_changed', function(){
   });
 
   /*
   verify the marker anchor is appropriate
   */
   var marker1 = new google.maps.Marker({
-    position: this.user.position,
-    map: map,
+    position: this.user.position(),
+    map: this.map,
     title: "Current Location",
     draggable:true
   });
@@ -325,8 +335,8 @@ ViewModel.prototype.mapInit = function() {
   add an info window
   */
   var contentString = '<div id="content">'+
-    '<h3 id="heading" class="heading">A Heading</h3>' +
-    '<div id="body-content"> This is something interesting</div>' +
+    '<h3 id="heading" class="heading">You are here.</h3>' +
+    '<div id="body-content"> Wow you are right here</div>' +
     '</div>;';
 
   var infowindow = new google.maps.InfoWindow({
@@ -334,7 +344,7 @@ ViewModel.prototype.mapInit = function() {
   });
 
   marker1.addListener('click', function() {
-    infowindow.open(map, marker1);
+    infowindow.open(this.map, marker1);
   });
 
 };

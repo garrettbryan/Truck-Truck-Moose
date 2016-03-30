@@ -155,11 +155,12 @@ ko.components.register('settings', {
 
 
 var destinationSelection = [
-'    <div data-bind="text: ko.toJSON($parent.user.start)"></div>',
+'    <div data-bind="text: ko.toJSON($parent.user.begin)"></div>',
+'    <div data-bind="text: ko.toJSON($parent.user.end)"></div>',
 '<form class="form-horizontal" data-bind="submit: $parent.toFoodTrucks">',
 '  <div class="form-group">',
 '    <div class="col-xs-12 col-md-12">',
-'      <input class="form-control col-sm-6" data-bind="value: $parent.user.start" placeholder="Start" type="text">',
+'      <input class="form-control col-sm-6" data-bind="geoToAddress: $parent.user.begin" placeholder="Start" type="text">',
 '    </div>',
 '  </div>',
 '  <div class="form-group">',
@@ -223,7 +224,7 @@ var foodTruckSelection = [
 '    </div>',
 '  <div class="form-group">',
 '    <div class="col-sm-12">',
-'      <button class="btn btn-default" id="Done">Go Back</button>',
+'      <button class="btn btn-default" data-bind="click: $parent.toMap" id="Done">Go Back</button>',
 '      <button type="submit" class="btn btn-default" id="Done">Ok</button>',
 '    </div>',
 '  </div>',
