@@ -42,27 +42,44 @@ var Meetup = function(data) {
 };
 Meetup.prototype.constructor = Meetup;
 
-Meetup.prototype.render = function(map) {
+Meetup.prototype.render = function(map,viewModel) {
   //console.log(this);
   if (this.venue){
     this.marker = new google.maps.Marker({
       position: new google.maps.LatLng(this.venue.lat, this.venue.lon),
       map: map,
+      opacity: 0.5,
       icon: this.img,
       title: this.group.name
     });
     var contentString = '<div id="content">'+
       '<h3 id="heading" class="heading">' + this.group.name + '</h3>' +
-      '<div id="body-content"> ' + this.description + '</div>' +
+      //'<div id="body-content"> ' + this.description + '</div>' +
       '</div>;';
 
-    var infowindow = new google.maps.InfoWindow({
+    this.infowindow = new google.maps.InfoWindow({
       content: contentString,
       position: this.marker.position
     });
 
+    this.infowindow.addListener('closeclick', function () {
+      this.marker.setOpacity(0.5);
+      viewModel.selectedDestination('');
+    }.bind(this));
+
+
     this.marker.addListener('click', function() {
-      infowindow.open(map, this.marker);
-    });
+      viewModel.meetups().forEach( function(meetup){
+        if(meetup.infowindow){
+          meetup.infowindow.close();
+          meetup.marker.setOpacity(0.5);
+        }
+      });
+      this.infowindow.open(map, this.marker);
+      this.marker.setOpacity(1.0);
+      viewModel.selectedDestination(this.group.name);
+      console.log(viewModel.selectedDestination());
+    }.bind(this));
   }
 };
+

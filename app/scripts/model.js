@@ -68,7 +68,7 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
       east: that.meetupMapBounds.max.lng,
       west: that.meetupMapBounds.min.lng
     };
-    map.fitBounds(that.mapBounds);
+//    map.fitBounds(that.mapBounds);
     var weather = new WeatherUnderground();
     weather.setDimensions(map);
     //weather.render();

@@ -22,6 +22,7 @@ var ViewModel = function() {
   this.meetupRequest = new MeetupRequest();
   this.meetups = ko.observableArray();
   this.prunedPossibleDestinations = ko.observableArray();
+  this.prunedPossibleNames = ko.observableArray();
   this.selectedDestination = ko.observable('');
   this.meetupMapBounds = {};
 
@@ -178,7 +179,7 @@ ViewModel.prototype.renderMeetups = function() {
   console.log(this);
   console.log(this.meetups());
   this.meetups().forEach( function(meetup){
-    meetup.render(this.map);
+    meetup.render(this.map, this);
   }.bind(this));
 };
 
@@ -189,26 +190,27 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
 */
     //var this = this;
 
-    var bounds = new google.maps.LatLngBounds();
+  //var bounds = new google.maps.LatLngBounds();
 //    console.log(bounds.toString());
-//    console.log("hmm");
-  if (this.meetups.length > 0){
+  console.log(this.map.getBounds().getNorthEast());
+  if (this.meetups().length > 0){
     console.log(this.meetups());
+
+    this.meetupMapBounds.max = {
+      lat: this.map.getBounds().getNorthEast().lat(),
+      lng: this.map.getBounds().getNorthEast().lng()
+    };
+    this.meetupMapBounds.min = {
+      lat: this.map.getBounds().getSouthWest().lat(),
+      lng: this.map.getBounds().getSouthWest().lng()
+    };
+
     this.meetups().forEach(function(meetup){
+      //console.log(meetup);
       if (typeof meetup.venue !== 'undefined'){
         var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
         //console.dir(google.maps);
         if (meetupLatLng && ( google.maps.geometry.spherical.computeDistanceBetween(this.user.position(),meetupLatLng) < 40000)){
-          if (!this.meetupMapBounds.max) {
-            this.meetupMapBounds.max = {
-              lat: meetup.venue.lat,
-              lng: meetup.venue.lon
-            };
-            this.meetupMapBounds.min = {
-              lat: meetup.venue.lat,
-              lng: meetup.venue.lon
-            };
-          }
           this.meetupMapBounds.max.lat =
             this.meetupMapBounds.max.lat > meetup.venue.lat ?
             this.meetupMapBounds.max.lat :
@@ -229,7 +231,7 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
       }
     }.bind(this));
   } else {
-    alert("dang no meetups");
+    //alert("dang no meetups");
     console.log("dang no meetups");
   }
 

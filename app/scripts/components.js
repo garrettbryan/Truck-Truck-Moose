@@ -155,11 +155,14 @@ ko.components.register('settings', {
 
 
 var destinationSelection = [
-'    <div data-bind="text: ko.toJSON($parent.user.begin)"></div>',
-'    <div data-bind="text: ko.toJSON($parent.user.end)"></div>',
-'<form class="form-horizontal" data-bind="submit: $parent.toFoodTrucks">',
+//'    <div data-bind="text: ko.toJSON($parent.user.begin)"></div>',
+//'    <div data-bind="text: ko.toJSON($parent.selectedDestination)"></div>',
+//'    <div data-bind="text: ko.toJSON($parent.user.end)"></div>',
+//'<form class="form-horizontal" data-bind="submit: $parent.toFoodTrucks">',
+'<form class="form-horizontal">',
 '  <div class="form-group">',
 '    <div class="col-xs-12 col-md-12">',
+//'      <input class="form-control col-sm-6" data-bind="geoToAddress: $parent.selectedDestination" placeholder="Start" type="text">',
 '      <input class="form-control col-sm-6" data-bind="geoToAddress: $parent.user.begin" placeholder="Start" type="text">',
 '    </div>',
 '  </div>',
@@ -168,12 +171,12 @@ var destinationSelection = [
 '      <input class="form-control col-sm-6" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="End" type="text">',
 '    </div>',
 '  </div>',
-'  <div class="form-group">',
+'</form>',
+'  <div class="row">',
 '    <div class="col-sm-2">',
-'      <button type="submit" class="btn btn-default" id="Done">Done</button>',
+'      <button class="btn btn-default" data-bind="click: $parent.toFoodTrucks" id="Done">Done</button>',
 '    </div>',
-'  </div>',
-'</form>'
+'  </div>'
 ].join("\n");
 ko.components.register('destination-selection', {
   viewModel: function(formData) {

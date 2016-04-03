@@ -90,7 +90,7 @@ ko.bindingHandlers.geoToAddress = {
             geocoder.geocode({'location': context.$root.user.position()}, function(results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                   if (results[1]) {
-                    context.$root.map.setZoom(11);
+                    //context.$root.map.setZoom(11);
                     var marker = new google.maps.Marker({
                       position: context.$root.user.position(),
                       map: context.$root.map
@@ -107,14 +107,15 @@ ko.bindingHandlers.geoToAddress = {
                 }
             });
 
+        ko.bindingHandlers.textInput.init(element,valueAccessor);
 
         //console.log(address);
 
         //ko.bindingHandlers.value.update(element,valueAccessor);
     },
     update: function(element, valueAccessor) {
-        console.log(valueAccessor());
-        //ko.bindingHandlers.value.update(element,valueAccessor);
+        console.log(valueAccessor()());
+        console.log(ko.bindingHandlers.textInput);
     }
 };
 
@@ -135,7 +136,11 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
                 return;
             }
             predictions.forEach(function(pred){
-                context.$root.prunedPossibleDestinations.push(pred);
+                var modpred = pred;
+                modpred.group = {
+                    name: pred.description
+                };
+                context.$root.prunedPossibleDestinations.push(modpred);
             });
             console.log(context.$root.prunedPossibleDestinations());
         };
@@ -169,10 +174,14 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             console.log(observable());
         });
     },
-    update: function(element, valueAccessor, allBindings) {
+    update: function(element, valueAccessor, allBindings, data, context) {
         var value = ko.utils.unwrapObservable(valueAccessor());
         //$(element).val(value);
-        console.log($(element).val());
+        console.log($(element));
+        context.$root.prunedPossibleDestinations().forEach( function (destination){
+            console.log(destination.group.name);
+            $(element).after('<p>'+destination.group.name+'</p>');
+        });
         console.log("hey there");
         //valueAccessor()(element);
     }
