@@ -138,7 +138,8 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             predictions.forEach(function(pred){
                 var modpred = pred;
                 modpred.group = {
-                    name: pred.description
+                    name: pred.description,
+                    type: "prediction"
                 };
                 context.$root.prunedPossibleDestinations.push(modpred);
             });
@@ -179,15 +180,37 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         //$(element).val(value);
         console.log($(element));
         context.$root.prunedPossibleDestinations().forEach( function (destination){
-            console.log(destination.group.name);
-            $(element).after('<p>'+destination.group.name+'</p>');
+            //console.log(destination.group.name);
+//            $(element).after('<p>'+destination.group.name+'</p>');
         });
         console.log("hey there");
         //valueAccessor()(element);
     }
 };
 
+ko.bindingHandlers.destinationDropdown = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        console.log(element);
+        //valueAccessor(20);
+        console.log(valueAccessor());
+        //console.log(allbindings);
+        console.log(data);
+        console.log(context);
+        //ko.bindingHandlers.text.init(valueAccessor())
+        $(element).hover(function(){
+            console.log("hover");
+            $(element).css("background", "#000");
+        });
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        console.log(valueUnwrapped);
+        ko.bindingHandlers.text.update(element, valueAccessor);
 
+        //ko.bindingHandlers.text(value);
+    }
+};
 
 ko.bindingHandlers.slideVisible = {
     update: function(element, valueAccessor, allBindings) {

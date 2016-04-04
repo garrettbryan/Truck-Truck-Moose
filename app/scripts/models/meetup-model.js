@@ -34,6 +34,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
 };
 
 var Meetup = function(data) {
+  this.type = "meetup";
   for (var i in data) {
     this[i] = data[i];
   }
