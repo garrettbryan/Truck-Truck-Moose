@@ -183,7 +183,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             //console.log(destination.group.name);
 //            $(element).after('<p>'+destination.group.name+'</p>');
         });
-        console.log("hey there");
+        console.log('hey there');
         //valueAccessor()(element);
     }
 };
@@ -197,9 +197,25 @@ ko.bindingHandlers.destinationDropdown = {
         console.log(data);
         console.log(context);
         //ko.bindingHandlers.text.init(valueAccessor())
-        $(element).hover(function(){
-            console.log("hover");
-            $(element).css("background", "#000");
+        $(element).click(function(){
+            context.$root.user.end(valueAccessor());
+            console.log(context.$root.user.end());
+            $('#end').val(context.$root.user.end());
+            context.$root.prunedPossibleDestinations([]);
+            console.log(element);
+            //valueAccessor(20);
+            console.log(valueAccessor());
+            //console.log(allbindings);
+            console.log(data);
+            console.log(context);
+            context.$root.user.end(valueAccessor());
+            $(element).siblings().removeClass('highlight-destination');
+            $(element).addClass('highlight-destination');
+            if (data.type === 'google'){
+                console.log(context);
+            }else if (data.type === 'meetup') {
+                console.log(context);
+            }
         });
     },
     update: function(element, valueAccessor, allBindings, data, context) {

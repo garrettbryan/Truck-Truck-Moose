@@ -168,7 +168,7 @@ var destinationSelection = [
 '  </div>',
 '  <div class="form-group">',
 '    <div class="col-xs-12 col-md-12">',
-'      <input class="form-control col-sm-6" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="End" type="text">',
+'      <input id="end" class="form-control col-sm-6" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="End" type="text">',
 '      <div data-bind="foreach: $parent.prunedPossibleDestinations">',
 '        <p class="destination" data-bind="destinationDropdown: group.name"></p>',
 '      </div>',
