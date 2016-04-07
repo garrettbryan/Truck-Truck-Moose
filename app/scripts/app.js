@@ -23,7 +23,7 @@ var ViewModel = function() {
   this.meetups = ko.observableArray();
   this.prunedPossibleDestinations = ko.observableArray();
   this.prunedPossibleNames = ko.observableArray();
-  this.selectedDestination = ko.observable('');
+  this.selectedDestination = {};
   this.meetupMapBounds = {};
 
   this.foodTrucks = ko.observableArray();
@@ -90,7 +90,10 @@ var ViewModel = function() {
   }.bind(this);
   this.toFoodTrucks = function() {
     console.log("to Trucks");
-    if(this.user.begin() && this.user.end()){
+    console.log(this.selectedDestination);
+    if(this.selectedDestination && this.user.begin() && this.user.end()){
+      this.selectedDestination.keepChosen(this.map, this);
+
       this.destinationSelectionScreen(false);
       this.foodTruckScreen(true);
     }

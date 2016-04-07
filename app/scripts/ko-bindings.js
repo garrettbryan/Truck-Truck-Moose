@@ -76,12 +76,12 @@ ko.bindingHandlers.displayWeather = {
 ko.bindingHandlers.geoToAddress = {
     init: function(element, valueAccessor, allbindings, data, context) {
         var observable = valueAccessor();
-        console.log(element);
+        //console.log(element);
         //valueAccessor(20);
-        console.log(valueAccessor());
-        console.log(allbindings);
-        console.log(data);
-        console.log(context);
+        //console.log(valueAccessor());
+        //console.log(allbindings);
+        //console.log(data);
+        //console.log(context);
 
         //observable(context.$root.)
 
@@ -97,7 +97,7 @@ ko.bindingHandlers.geoToAddress = {
                     });
                     console.log(results[1].formatted_address);
                     observable(results[1].formatted_address);
-                    console.log(observable());
+                    //console.log(observable());
                     //ko.bindingHandlers.value.update(element,valueAccessor);
                   } else {
                     window.alert('No results found');
@@ -114,8 +114,8 @@ ko.bindingHandlers.geoToAddress = {
         //ko.bindingHandlers.value.update(element,valueAccessor);
     },
     update: function(element, valueAccessor) {
-        console.log(valueAccessor()());
-        console.log(ko.bindingHandlers.textInput);
+        //console.log(valueAccessor()());
+        //console.log(ko.bindingHandlers.textInput);
     }
 };
 
@@ -148,10 +148,10 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
 
         var searchMeetups = function(regexp) {
             var re = new RegExp(regexp,'i');
-            console.log(regexp);
-            console.log(context.$root.meetups());
+            //console.log(regexp);
+            //console.log(context.$root.meetups());
             context.$root.meetups().forEach( function(meetup) {
-                console.log(meetup);
+            //    console.log(meetup);
                 if(re.test(meetup.description) || re.test(meetup.group.name) || re.test(meetup.name)) {
                     context.$root.prunedPossibleDestinations.push(meetup);
                 }
@@ -160,7 +160,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         };
 
         var autocomplete = new google.maps.places.AutocompleteService();
-        console.log(element);
+        //console.log(element);
         $(element).keyup( function(){
             context.$root.prunedPossibleDestinations([]);
             var observable = valueAccessor();
@@ -176,26 +176,22 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         });
     },
     update: function(element, valueAccessor, allBindings, data, context) {
-        var value = ko.utils.unwrapObservable(valueAccessor());
-        //$(element).val(value);
-        console.log($(element));
-        context.$root.prunedPossibleDestinations().forEach( function (destination){
-            //console.log(destination.group.name);
-//            $(element).after('<p>'+destination.group.name+'</p>');
-        });
-        console.log('hey there');
-        //valueAccessor()(element);
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        console.log(valueUnwrapped);
+        ko.bindingHandlers.text.update(element, valueAccessor);
+        console.log(context.$root.user.end());
     }
 };
 
 ko.bindingHandlers.destinationDropdown = {
     init: function(element, valueAccessor, allBindings, data, context) {
-        console.log(element);
+        //console.log(element);
         //valueAccessor(20);
-        console.log(valueAccessor());
+        //console.log(valueAccessor());
         //console.log(allbindings);
-        console.log(data);
-        console.log(context);
+        //console.log(data);
+        //console.log(context);
         //ko.bindingHandlers.text.init(valueAccessor())
         $(element).click(function(){
             context.$root.user.end(valueAccessor());
@@ -212,9 +208,11 @@ ko.bindingHandlers.destinationDropdown = {
             $(element).siblings().removeClass('highlight-destination');
             $(element).addClass('highlight-destination');
             if (data.type === 'google'){
-                console.log(context);
+                console.log(data);
             }else if (data.type === 'meetup') {
-                console.log(context);
+                this.selectedDestination = data;
+                console.log(data);
+                google.maps.event.trigger(data.marker, 'click');
             }
         });
     },
