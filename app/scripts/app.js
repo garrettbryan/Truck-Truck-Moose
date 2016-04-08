@@ -26,12 +26,27 @@ var ViewModel = function() {
   this.selectedDestination = {};
   this.meetupMapBounds = {};
 
+  this.truckFilter = ko.observable('');
   this.foodTrucks = ko.observableArray();
+  this.prunedPossibleFoodTrucks = ko.observableArray();
+  this.prunedPossibleFoodTruckNames = ko.observableArray();
   this.selectedTruck = ko.observable('');
 
-  this.menu = ko.observableArray;
+  this.truckSwiper = new Swiper ('.swiper-container', {
+    // Optional parameters
+    //pagination: '.swiper-pagination',
+    slidesPerView: 'auto',
+    centeredSlides: true,
+    paginationClickable: true,
+    spaceBetween: 30,
+    loop: true
+  });
 
-  this.order = ko.observableArray;
+
+
+  this.menu = ko.observableArray();
+
+  this.order = ko.observableArray();
   this.orderSubtotal = ko.observable('0');
   this.orderTax = ko.observable('0');
   this.orderTotal = ko.observable('0');
@@ -183,6 +198,7 @@ ViewModel.prototype.addFoodTrucksToMap = function() {
     this.foodTrucks.push(truck);
   }.bind(this));
   console.log(this.foodTrucks);
+  this.prunedPossibleFoodTrucks(this.foodTrucks());
 };
 
 

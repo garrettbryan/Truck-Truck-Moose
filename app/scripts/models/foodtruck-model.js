@@ -169,16 +169,16 @@ FoodTruck.prototype.styleFoodTruckPath = function(icopy,directionsService,direct
           path: response.routes[0].overview_path,
           geodesic: true,
           strokeColor: getColor(),
-          strokeOpacity: 1.0,
-          strokeWeight: (that.schedule.length - icopy) * 5
+          strokeOpacity: 0.5,
+          strokeWeight: (that.schedule.length - icopy) * 3
         });
-        flightPath.setMap(map);
+        flightPath.setMap(that.map);
       } else {
         window.alert('Directions request failed due to ' + status);
       }
       --that.pathsRemaining;
       if (that.pathsRemaining <= 0){
-        that.determinePosition(aboutMy.now);
+        that.determinePosition(new Date());
       }
     }
   );
@@ -227,6 +227,7 @@ FoodTruck.prototype.determinePosition = function(now) {
     var finishDrive = this.schedule[this.currentEvent].starttime.seconds;
     var totalDriveTime = finishDrive-beginDrive;
     var currentDriveTime = nowSecs-beginDrive;
+    console.log(this);
     var directionLength = this.responses[direction].routes[0].overview_path.length;
     var directionPosition = Math.floor(currentDriveTime/totalDriveTime*directionLength);
 /*
@@ -311,10 +312,10 @@ FoodTruck.prototype.render = function() {
 
   this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(this.position.lat, this.position.lng),
-    map: map,
+    map: this.map,
     title: this.name,
     icon: icon,
-    draggable: true
+    draggable: false
   });
 
 };

@@ -194,11 +194,11 @@ ko.components.register('destination-selection', {
 
 
 var foodTruckSelection = [
-'<form class="form-horizontal" data-bind="submit: $parent.toOrder">',
+'<form class="form-horizontal">',
 '    <div class="form-group">',
-'     <div class="col-sm-10">',
-'      <input type="text" data-bind="value: $parent.userTruckFilter" class="form-control" id="truck-filter" placeholder="Filter">',
-'    </div>',
+'        <div class="col-sm-10">',
+'            <input class="form-control" data-bind="truckFilter: $parent.truckFilter" type="text" id="truck-filter" placeholder="Filter">',
+'        </div>',
 '    </div>',
 '    <div class="form-group">',
 '     <div class="col-sm-12">',
@@ -219,9 +219,7 @@ var foodTruckSelection = [
 '              <!-- Additional required wrapper -->',
 '              <div class="swiper-wrapper">',
 '                  <!-- Slides -->',
-'                  <div class="swiper-slide"><img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/333/fff" alt="MeeTruck Logo"></div>',
-'                  <div class="swiper-slide"><img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/000/fff" alt="MeeTruck Logo"></div>',
-'                  <div class="swiper-slide"><img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/999/fff" alt="MeeTruck Logo"></div>',
+'                  <div data-bind="foreach: $parent.prunedPossibleFoodTrucks" class="swiper-slide"><img id="main-logo" class="img-responsive center-block img-rounded" src="http://dummyimage.com/200/333/fff" alt="MeeTruck Logo"></div>',
 '              </div>',
 '              <!-- If we need pagination -->',
 '              <div class="swiper-pagination"></div>',
@@ -231,7 +229,7 @@ var foodTruckSelection = [
 '  <div class="form-group">',
 '    <div class="col-sm-12">',
 '      <button class="btn btn-default" data-bind="click: $parent.toMap" id="Done">Go Back</button>',
-'      <button type="submit" class="btn btn-default" id="Done">Ok</button>',
+'      <button class="btn btn-default" data-bind="click: $parent.toOrder" id="Done">Ok</button>',
 '    </div>',
 '  </div>',
 '</form>'

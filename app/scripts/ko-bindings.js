@@ -119,6 +119,57 @@ ko.bindingHandlers.geoToAddress = {
     }
 };
 
+ko.bindingHandlers.truckFilter = {
+    init: function(element, valueAccessor, allBindings, data, context){
+
+
+        var searchFoodTrucks = function(regexp) {
+            var re = new RegExp(regexp,'i');
+            //console.log(regexp);
+            //console.log(context.$root.meetups());
+            context.$root.foodTrucks().forEach( function(foodTruck) {
+                console.log(foodTruck);
+                if(searchFunction(re, foodTruck)) {
+                    context.$root.prunedPossibleFoodTrucks.push(foodTruck);
+                }
+            });
+            console.log(context.$root.prunedPossibleFoodTrucks());
+        };
+
+        var searchFunction = function(re, foodTruck){
+            var result = false;
+            result = re.test(foodTruck.description) || re.test(foodTruck.name);
+            foodTruck.dailyMenu.forEach(function(dish){
+                if (re.test(dish.name)){
+                    console.log(dish.name)
+                    result = true;
+                }
+                if (dish.ingredients.forEach(function(ingredient){
+                    console.log(ingredient);
+                        if (re.test(ingredient)){
+                            result = true;
+                        }
+                    })){
+                    result = true;
+                }
+            });
+            return result;
+        };
+
+        $(element).keyup( function(){
+            console.log(element);
+            context.$root.prunedPossibleFoodTrucks([]);
+            var observable = valueAccessor();
+            observable($(element).val());
+            searchFoodTrucks($(element).val());
+            console.log(observable());
+        });
+
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+
+    }
+};
 
 ko.bindingHandlers.meetupsGoogleAutoComplete = {
     init: function(element, valueAccessor, allBindings, data, context){
