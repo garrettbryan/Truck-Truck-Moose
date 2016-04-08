@@ -11,7 +11,7 @@ var foodTrucks10 = [
       "yummy"
     ],
     menuOfferings: [
-      "Lettus Wrapped Burger",
+      "Burger",
       "Salad",
       "Sticks"
     ],

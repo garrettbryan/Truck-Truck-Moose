@@ -8,27 +8,30 @@ schedule is an array of objects of stoptimes in 24hour timestamps and stoppoints
   endTime: T1
 };
 */
-var FoodTruck = function(){
-  this.traveling = false;
-  this.active = false;
-  this.position = {};
-  this.name = '';
-  this.description = '';
-  this.tags = [];
-  this.menuOfferings = [];
-  this.dailyMenu = [];
-  this.img = '';
-  this.tImg = 'images/resize_Food_Truck.png';
-  this.schedule = [];
-  this.comments = [];
-  this.currentEvent = 0;
-  this.responses = [];
-  this.mapPath = [];
-  this.menu = {};
-};
 
-FoodTruck.prototype.initNoSchedule = function(truckData){
+//var FoodTruck = function(){
+//  this.traveling = false;
+//  this.active = false;
+//  this.position = {};
+//  this.name = '';
+//  this.description = '';
+//  this.tags = [];
+//  this.menuOfferings = [];
+//  this.dailyMenu = [];
+//  this.img = '';
+//  this.tImg = 'images/resize_Food_Truck.png';
+//  this.schedule = [];
+//  this.comments = [];
+//  this.currentEvent = 0;
+//  this.responses = [];
+//  this.mapPath = [];
+//  this.menu = {};
+//};
+
+
+FoodTruck.prototype.initNoSchedule = function(truckData, map){
   this.name = truckData.name;
+  this.map = map;
   this.description = truckData.description;
   this.img = truckData.img;
   this.tags = truckData.tags;

@@ -93,7 +93,7 @@ var ViewModel = function() {
     console.log(this.selectedDestination);
     if(this.selectedDestination && this.user.begin() && this.user.end()){
       this.selectedDestination.keepChosen(this.map, this);
-
+      this.addFoodTrucksToMap();
       this.destinationSelectionScreen(false);
       this.foodTruckScreen(true);
     }
@@ -168,6 +168,23 @@ var ViewModel = function() {
   }.bind(this);
 
 };
+
+ViewModel.prototype.addFoodTrucksToMap = function() {
+  console.log(foodTrucks10);
+  foodTrucks10.forEach(function(truckData){
+    console.log(truckData);
+    var truck = new FoodTruck();
+    truck.initNoSchedule(truckData,this.map);
+    truck.create3RandomStopPoints(this.user.begin(), this.map);
+  //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
+    truck.getDirections();
+    truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
+    truck.initRandomMenu();
+    this.foodTrucks.push(truck);
+  }.bind(this));
+  console.log(this.foodTrucks);
+};
+
 
 var noPoi = [
   {

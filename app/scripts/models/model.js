@@ -47,10 +47,26 @@ var Meetup = function(meetupData) {//populate via Meetup.com ajax call.
 Meetup.prototype = Object.create(Institution.prototype);
 Meetup.prototype.constructor = Meetup;
 
-var FoodTruck = function(truckData) {//populate via Meetup.com ajax call.
+var FoodTruck = function(truckData) {
   this.menu = ko.observableArray();
   this.schedule = ko.observableArray();
   Institution.call(this);
+  this.traveling = false;
+  this.active = false;
+  this.position = {};
+  this.name = '';
+  this.description = '';
+  this.tags = [];
+  this.menuOfferings = [];
+  this.dailyMenu = [];
+  this.img = '';
+  this.tImg = 'images/resize_Food_Truck.png';
+  this.schedule = [];
+  this.comments = [];
+  this.currentEvent = 0;
+  this.responses = [];
+  this.mapPath = [];
+  this.menu = {};
 };
 FoodTruck.prototype = Object.create(Institution.prototype);
 FoodTruck.prototype.constructor = FoodTruck;
