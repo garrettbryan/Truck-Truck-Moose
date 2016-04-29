@@ -121,8 +121,9 @@ ko.bindingHandlers.geoToAddress = {
 
 ko.bindingHandlers.truckFilter = {
     init: function(element, valueAccessor, allBindings, data, context){
-
-
+//prunedPossibleFoodTrucks
+//<img id="main-logo" class="img-responsive center-block img-rounded" data-bind="attr : {src: img}" alt="MeeTruck Logo">
+//swiper-wrapper
         var searchFoodTrucks = function(regexp) {
             var re = new RegExp(regexp,'i');
             //console.log(regexp);
@@ -141,7 +142,7 @@ ko.bindingHandlers.truckFilter = {
             result = re.test(foodTruck.description) || re.test(foodTruck.name);
             foodTruck.dailyMenu.forEach(function(dish){
                 if (re.test(dish.name)){
-                    console.log(dish.name)
+                    console.log(dish.name);
                     result = true;
                 }
                 if (dish.ingredients.forEach(function(ingredient){

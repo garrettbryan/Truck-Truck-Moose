@@ -32,15 +32,15 @@ var ViewModel = function() {
   this.prunedPossibleFoodTruckNames = ko.observableArray();
   this.selectedTruck = ko.observable('');
 
-  this.truckSwiper = new Swiper ('.swiper-container', {
-    // Optional parameters
-    //pagination: '.swiper-pagination',
-    slidesPerView: 'auto',
-    centeredSlides: true,
-    paginationClickable: true,
-    spaceBetween: 30,
-    loop: true
-  });
+//  this.truckSwiper = new Swiper ('.swiper-container', {
+//    // Optional parameters
+//    //pagination: '.swiper-pagination',
+//    slidesPerView: 'auto',
+//    centeredSlides: true,
+//    paginationClickable: true,
+//    spaceBetween: 30,
+//    loop: true
+//  });
 
 
 
