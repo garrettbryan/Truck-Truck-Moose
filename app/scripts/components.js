@@ -205,8 +205,9 @@ var foodTruckSelection = [
 '          <div class="swiper-container">',
 '              <!-- Additional required wrapper -->',
 '              <div class="swiper-wrapper">',
+//'              <div class="swiper-wrapper"',
 '                  <!-- Slides -->',
-//'                  <div class="swiper-slide"><img id="main-logo" class="img-responsive center-block img-rounded" data-bind="attr : {src: img}" alt="MeeTruck Logo"></div>',
+'                  <div class="swiper-slide"></div>',
 '              </div>',
 '              <!-- If we need pagination -->',
 '              <div class="swiper-pagination"></div>',
@@ -215,30 +216,49 @@ var foodTruckSelection = [
 '    </div>',
 '  <div class="form-group">',
 '    <div class="col-sm-12">',
-'      <button class="btn btn-default" data-bind="click: $parent.toMap" id="Done">Go Back</button>',
+//'      <button class="btn btn-default" data-bind="click: $parent.toMap" id="Done">Go Back</button>',
+'      <button class="btn btn-default" data-bind="click: init" id="Done">Go Back</button>',
 '      <button class="btn btn-default" data-bind="click: $parent.toOrder" id="Done">Ok</button>',
 '    </div>',
 '  </div>',
 '</form>'
 ].join("\n");
 ko.components.register('food-truck-selection', {
-  viewModel: function(formData) {
-      var truckSwiper = new Swiper ('.swiper-container', {
-        // Optional parameters
-        pagination: '.swiper-pagination',
-        slidesPerView: 'auto',
-        centeredSlides: true,
-        paginationClickable: true,
-        spaceBetween: 30,
-        loop: true
+  viewModel: function(params) {
+
+    this.displayFoodTrucks = params.prunedPossibleFoodTrucks;
+
+    var truckSwiper = new Swiper ('.swiper-container', {
+      // Optional parameters
+      pagination: '.swiper-pagination',
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      paginationClickable: true,
+      spaceBetween: 30,
+      observer: true,
+      loop: true
+    });
+
+
+    this.displayFoodTrucks.subscribe(function(newValue) {
+      //console.log(this.displayFoodTrucks());
+      console.log(newValue);
+      truckSwiper.removeAllSlides();
+      newValue.forEach(function(foodtruck){
+        console.log(truckSwiper);
+        truckSwiper.appendSlide('<div class="swiper-slide">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>')
       });
-  this.init = function(){
-  };
+      //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
 
-  this.submit = function(formElement){
-    console.log(formElement);
-  };
+    });
 
+    this.init = (function(){
+      console.log(this.displayFoodTrucks());
+    }).bind(this);
+
+    this.submit = function(formElement){
+      console.log(formElement);
+    };
   },
   template: foodTruckSelection
 });

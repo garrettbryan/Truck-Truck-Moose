@@ -50,7 +50,7 @@
                 <destination-selection></destination-selection>
             </div>
             <div  data-bind="if: foodTruckScreen">
-                <food-truck-selection></food-truck-selection>
+                <food-truck-selection params="prunedPossibleFoodTrucks: prunedPossibleFoodTrucks()"></food-truck-selection>
             </div>
             <div  data-bind="if: orderScreen">
                 <food-order></food-order>

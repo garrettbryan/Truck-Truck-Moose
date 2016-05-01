@@ -119,6 +119,14 @@ ko.bindingHandlers.geoToAddress = {
     }
 };
 
+ko.bindingHandlers.displayFoodTrucksInSwiper = {
+    init: function(element, valueAccessor, allBindings, data, context){
+
+    },
+    update: function(element, valueAccessor, allBindings, data, context){
+    }
+}
+
 ko.bindingHandlers.truckFilter = {
     init: function(element, valueAccessor, allBindings, data, context){
 //prunedPossibleFoodTrucks
