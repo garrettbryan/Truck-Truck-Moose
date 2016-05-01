@@ -375,7 +375,7 @@ ViewModel.prototype.mapInit = function() {
   var contentString = '<div id="content">'+
     '<h3 id="heading" class="heading">You are here.</h3>' +
     '<div id="body-content"> Wow you are right here</div>' +
-    '</div>;';
+    '</div>';
 
   var infowindow = new google.maps.InfoWindow({
     content: contentString

@@ -93,7 +93,7 @@ function initialize() {
         var contentString = '<div id="content">'+
           '<h3 id="heading" class="heading">A Heading</h3>' +
           '<div id="body-content"> This is something interesting</div>' +
-          '</div>;';
+          '</div>';
 
         var infowindow = new google.maps.InfoWindow({
           content: contentString

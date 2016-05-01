@@ -56,7 +56,7 @@ Meetup.prototype.render = function(map,viewModel) {
     var contentString = '<div id="content">'+
       '<h3 id="heading" class="heading">' + this.group.name + '</h3>' +
       //'<div id="body-content"> ' + this.description + '</div>' +
-      '</div>;';
+      '</div>';
 
     this.infowindow = new google.maps.InfoWindow({
       content: contentString,
@@ -65,6 +65,7 @@ Meetup.prototype.render = function(map,viewModel) {
 
     this.infowindow.addListener('closeclick', function () {
       this.marker.setOpacity(0.5);
+      this.flightPath.setMap(null);
       viewModel.selectedDestination = {};
     }.bind(this));
 
@@ -75,21 +76,61 @@ Meetup.prototype.render = function(map,viewModel) {
           meetup.infowindow.close();
           meetup.marker.setOpacity(0.5);
         }
+        if (meetup.flightPath){
+          meetup.flightPath.setMap(null);
+        }
       });
       this.infowindow.open(map, this.marker);
       this.marker.setOpacity(1.0);
       viewModel.selectedDestination = this;
       viewModel.user.end(this.group.name);
       $('#end').val(viewModel.user.end());
+
+      this.directionsService = new google.maps.DirectionsService();
+      this.drawRoute(map, viewModel);
+
     }.bind(this));
   }
 };
+
+Meetup.prototype.drawRoute = function(map, viewmodel){
+  var that = this;
+  console.log(this.marker)
+  console.log(viewmodel.user.position())
+  this.directionsService.route(
+    {
+      origin: viewmodel.user.position(),
+      destination: this.marker.position,
+      //waypoints: waypoints,
+      travelMode: google.maps.TravelMode.DRIVING
+    },
+    function(response, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        //that.setResponses(icopy - 1, response);
+
+        this.flightPath = new google.maps.Polyline({
+          path: response.routes[0].overview_path,
+          geodesic: true,
+          strokeColor: '#5CB62C',
+          strokeOpacity: 1.0,
+          strokeWeight: 3
+        });
+        this.flightPath.setMap(map);
+        console.log(this);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    }.bind(this)
+  );
+}
+
 
 Meetup.prototype.closeInfoWindows = function(map, viewModel){
   viewModel.meetups().forEach( function(meetup){
     if(meetup.infowindow){
       meetup.infowindow.close();
       meetup.marker.setOpacity(0.5);
+      meetup.flightPath.setMap(null);
     }
   });
 };
@@ -97,6 +138,9 @@ Meetup.prototype.closeInfoWindows = function(map, viewModel){
 Meetup.prototype.keepChosen = function(map, viewModel){
   console.log(viewModel.meetups());
   viewModel.meetups().forEach( function(meetup){
+    if(meetup.infowindow){
+      meetup.infowindow.close();
+    }
     if (meetup.marker){
       meetup.marker.setMap(null);
     }

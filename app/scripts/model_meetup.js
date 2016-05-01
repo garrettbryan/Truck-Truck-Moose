@@ -64,7 +64,7 @@ Meetup.prototype.render = function() {
     var contentString = '<div id="content">'+
       '<h3 id="heading" class="heading">' + this.group.name + '</h3>' +
       '<div id="body-content"> ' + this.description + '</div>' +
-      '</div>;';
+      '</div>';
 
     var infowindow = new google.maps.InfoWindow({
       content: contentString,

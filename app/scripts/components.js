@@ -182,12 +182,21 @@ var destinationSelection = [
 '  </div>'
 ].join("\n");
 ko.components.register('destination-selection', {
-  viewModel: function(formData) {
+  viewModel: function() {
+/*    this.destination = params.dest;
 
-    this.submit = function(formElement){
-      console.log(formElement);
-    };
+    this.destination.subscribe(function(newValue) {
+      //console.log(this.displayFoodTrucks());
+      console.log(newValue);
+      truckSwiper.removeAllSlides();
+      newValue.forEach(function(foodtruck){
+        console.log(truckSwiper);
+        truckSwiper.appendSlide('<div class="swiper-slide">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>')
+      });
+      //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
 
+    });
+*/
   },
   template: destinationSelection
 });
@@ -205,7 +214,6 @@ var foodTruckSelection = [
 '          <div class="swiper-container">',
 '              <!-- Additional required wrapper -->',
 '              <div class="swiper-wrapper">',
-//'              <div class="swiper-wrapper"',
 '                  <!-- Slides -->',
 '                  <div class="swiper-slide"></div>',
 '              </div>',
@@ -235,8 +243,8 @@ ko.components.register('food-truck-selection', {
       centeredSlides: true,
       paginationClickable: true,
       spaceBetween: 30,
-      observer: true,
-      loop: true
+      observer: false,
+      loop: false
     });
 
 

@@ -147,21 +147,29 @@ ko.bindingHandlers.truckFilter = {
 
         var searchFunction = function(re, foodTruck){
             var result = false;
-            result = re.test(foodTruck.description) || re.test(foodTruck.name);
-            foodTruck.dailyMenu.forEach(function(dish){
-                if (re.test(dish.name)){
-                    console.log(dish.name);
-                    result = true;
-                }
-                if (dish.ingredients.forEach(function(ingredient){
-                    console.log(ingredient);
-                        if (re.test(ingredient)){
-                            result = true;
-                        }
-                    })){
-                    result = true;
-                }
-            });
+            //result = re.test(foodTruck.description) || re.test(foodTruck.name);
+            if (re.test(foodTruck.name)){
+                result = true;
+            }
+            else if (re.test(foodTruck.description)){
+                result = true;
+            }
+
+            else {
+                foodTruck.dailyMenu.forEach(function(dish){
+                    if (re.test(dish.name)){
+                        console.log(dish.name);
+                        result = true;
+                    }
+                    else {
+                        dish.ingredients.forEach(function(ingredient){
+                            if (re.test(ingredient)){
+                                result = true;
+                            }
+                        });
+                    }
+                });
+            }
             return result;
         };
 
