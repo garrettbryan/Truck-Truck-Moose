@@ -95,8 +95,8 @@ Meetup.prototype.render = function(map,viewModel) {
 
 Meetup.prototype.drawRoute = function(map, viewmodel){
   var that = this;
-  console.log(this.marker)
-  console.log(viewmodel.user.position())
+  console.log(this.marker);
+  console.log(viewmodel.user.position());
   this.directionsService.route(
     {
       origin: viewmodel.user.position(),
@@ -122,7 +122,7 @@ Meetup.prototype.drawRoute = function(map, viewmodel){
       }
     }.bind(this)
   );
-}
+};
 
 
 Meetup.prototype.closeInfoWindows = function(map, viewModel){

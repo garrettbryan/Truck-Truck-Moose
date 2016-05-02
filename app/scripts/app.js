@@ -105,8 +105,8 @@ var ViewModel = function() {
   }.bind(this);
   this.toFoodTrucks = function() {
     console.log("to Trucks");
-    console.log(this.selectedDestination);
     if(this.selectedDestination && this.user.begin() && this.user.end()){
+      console.log(this);
       this.selectedDestination.keepChosen(this.map, this);
       this.addFoodTrucksToMap();
       this.destinationSelectionScreen(false);
@@ -194,6 +194,7 @@ ViewModel.prototype.addFoodTrucksToMap = function() {
   //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
     truck.getDirections();
     truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
+    truck.render(this, this.map)
     truck.initRandomMenu();
     this.foodTrucks.push(truck);
   }.bind(this));

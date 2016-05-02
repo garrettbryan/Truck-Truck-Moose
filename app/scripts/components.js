@@ -224,8 +224,8 @@ var foodTruckSelection = [
 '    </div>',
 '  <div class="form-group">',
 '    <div class="col-sm-12">',
-//'      <button class="btn btn-default" data-bind="click: $parent.toMap" id="Done">Go Back</button>',
-'      <button class="btn btn-default" data-bind="click: init" id="Done">Go Back</button>',
+'      <button class="btn btn-default" data-bind="click: $parent.toMap" id="Done">Go Back</button>',
+//'      <button class="btn btn-default" data-bind="click: init" id="Done">Go Back</button>',
 '      <button class="btn btn-default" data-bind="click: $parent.toOrder" id="Done">Ok</button>',
 '    </div>',
 '  </div>',
@@ -254,7 +254,7 @@ ko.components.register('food-truck-selection', {
       truckSwiper.removeAllSlides();
       newValue.forEach(function(foodtruck){
         console.log(truckSwiper);
-        truckSwiper.appendSlide('<div class="swiper-slide">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>')
+        truckSwiper.appendSlide('<div class="swiper-slide">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
       });
       //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
 

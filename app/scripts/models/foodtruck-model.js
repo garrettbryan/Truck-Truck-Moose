@@ -220,14 +220,14 @@ FoodTruck.prototype.setResponses = function(index, directionResponse){
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
   this.pinPoint(nowSecs);
+    console.log(this);
 
-  if (this.traveling && this.currentEvent > 0 && this.currentEvent < this.schedule.length) {
+  if (this.responses.length > 0 && this.traveling && this.currentEvent > 0 && this.currentEvent < this.schedule.length) {
     var direction = this.currentEvent - 1;
     var beginDrive = this.schedule[this.currentEvent-1].endtime.seconds;
     var finishDrive = this.schedule[this.currentEvent].starttime.seconds;
     var totalDriveTime = finishDrive-beginDrive;
     var currentDriveTime = nowSecs-beginDrive;
-    console.log(this);
     var directionLength = this.responses[direction].routes[0].overview_path.length;
     var directionPosition = Math.floor(currentDriveTime/totalDriveTime*directionLength);
 /*
@@ -249,7 +249,7 @@ FoodTruck.prototype.determinePosition = function(now) {
     this.position.lng = this.schedule[this.currentEvent].lng;
   }
 
-  this.render();
+  //this.render();
 
 };
 
@@ -302,7 +302,7 @@ FoodTruck.prototype.updateSchedule = function(index,data) {
 FoodTruck.prototype.clearSchedule = function(){
   this.scedule = [];
 };
-FoodTruck.prototype.render = function() {
+FoodTruck.prototype.render = function(viewModel, map) {
 //  console.log(this);
 //  console.log(this.currentEvent);
   var icon = this.img;
@@ -312,11 +312,42 @@ FoodTruck.prototype.render = function() {
 
   this.marker = new google.maps.Marker({
     position: new google.maps.LatLng(this.position.lat, this.position.lng),
-    map: this.map,
+    map: map,
     title: this.name,
     icon: icon,
     draggable: false
   });
+
+  var contentString = '<div id="content">'+
+    '<h3 id="heading" class="heading">' + this.name + '</h3>' +
+    '<div id="body-content"> ' + this.description + '</div>' +
+    '</div>';
+
+  this.infowindow = new google.maps.InfoWindow({
+    content: contentString,
+    position: this.marker.position
+  });
+
+  this.infowindow.addListener('closeclick', function () {
+    //this.marker.setOpacity(0.5);
+    //this.flightPath.setMap(null);
+    //viewModel.selectedDestination = {};
+  }.bind(this));
+
+
+  this.marker.addListener('click', function() {
+    console.log(this);
+    viewModel.foodTrucks().forEach( function(foodTruck){
+      if(foodTruck.infowindow){
+        foodTruck.infowindow.close();
+        //foodTruck.marker.setOpacity(0.5);
+      }
+      if (foodTruck.flightPath){
+        //foodTruck.flightPath.setMap(null);
+      }
+    });
+    this.infowindow.open(map, this.marker);
+  }.bind(this));
 
 };
 /*
