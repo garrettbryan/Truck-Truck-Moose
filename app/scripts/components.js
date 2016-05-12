@@ -252,16 +252,24 @@ ko.components.register('food-truck-selection', {
 
     this.displayFoodTrucks.subscribe(function(newValue) {
       //console.log(this.displayFoodTrucks());
+      var self = this;
       console.log(newValue);
       truckSwiper.removeAllSlides();
       newValue.forEach(function(foodtruck, index){
         console.log(truckSwiper);
         console.log(index);
-        truckSwiper.appendSlide('<div class="swiper-slide" data-bind="click: test.bind($data, '+index+')">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
+        truckSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
+      });
+      $('.swiper-slide').click(function(){
+        console.log(self);
+        console.log($(this).data('value'));
+        self.selectedTruck = self.displayFoodTrucks()[$(this).data('value')];
+        self.selectedTruckName = self.selectedTruck.name;
+        console.log(self.selectedTruck);
       });
       //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
 
-    });
+    }.bind(this));
 
     this.test = (function(truckNumber){
       console.log(truckNumber);
