@@ -30,7 +30,8 @@ var ViewModel = function() {
   this.foodTrucks = ko.observableArray();
   this.prunedPossibleFoodTrucks = ko.observableArray();
   this.prunedPossibleFoodTruckNames = ko.observableArray();
-  this.selectedTruck = ko.observable('');
+  this.selectedTruck = {};
+  this.selectedTruckName = ko.observable('');
 
 //  this.truckSwiper = new Swiper ('.swiper-container', {
 //    // Optional parameters
@@ -115,8 +116,10 @@ var ViewModel = function() {
   }.bind(this);
   this.toOrder = function() {
     console.log("to Order");
-    this.foodTruckScreen(false);
-    this.orderScreen(true);
+    if(this.selectedTruck()){
+      this.foodTruckScreen(false);
+      this.orderScreen(true);
+    }
   }.bind(this);
   this.toConfirmation = function() {
     console.log("to Confirmation");
@@ -194,7 +197,7 @@ ViewModel.prototype.addFoodTrucksToMap = function() {
   //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
     truck.getDirections();
     truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
-    truck.render(this, this.map)
+    truck.render(this, this.map);
     truck.initRandomMenu();
     this.foodTrucks.push(truck);
   }.bind(this));

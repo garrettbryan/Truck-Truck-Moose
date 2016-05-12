@@ -119,6 +119,51 @@ ko.bindingHandlers.geoToAddress = {
     }
 };
 
+ko.bindingHandlers.selectTruck = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+
+        $(element).click(function(){
+        console.log(element);
+        //valueAccessor(20);
+        console.log(valueAccessor());
+        console.log(allbindings);
+        console.log(data);
+        console.log(context);
+        });
+/*        //ko.bindingHandlers.text.init(valueAccessor())
+        $(element).click(function(){
+            context.$root.user.end(valueAccessor());
+            console.log(context.$root.user.end());
+            $('#end').val(context.$root.user.end());
+            context.$root.prunedPossibleDestinations([]);
+            console.log(element);
+            //valueAccessor(20);
+            console.log(valueAccessor());
+            //console.log(allbindings);
+            console.log(data);
+            console.log(context);
+            context.$root.user.end(valueAccessor());
+            $(element).siblings().removeClass('highlight-destination');
+            $(element).addClass('highlight-destination');
+            if (data.type === 'google'){
+                console.log(data);
+            }else if (data.type === 'meetup') {
+                this.selectedDestination = data;
+                console.log(data);
+                google.maps.event.trigger(data.marker, 'click');
+            }
+        });
+*/
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+        console.log("selectTruck update");
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        console.log(valueUnwrapped);
+        ko.bindingHandlers.text.update(element, valueAccessor);
+    }
+};
+
 ko.bindingHandlers.truckFilter = {
     init: function(element, valueAccessor, allBindings, data, context){
 //prunedPossibleFoodTrucks
@@ -178,7 +223,6 @@ ko.bindingHandlers.truckFilter = {
 
     },
     update: function(element, valueAccessor, allBindings, data, context) {
-
     }
 };
 
@@ -279,6 +323,7 @@ ko.bindingHandlers.destinationDropdown = {
         });
     },
     update: function(element, valueAccessor, allBindings, data, context) {
+        console.log("destinationDropdown update");
         var value = valueAccessor();
         var valueUnwrapped = ko.unwrap(value);
         console.log(valueUnwrapped);
@@ -307,7 +352,11 @@ ko.bindingHandlers.slideVisible = {
     }
 };
 
-
+ko.bindingHandlers.selectTruck = {
+    init: function(element, valueAccessor) {
+       console.log($(element));
+    }
+};
 
 ko.bindingHandlers.starRating = {
     init: function(element, valueAccessor) {

@@ -224,7 +224,7 @@ var foodTruckSelection = [
 '    </div>',
 '  <div class="form-group">',
 '    <div class="col-sm-12">',
-'      <button class="btn btn-default" data-bind="click: $parent.toMap" id="Done">Go Back</button>',
+'      <button class="btn btn-default" id="Done">Go Back</button>',
 //'      <button class="btn btn-default" data-bind="click: init" id="Done">Go Back</button>',
 '      <button class="btn btn-default" data-bind="click: $parent.toOrder" id="Done">Ok</button>',
 '    </div>',
@@ -235,6 +235,8 @@ ko.components.register('food-truck-selection', {
   viewModel: function(params) {
 
     this.displayFoodTrucks = params.prunedPossibleFoodTrucks;
+    this.selectedTruck = params.selectedTruck;
+    this.selectedTruckName = params.selectedTruckName;
 
     var truckSwiper = new Swiper ('.swiper-container', {
       // Optional parameters
@@ -252,13 +254,23 @@ ko.components.register('food-truck-selection', {
       //console.log(this.displayFoodTrucks());
       console.log(newValue);
       truckSwiper.removeAllSlides();
-      newValue.forEach(function(foodtruck){
+      newValue.forEach(function(foodtruck, index){
         console.log(truckSwiper);
-        truckSwiper.appendSlide('<div class="swiper-slide">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
+        console.log(index);
+        truckSwiper.appendSlide('<div class="swiper-slide" data-bind="click: test.bind($data, '+index+')">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
       });
       //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
 
     });
+
+    this.test = (function(truckNumber){
+      console.log(truckNumber);
+      console.log(this.displayFoodTrucks()[truckNumber]);
+      this.selectedTruck = this.displayFoodTrucks()[truckNumber];
+      console.log(this.selectedTruck);
+      //this.selectedTruckName(this.selectedTruck.name);
+      //this.selectedTruck(this.displayFoodTrucks()[0]);
+    }).bind(this);
 
     this.init = (function(){
       console.log(this.displayFoodTrucks());
