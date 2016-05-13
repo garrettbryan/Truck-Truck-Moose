@@ -203,6 +203,7 @@ ko.components.register('destination-selection', {
 
 
 var foodTruckSelection = [
+'<span data-bind="text: selectedTruckName"></span>',
 '<form class="form-horizontal">',
 '    <div class="form-group">',
 '        <div class="col-sm-10">',
@@ -264,7 +265,7 @@ ko.components.register('food-truck-selection', {
         console.log(self);
         console.log($(this).data('value'));
         self.selectedTruck = self.displayFoodTrucks()[$(this).data('value')];
-        self.selectedTruckName = self.selectedTruck.name;
+        self.selectedTruckName(self.selectedTruck.name);
         console.log(self.selectedTruck);
       });
       //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">

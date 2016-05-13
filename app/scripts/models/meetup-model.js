@@ -91,6 +91,7 @@ Meetup.prototype.render = function(map,viewModel) {
 
     }.bind(this));
   }
+
 };
 
 Meetup.prototype.drawRoute = function(map, viewmodel){

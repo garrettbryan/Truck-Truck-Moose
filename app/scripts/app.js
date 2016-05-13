@@ -116,7 +116,7 @@ var ViewModel = function() {
   }.bind(this);
   this.toOrder = function() {
     console.log("to Order");
-    if(this.selectedTruck()){
+    if(this.selectedTruckName()){
       this.foodTruckScreen(false);
       this.orderScreen(true);
     }
@@ -201,6 +201,7 @@ ViewModel.prototype.addFoodTrucksToMap = function() {
     truck.initRandomMenu();
     this.foodTrucks.push(truck);
   }.bind(this));
+
   console.log(this.foodTrucks);
   this.prunedPossibleFoodTrucks(this.foodTrucks());
 };
@@ -363,9 +364,11 @@ ViewModel.prototype.mapInit = function() {
   google.maps.event.addListenerOnce(this.map, 'bounds_changed', function(){
   });
 
+  console.log(this.user);
+  this.user.render(this.map);
   /*
   verify the marker anchor is appropriate
-  */
+
   var marker1 = new google.maps.Marker({
     position: this.user.position(),
     map: this.map,
@@ -375,7 +378,7 @@ ViewModel.prototype.mapInit = function() {
 
   /*
   add an info window
-  */
+
   var contentString = '<div id="content">'+
     '<h3 id="heading" class="heading">You are here.</h3>' +
     '<div id="body-content"> Wow you are right here</div>' +
@@ -388,7 +391,7 @@ ViewModel.prototype.mapInit = function() {
   marker1.addListener('click', function() {
     infowindow.open(this.map, marker1);
   });
-
+*/
 };
 
 

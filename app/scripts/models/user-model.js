@@ -29,3 +29,31 @@ User.prototype.populateFields = function(existingUser) {
     }
   }
 };
+
+User.prototype.render = function(map){
+
+  this.marker = new google.maps.Marker({
+    position: this.position(),
+    map: map,
+    title: "Current Location",
+    draggable:true
+  });
+
+  /*
+  add an info window
+  */
+  var contentString = '<div id="content">'+
+    '<h3 id="heading" class="heading">You are here.</h3>' +
+    '<div id="body-content"> Wow you are right here</div>' +
+    '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+
+  this.marker.addListener('click', function() {
+    infowindow.open(map, this.marker);
+    console.log(this);
+  }.bind(this));
+
+};
