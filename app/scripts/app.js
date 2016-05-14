@@ -56,13 +56,32 @@ var ViewModel = function() {
   this.puPhrase = ko.observable('');
 
 
+  this.prunedPossibleFoodTrucks.subscribe(function(foodTrucks) {
+    //console.log(this.displayFoodTrucks());
+    var self = this;
+    this.foodTrucks().forEach(function(foodTruck){
+      foodTruck.marker.setVisible(false);
+      if(foodTruck.flightPath){
+        foodTruck.flightPath.setMap(null);
+      }
+    });
+    foodTrucks.forEach(function(foodTruck, index){
+      foodTruck.marker.setVisible(true);
+      if(foodTruck.flightPath){
+        foodTruck.flightPath.setMap(this.map);
+      }
+    });
+    //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
+
+  }.bind(this));
+
+
+
   this.init = function() {
     //meetups
     //google maps
     //weather
   };
-
-
   this.initMeetups = function(){
     console.log(this.meetups());
   }.bind(this);

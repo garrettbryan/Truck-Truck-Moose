@@ -165,14 +165,14 @@ FoodTruck.prototype.styleFoodTruckPath = function(icopy,directionsService,direct
       if (status === google.maps.DirectionsStatus.OK) {
         that.setResponses(icopy - 1, response);
 
-        var flightPath = new google.maps.Polyline({
+        that.flightPath = new google.maps.Polyline({
           path: response.routes[0].overview_path,
           geodesic: true,
           strokeColor: getColor(),
           strokeOpacity: 0.5,
           strokeWeight: (that.schedule.length - icopy) * 3
         });
-        flightPath.setMap(that.map);
+        that.flightPath.setMap(that.map);
       } else {
         window.alert('Directions request failed due to ' + status);
       }
