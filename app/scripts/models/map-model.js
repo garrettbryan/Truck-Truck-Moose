@@ -1,6 +1,12 @@
 var Map = function(){
-
+  this.markers = [];
+  this.path = [];
 };
+
+
+
+
+
 
 function initialize() {
   console.log(Modernizr);

@@ -347,6 +347,7 @@ FoodTruck.prototype.render = function(viewModel, map) {
       }
     });
     this.infowindow.open(map, this.marker);
+    viewModel.selectedTruckName(this.name);
   }.bind(this));
 
 };
