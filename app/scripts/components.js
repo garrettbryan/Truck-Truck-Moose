@@ -256,6 +256,7 @@ ko.components.register('food-truck-selection', {
         console.log(foodTruck.name);
         if(foodTruck.name === name){
           this.truckSwiper.slideTo(index);
+          google.maps.event.trigger(foodTruck.marker, 'click');
         }
       }.bind(this));
     }.bind(this));
