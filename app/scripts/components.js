@@ -380,16 +380,17 @@ ko.components.register('food-order', {
       $('.swiper-slide').click(function(){
         console.log(self);
         console.log($(this).data('value'));
-        self.order.push(self.menu()[$(this).data('value')]);
+        //self.order.push(self.menu()[$(this).data('value')]);
+        self.order.push( new Dish(self.menu()[$(this).data('value')]))
         console.log(self.order());
       });
       //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
     }.bind(this));
 
-  self.removeItem = function() {
+  self.removeItem = function(item) {
     console.log(self);
     console.log(this);
-    self.order.remove(this);
+    self.order.remove(item);
   };
 
 
