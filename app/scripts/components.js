@@ -328,15 +328,14 @@ var menuItem = [
 '    <ul class="order-item" data-bind="foreach: order">',
 '      <li class="name">',
 '        <h4 data-bind="text: name"></h4>',
+'        <h4 data-bind="text: price"></h4>',
 '            <a href="#" data-bind="click: $component.removeItem">X</a>',
-//'        <p data-bind="text: ingredients"></p>',
-'        <ul data-bind="foreach: ingredients">',
-'          <li>',
-'            <b data-bind="text: $data"></b>',
-'          </li>',
-'        </ul>',
+'        <ingredients params="ingredients: ingredients;"></ingredients>',
 '      </li>',
 '    </ul>',
+'  <div>',
+'    <h4 data-bind="text: totalPrice"></h4>',
+'  </div>',
 '  </div>',
 '  <div class="form-group">',
 '    <div class="col-sm-12">',
@@ -351,6 +350,14 @@ ko.components.register('food-order', {
     var self = this;
     this.menu = params.menu;
     this.order = params.order;
+
+    this.totalPrice = ko.computed(function(){
+      var subtotal = 0;
+      this.order().forEach( function(item){
+        subtotal += item.price();
+      });
+      return Number(subtotal.toFixed(2));
+    }, self)
 
     this.menuSwiper = new Swiper ('.menu-swiper-container', {
       // Optional parameters
@@ -374,14 +381,14 @@ ko.components.register('food-order', {
         console.log(this.menuSwiper);
         console.log(index);
         //this.menuSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + dish.name + '<img src="' + dish.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
-        this.menuSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + dish.name + '</div>');
+        this.menuSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + dish.name + ' $' + dish.price + '</div>');
       }.bind(this));
 
       $('.swiper-slide').click(function(){
         console.log(self);
         console.log($(this).data('value'));
         //self.order.push(self.menu()[$(this).data('value')]);
-        self.order.push( new Dish(self.menu()[$(this).data('value')]))
+        self.order.push( new Dish(self.menu()[$(this).data('value')]));
         console.log(self.order());
       });
       //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
@@ -393,11 +400,48 @@ ko.components.register('food-order', {
     self.order.remove(item);
   };
 
-
     this.menu(this.menu());
   },
   template: menuItem
 });
+
+
+
+//'        <ul data-bind="foreach: ingredients">',
+//'          <li>',
+//'            <b data-bind="text: $data"></b>',
+//'            <a href="#" data-bind="click: $component.no">X</a>',
+//'          </li>',
+//'        </ul>',
+
+
+
+var ingredients = [
+'        <ul data-bind="foreach: ingredients">',
+'          <li>',
+'            <b data-bind="text: $data"></b>',
+'            <a href="#" data-bind="click: $component.no">X</a>',
+'          </li>',
+'        </ul>'
+].join("\n");
+ko.components.register('ingredients', {
+  viewModel: function(params) {
+    var self = this;
+    this.ingredients = params.ingredients;
+
+    self.no = function(ingredient) {
+      console.log(self);
+      self.ingredients.remove(ingredient);
+    };
+
+  },
+  template: ingredients
+});
+
+
+
+
+
 
 
 var confirmation = [

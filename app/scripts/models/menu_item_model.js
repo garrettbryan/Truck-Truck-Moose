@@ -302,6 +302,16 @@
     return '<li>' + string + '</li>';
   };
 
+  var createPrice = function(ingredients) {
+    var ingredientCount = ingredients.length;
+    var basePrice = 2.50;
+    var finalPrice = basePrice;
+    for (var i = 0; i < ingredientCount; i++) {
+      finalPrice += Math.ceil(25*Math.random())/10;
+    }
+    return Number(finalPrice.toFixed(2));
+  };
+
   // Returns a menuItem object with random ingredients
   var makeRandomMenuItem = function(type) {
     var MenuItem = {};
@@ -335,6 +345,8 @@
 
     MenuItem.ingredients.push(selectRandomSauce());
     //MenuItem.ingredients.push(selectRandomCrust());
+
+    MenuItem.price = createPrice(MenuItem.ingredients);
 
     return MenuItem;
   };
