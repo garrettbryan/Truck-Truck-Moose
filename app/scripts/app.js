@@ -55,6 +55,13 @@ var ViewModel = function() {
   this.puTime = ko.observable('');
   this.puPhrase = ko.observable('');
 
+  this.selectedTruckName.subscribe(function(name){
+    this.prunedPossibleFoodTrucks().forEach(function(truck, index) {
+      if (name === truck.name) {
+        this.selectedTruck = this.prunedPossibleFoodTrucks()[index];
+      }
+    }.bind(this));
+  }.bind(this));
 
   this.prunedPossibleFoodTrucks.subscribe(function(foodTrucks) {
     //console.log(this.displayFoodTrucks());
@@ -136,8 +143,13 @@ var ViewModel = function() {
   this.toOrder = function() {
     console.log("to Order");
     if(this.selectedTruckName()){
+      console.log(this.selectedTruck);
+      this.menu(this.selectedTruck.dailyMenu);
+      console.log(this.menu());
       this.foodTruckScreen(false);
       this.orderScreen(true);
+      console.log(this.selectedTruck);
+      this.selectedTruck.keepChosen(this.map, this);
     }
   }.bind(this);
   this.toConfirmation = function() {
@@ -212,6 +224,7 @@ ViewModel.prototype.addFoodTrucksToMap = function() {
     console.log(truckData);
     var truck = new FoodTruck();
     truck.initNoSchedule(truckData,this.map);
+    console.log(this.user);
     truck.create3RandomStopPoints(this.user.begin(), this.map);
   //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
     truck.getDirections();
@@ -415,7 +428,7 @@ ViewModel.prototype.mapInit = function() {
 
 
 $(document).ready(function() {
-
+/*
   $('#button-navi').prepend('<button data-bind="click: toggleLoginScreen">Toggle Login</button>');
   $('button:last-of-type').after('<button data-bind="click: toggleSignUpScreen">Toggle signUp</button>');
   $('button:last-of-type').after('<button data-bind="click: toggleSettingsScreen">Toggle Settings</button>');
@@ -425,7 +438,7 @@ $(document).ready(function() {
   $('button:last-of-type').after('<button data-bind="click: toggleConfirmationScreen">Toggle Order Confirmation</button>');
   $('button:last-of-type').after('<button data-bind="click: toggleArrivedScreen">Toggle Arrived</button>');
   $('button:last-of-type').after('<button data-bind="click: toggleThankYouScreen">Toggle Thank You</button>');
-
+*/
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
   viewModel.toLogin();

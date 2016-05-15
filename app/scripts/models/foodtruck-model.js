@@ -50,15 +50,13 @@ FoodTruck.prototype.initRandomMenu = function(){
 randomizeStopPoint takes the users postion and the google map(needs the bounds of the map) to randomly distribute the foodtrucks around the user within the bounds of the map. The radius of the circular distribution area is constrained by the smallest dimension of the map - 1/2 height of the custom markers.
 */
 FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
+  console.log(pos);
   var dayOver = 22 * 3600; //the food trucks last stop begins at 22 hours
   var bounds = map.getBounds();
 
   var boundLat = bounds.getNorthEast().lat()-bounds.getSouthWest().lat();
   var boundLng = bounds.getNorthEast().lng()-bounds.getSouthWest().lng();
-
-  var boundLatLng = Math.abs(boundLat) <= Math.abs(boundLng) ? boundLat : boundLng;
-
-  var recenterFoodTrucks = Math.abs(boundLat - boundLng)/2;
+  var boundLatLng;
 
   var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+1800 : 0; //Gives at least a 30minute buffer till the next stop.
   if (initialTime < dayOver){
@@ -68,9 +66,10 @@ FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
     stime.initSecs(time);
     var etime = new TimeHelper();
     etime.initSecs(time + 3600);
+
     this.schedule.push({
-      lat: bounds.getSouthWest().lat() + boundLatLng * Math.random() + recenterFoodTrucks,
-      lng: bounds.getSouthWest().lng() + boundLatLng * Math.random(),
+      lat: bounds.getSouthWest().lat() + boundLat * Math.random(),
+      lng: bounds.getSouthWest().lng() + boundLng * Math.random(),
       starttime: stime,
       endtime: etime
     });
@@ -351,6 +350,27 @@ FoodTruck.prototype.render = function(viewModel, map) {
   }.bind(this));
 
 };
+
+FoodTruck.prototype.keepChosen = function(map, viewModel){
+  viewModel.foodTrucks().forEach( function(foodTruck){
+    if(foodTruck.infowindow){
+      foodTruck.infowindow.close();
+    }
+    if(foodTruck.flightPath){
+      foodTruck.flightPath.setMap(null);
+      console.log(foodTruck);
+    }
+    if (foodTruck.marker){
+      foodTruck.marker.setMap(null);
+    }
+    //console.log(meetup.marker)
+  });
+  this.marker.setMap(map);
+  this.flightPath.setMap(map);
+  //this.marker.setMap(map);
+};
+
+
 /*
 this is an approximation of the actual position of the food truck. The calculation is the number of seconds traveling over the number of seconds between stops. This obviously doesnt give the real life position, It is mainly used to link a route to a food truck and give a visual countdown.
 */

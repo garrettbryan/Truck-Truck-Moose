@@ -212,7 +212,7 @@ var foodTruckSelection = [
 '    </div>',
 '    <div class="row">',
 '        <div class="col-md-12">',
-'          <div class="swiper-container">',
+'          <div class="truck-swiper-container">',
 '              <!-- Additional required wrapper -->',
 '              <div class="swiper-wrapper">',
 '                  <!-- Slides -->',
@@ -236,10 +236,11 @@ ko.components.register('food-truck-selection', {
   viewModel: function(params) {
 
     this.displayFoodTrucks = params.prunedPossibleFoodTrucks;
+    this.previousFoodTrucks = [];
     this.selectedTruck = params.selectedTruck;
     this.selectedTruckName = params.selectedTruckName;
 
-    this.truckSwiper = new Swiper ('.swiper-container', {
+    this.truckSwiper = new Swiper ('.truck-swiper-container', {
       // Optional parameters
       pagination: '.swiper-pagination',
       slidesPerView: 'auto',
@@ -251,6 +252,14 @@ ko.components.register('food-truck-selection', {
     });
 
     this.selectedTruckName.subscribe(function(name){
+
+      this.previousFoodTrucks.forEach(function(foodTruck) {
+        if(foodTruck.infowindow){
+          foodTruck.infowindow.close();
+          //foodTruck.marker.setOpacity(0.5);
+        }
+      }.bind(this));
+
       this.displayFoodTrucks().forEach(function(foodTruck, index){
         console.log(name);
         console.log(foodTruck.name);
@@ -263,6 +272,8 @@ ko.components.register('food-truck-selection', {
 
     this.displayFoodTrucks.subscribe(function(foodTrucks) {
       //console.log(this.displayFoodTrucks());
+      this.selectedTruckName('');
+      this.selectedTruck = {};
       var self = this;
       console.log(foodTrucks);
       this.truckSwiper.removeAllSlides();
@@ -280,7 +291,7 @@ ko.components.register('food-truck-selection', {
         console.log(self.selectedTruck);
       });
       //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
-
+      this.previousFoodTrucks = self.displayFoodTrucks();
     }.bind(this));
 
     this.test = (function(truckNumber){
@@ -292,34 +303,40 @@ ko.components.register('food-truck-selection', {
       //this.selectedTruck(this.displayFoodTrucks()[0]);
     }).bind(this);
 
-    this.init = (function(){
-      console.log(this.displayFoodTrucks());
-    }).bind(this);
-
-    this.submit = function(formElement){
-      console.log(formElement);
-    };
   },
   template: foodTruckSelection
 });
 
 
 var menuItem = [
+'<span data-bind="text: $parent.selectedTruckName"></span>',
 '<form class="form-horizontal" data-bind="submit: $parent.toConfirmation">',
-'  <div class="form-group">',
-'    <div class="col-sm-6 col-sm-offset-3">',
-'       <select class="form-control">',
-'         <option>1</option>',
-'         <option>2</option>',
-'         <option>3</option>',
-'         <option>4</option>',
-'         <option>5</option>',
-'       </select>',
+'    <div class="row">',
+'        <div class="col-md-12">',
+'          <div class="menu-swiper-container">',
+'              <!-- Additional required wrapper -->',
+'              <div class="swiper-wrapper">',
+'                  <!-- Slides -->',
+'                  <div class="swiper-slide"></div>',
+'              </div>',
+'              <!-- If we need pagination -->',
+'              <div class="swiper-pagination"></div>',
+'          </div>',
+'        </div>',
 '    </div>',
-'  </div>',
-'  <div id="special-requests-item-1">',
-'  </div>',
-'  <div id="add-special-request-button">',
+'  <div id="order">',
+'    <ul class="order-item" data-bind="foreach: order">',
+'      <li class="name">',
+'        <h4 data-bind="text: name"></h4>',
+'            <a href="#" data-bind="click: $component.removeItem">X</a>',
+//'        <p data-bind="text: ingredients"></p>',
+'        <ul data-bind="foreach: ingredients">',
+'          <li>',
+'            <b data-bind="text: $data"></b>',
+'          </li>',
+'        </ul>',
+'      </li>',
+'    </ul>',
 '  </div>',
 '  <div class="form-group">',
 '    <div class="col-sm-12">',
@@ -330,12 +347,53 @@ var menuItem = [
 '</form>'
 ].join("\n");
 ko.components.register('food-order', {
-  viewModel: function(formData) {
+  viewModel: function(params) {
+    var self = this;
+    this.menu = params.menu;
+    this.order = params.order;
 
-    this.submit = function(formElement){
-      console.log(formElement);
-    };
+    this.menuSwiper = new Swiper ('.menu-swiper-container', {
+      // Optional parameters
+      pagination: '.swiper-pagination',
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      paginationClickable: true,
+      spaceBetween: 30,
+      observer: false,
+      loop: false
+    });
 
+    console.log(this.menu());
+    console.log(this.order());
+
+    this.menu.subscribe(function(dishes) {
+      var self = this;
+      console.log(dishes);
+      this.menuSwiper.removeAllSlides();
+      dishes.forEach(function(dish, index){
+        console.log(this.menuSwiper);
+        console.log(index);
+        //this.menuSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + dish.name + '<img src="' + dish.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
+        this.menuSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + dish.name + '</div>');
+      }.bind(this));
+
+      $('.swiper-slide').click(function(){
+        console.log(self);
+        console.log($(this).data('value'));
+        self.order.push(self.menu()[$(this).data('value')]);
+        console.log(self.order());
+      });
+      //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
+    }.bind(this));
+
+  self.removeItem = function() {
+    console.log(self);
+    console.log(this);
+    self.order.remove(this);
+  };
+
+
+    this.menu(this.menu());
   },
   template: menuItem
 });
