@@ -48,9 +48,15 @@ var ViewModel = function() {
   this.menu = ko.observableArray();
 
   this.order = ko.observableArray();
-  this.orderSubtotal = ko.observable('0');
-  this.orderTax = ko.observable('0');
-  this.orderTotal = ko.observable('0');
+  this.orderTotal = ko.computed(function(){
+    var subtotal = 0;
+    this.order().forEach( function(item){
+      subtotal += item.price();
+    });
+    return Number(subtotal.toFixed(2));
+  }, this);
+
+
 
   this.puTime = ko.observable('');
   this.puPhrase = ko.observable('');
@@ -154,8 +160,12 @@ var ViewModel = function() {
   }.bind(this);
   this.toConfirmation = function() {
     console.log("to Confirmation");
-    this.orderScreen(false);
-    this.confirmationScreen(true);
+    console.log(this.order().length>0);
+    if(this.order().length>0){
+      this.puPhrase(makePUPhrase());
+      this.orderScreen(false);
+      this.confirmationScreen(true);
+    }
   }.bind(this);
   this.toArrived = function() {
     console.log("to Arrived");
@@ -174,6 +184,13 @@ var ViewModel = function() {
     localStorage.setItem('MeetUpTruck', ko.toJSON(this.user));
     console.log(ko.utils.parseJson(localStorage.getItem('MeetUpTruck')));
   }.bind(this);
+
+
+
+
+
+
+
 
 
 
@@ -217,6 +234,14 @@ var ViewModel = function() {
   }.bind(this);
 
 };
+
+
+
+
+
+
+
+
 
 ViewModel.prototype.addFoodTrucksToMap = function() {
   console.log(foodTrucks10);

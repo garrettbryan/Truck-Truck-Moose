@@ -116,8 +116,15 @@
     'Red Sauce',
     'Marinara',
     'BBQ Sauce',
-    'No Sauce',
-    'Hot Sauce'
+    'Peanut Sauce',
+    'Fish Sauce',
+    'Mild Salsa',
+    'Hot Sauce',
+    'Olive Oil',
+    'Red Wine Vinegar',
+    'Clam Sauce',
+    'Mayonaise',
+    'Dijon Mustard'
   ];
   menuItemIngredients.crusts = [
     'White Crust',
@@ -259,6 +266,25 @@
 
   var adjectives = ['dark', 'color', 'whimsical', 'shiny', 'noise', 'apocalyptic', 'insulting', 'praise', 'scientific'];  // types of adjectives for menuItem titles
   var nouns = ['animals', 'everyday', 'fantasy', 'gross', 'horror', 'jewelry', 'places', 'scifi'];                        // types of nouns for menuItem titles
+
+
+  var makePUPhrase = function() {
+    var randomAdjective1 = parseInt(Math.random() * adjectives.length);
+    var randomAdjective2 = parseInt(Math.random() * adjectives.length);
+    var randomNoun = parseInt(Math.random() * nouns.length);
+    return PUPgenerator(adjectives[randomAdjective1], adjectives[randomAdjective2], nouns[randomNoun]);
+  };
+
+  function PUPgenerator(adj1, adj2, noun) {
+    var adjectives1 = getAdj(adj1);
+    var adjectives2 = getAdj(adj2);
+    var nouns = getNoun(noun);
+    var randomAdjective1 = parseInt(Math.random() * adjectives1.length);
+    var randomAdjective2 = parseInt(Math.random() * adjectives2.length);
+    var randomNoun = parseInt(Math.random() * nouns.length);
+    var name =  adjectives1[randomAdjective1].capitalize() + ' ' + adjectives2[randomAdjective2].capitalize() + ' ' + nouns[randomNoun].capitalize();
+    return name;
+  }
 
   // Generates random numbers for getAdj and getNoun functions and returns a new menuItem name
   function generator(adj, noun, type) {

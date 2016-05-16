@@ -334,7 +334,7 @@ var menuItem = [
 '      </li>',
 '    </ul>',
 '  <div>',
-'    <h4 data-bind="text: totalPrice"></h4>',
+'    <h4 data-bind="text: $parent.orderTotal"></h4>',
 '  </div>',
 '  </div>',
 '  <div class="form-group">',
@@ -350,14 +350,8 @@ ko.components.register('food-order', {
     var self = this;
     this.menu = params.menu;
     this.order = params.order;
+    this.totalPrice = params.orderTotal;
 
-    this.totalPrice = ko.computed(function(){
-      var subtotal = 0;
-      this.order().forEach( function(item){
-        subtotal += item.price();
-      });
-      return Number(subtotal.toFixed(2));
-    }, self)
 
     this.menuSwiper = new Swiper ('.menu-swiper-container', {
       // Optional parameters
@@ -405,17 +399,6 @@ ko.components.register('food-order', {
   template: menuItem
 });
 
-
-
-//'        <ul data-bind="foreach: ingredients">',
-//'          <li>',
-//'            <b data-bind="text: $data"></b>',
-//'            <a href="#" data-bind="click: $component.no">X</a>',
-//'          </li>',
-//'        </ul>',
-
-
-
 var ingredients = [
 '        <ul data-bind="foreach: ingredients">',
 '          <li>',
@@ -439,21 +422,31 @@ ko.components.register('ingredients', {
 });
 
 
-
-
-
-
-
 var confirmation = [
 '<div class="row">',
 '    <div class="col-xs-12 col-md-12">',
 '      <h2>PU Phrase:</h2>',
-'      <h1 data-bind="text: $parent.puPhrase">Pink Flamingo</h1>',
+'      <h1 data-bind="text: $parent.puPhrase"></h1>',
 '    </div>',
 '    <div class="col-xs-12 col-md-12">',
 '      <h2>PU TIME:</h2>',
-'      <h1 data-bind="text: $parent.puTime">9:29PM</h1>',
+'      <h1 data-bind="text: $parent.puTime"></h1>',
 '    </div>',
+'</div>',
+'<div class="row">',
+'    <div class="col-xs-12 col-md-12">',
+'    <div id="order">',
+'      <ul class="order-item" data-bind="foreach: $parent.order">',
+'        <li class="name">',
+'          <h4 data-bind="text: name"></h4>',
+'          <h4 data-bind="text: price"></h4>',
+'        </li>',
+'      </ul>',
+'    </div>',
+'    </div>',
+'</div>',
+'<div>',
+'  <h4 data-bind="text: $parent.orderTotal"></h4>',
 '</div>',
 '<div class="row">',
 '    <div class="col-xs-12 col-md-12">',

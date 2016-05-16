@@ -53,7 +53,7 @@
                 <food-truck-selection params="prunedPossibleFoodTrucks: prunedPossibleFoodTrucks(), selectedTruck: selectedTruck, selectedTruckName: selectedTruckName"></food-truck-selection>
             </div>
             <div  data-bind="if: orderScreen">
-                <food-order params="menu: menu, order: order"></food-order>
+                <food-order params="menu: menu, order: order, orderTotal, orderTotal"></food-order>
             </div>
             <div  data-bind="if: confirmationScreen">
                 <confirmation></confirmation>
