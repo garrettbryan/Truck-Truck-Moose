@@ -472,10 +472,11 @@ var arrived = [
 '<div class="row">',
 '    <div class="col-xs-12 col-md-12">',
 '      <p>',
-'        <button type="button" class="btn btn-primary btn-lg">Bring to Car</button>',
+'        <button type="button" class="btn btn-primary btn-lg" data-bind="click: $parent.toThankYou">Bring to Car</button>',
 '      </p>',
+'      <p>or</p>',
 '      <p>',
-'        <button type="button" class="btn btn-primary btn-lg">Pick Up</button>',
+'        <button type="button" class="btn btn-primary btn-lg" data-bind="click: $parent.toThankYou">Pick Up</button>',
 '      </p>',
 '    </div>',
 '<div class="row">',
@@ -483,13 +484,6 @@ var arrived = [
 '      <h2>PU Phrase:</h2>',
 '      <h1 data-bind="text: $parent.puPhrase">Pink Flamingo</h1>',
 '    </div>',
-'<div class="row">',
-'    <div class="col-xs-12 col-md-12">',
-'      <p>',
-'        <button type="button" class="btn btn-primary btn-lg" data-bind="click: $parent.toThankYou">Done</button>',
-'      </p>',
-'    </div>',
-'</div>',
 ].join("\n");
 ko.components.register('arrived', {
   viewModel: function(formData) {
@@ -506,7 +500,8 @@ ko.components.register('arrived', {
 var thankYou = [
 '<div class="row">',
 '    <div class="col-xs-12 col-md-12">',
-'      <h1>Thank You:</h1>',
+'      <h1>Sincere Thanks from</h1>',
+'      <h1 data-bind="text: $parent.selectedTruckName"></h1>',
 '    </div>',
 '</div>',
 '<div class="row">',

@@ -58,7 +58,7 @@ var ViewModel = function() {
 
 
 
-  this.puTime = ko.observable('');
+  this.puTime = ko.observable(new Date(Date.now()+1000*60*15));
   this.puPhrase = ko.observable('');
 
   this.selectedTruckName.subscribe(function(name){
