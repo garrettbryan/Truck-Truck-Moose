@@ -37,6 +37,7 @@ FoodTruck.prototype.initNoSchedule = function(truckData, map){
   this.tags = truckData.tags;
   this.menuOfferings = truckData.menuOfferings;
   this.initRandomMenu();
+  this.flightPaths = [];
 };
 
 FoodTruck.prototype.initRandomMenu = function(){
@@ -161,17 +162,19 @@ FoodTruck.prototype.styleFoodTruckPath = function(icopy,directionsService,direct
       travelMode: google.maps.TravelMode.DRIVING
     },
     function(response, status) {
+
       if (status === google.maps.DirectionsStatus.OK) {
         that.setResponses(icopy - 1, response);
 
-        that.flightPath = new google.maps.Polyline({
+        var flightPath = new google.maps.Polyline({
           path: response.routes[0].overview_path,
           geodesic: true,
           strokeColor: getColor(),
           strokeOpacity: 0.5,
           strokeWeight: (that.schedule.length - icopy) * 3
         });
-        that.flightPath.setMap(that.map);
+        flightPath.setMap(that.map);
+        that.flightPaths.push(flightPath);
       } else {
         window.alert('Directions request failed due to ' + status);
       }
@@ -341,11 +344,16 @@ FoodTruck.prototype.render = function(viewModel, map) {
         foodTruck.infowindow.close();
         //foodTruck.marker.setOpacity(0.5);
       }
-      if (foodTruck.flightPath){
-        //foodTruck.flightPath.setMap(null);
+      if (foodTruck.flightPaths.length > 0){
+        foodTruck.flightPaths.forEach( function (path){
+          path.setMap(null);
+        });
       }
     });
     this.infowindow.open(map, this.marker);
+     this.flightPaths.forEach( function (path){
+        path.setMap(map);
+      });
     viewModel.selectedTruckName(this.name);
   }.bind(this));
 
@@ -356,8 +364,10 @@ FoodTruck.prototype.keepChosen = function(map, viewModel){
     if(foodTruck.infowindow){
       foodTruck.infowindow.close();
     }
-    if(foodTruck.flightPath){
-      foodTruck.flightPath.setMap(null);
+    if (foodTruck.flightPaths.length > 0){
+      foodTruck.flightPaths.forEach( function (path){
+        path.setMap(null);
+      });
       console.log(foodTruck);
     }
     if (foodTruck.marker){

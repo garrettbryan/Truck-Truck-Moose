@@ -14,8 +14,8 @@ var ViewModel = function() {
   this.arrivedScreen = ko.observable(false);
   this.thankYouScreen = ko.observable(false);
 
-  this.user = new User();
-  this.user.init(this.now());
+  //this.user = new User();
+  //this.user.init(this.now());
 
   this.filter = ko.observable('');
 
@@ -74,14 +74,18 @@ var ViewModel = function() {
     var self = this;
     this.foodTrucks().forEach(function(foodTruck){
       foodTruck.marker.setVisible(false);
-      if(foodTruck.flightPath){
-        foodTruck.flightPath.setMap(null);
+      if(foodTruck.flightPaths > 0){
+        foodTruck.flightPaths.forEach( function (path){
+          path.setMap(null);
+        });
       }
     });
     foodTrucks.forEach(function(foodTruck, index){
       foodTruck.marker.setVisible(true);
-      if(foodTruck.flightPath){
-        foodTruck.flightPath.setMap(this.map);
+      if(foodTruck.flightPaths > 0){
+        foodTruck.flightPaths.forEach( function (path){
+          path.setMap(this.map);
+        });
       }
     });
     //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
@@ -101,9 +105,11 @@ var ViewModel = function() {
 
   this.resetUser = function() {
     this.user = new User();
+    this.user.init(this.now());
   }.bind(this);
   this.toLogin = function(){
     console.log("to Login");
+    this.resetUser();
     this.thankYouScreen(false);
     this.loginScreen(true);
   }.bind(this);
