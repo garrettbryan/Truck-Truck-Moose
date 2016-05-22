@@ -1,11 +1,11 @@
 var globalHeader = [
 '<div class="global-header row">',
-'<div class="global-header-logo col-sm-2">',
-'<a class="global-logo-section global-logo-mod" href="#">',
-'<img class="global-logo-section-logo-image" src="images/svg/moose-logo.min.svg">',
-'<div class="global-title col-sm-2">Truck Truck Moose</div>',
-'</a>',
-'</div>',
+'  <div class="global-header-logo col-sm-2">',
+'    <a class="global-logo-section global-logo-mod" href="#">',
+'      <img class="global-logo-section-logo-image" src="images/svg/moose-logo.min.svg">',
+'      <div class="global-title col-sm-2">Truck Truck Moose</div>',
+'    </a>',
+'  </div>',
 '</div>'
 ].join("\n");
 ko.components.register('global-header', {
@@ -174,6 +174,18 @@ ko.components.register('settings', {
   template: settings
 });
 
+var descriptor = [
+'<div class="descriptor container-fluid">',
+'  <section>',
+'  </section>',
+'</div>'
+].join("\n");
+ko.components.register('descriptor', {
+  viewModel: function(params) {
+
+  },
+  template: descriptor
+});
 
 var destinationSelection = [
 //'    <div data-bind="text: ko.toJSON($parent.user.begin)"></div>',
