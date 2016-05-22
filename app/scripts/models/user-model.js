@@ -36,7 +36,7 @@ User.prototype.render = function(map){
     position: this.position(),
     map: map,
     title: "Current Location",
-    draggable:true
+    draggable:false
   });
 
   /*
@@ -52,7 +52,7 @@ User.prototype.render = function(map){
   });
 
   this.marker.addListener('click', function() {
-    infowindow.open(map, this.marker);
+    //infowindow.open(map, this.marker);
     console.log(this);
   }.bind(this));
 

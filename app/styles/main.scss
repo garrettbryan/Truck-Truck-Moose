@@ -143,6 +143,8 @@ footer {
   background: #000;
 }
 
+
+
 .container-map {
   opacity: 1;
   position: fixed;
@@ -276,6 +278,85 @@ body {
 
 .container-narrow > hr {
   margin: 30px 0;
+}
+
+.global-header {
+  height: 50px;
+  width: 100%;
+  background-color: #F8DAA6;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  z-index: 100;
+  display: block;
+}
+
+.global-header-logo {
+  height: inherit;
+  width: inherit;
+}
+
+.global-logo-section {
+  height: 100%;
+  width: inherit;
+}
+
+.global-logo-section-logo-image {
+  padding: 5px 0;
+  height: 100%;
+  width: auto;
+}
+
+.global-title{
+
+}
+
+#logo-container {
+  background-color: #F0B54D;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+}
+/*99dbd7ff*/
+#logo {
+  position: absolute;
+  top: 15%;
+  bottom: 60%;
+  width: 100%;
+  background-color: #DAA446;
+  border-top: 5px solid #97E080;
+  border-bottom: 5px solid #97E080;
+  overflow: hidden;
+  box-shadow: 0 2px 10px 2px #333;
+}
+
+svg#background {
+  height: 110%;
+  //z-index: 0;
+}
+
+#truck-logo {
+  position: absolute;
+  top: 25%;
+  bottom: 50%;
+  width: 100%;
+ // z-index: 1;
+}
+
+#login-form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+#login {
+  position: absolute;
+  top: 45%;
+  width: 100%;
 }
 
 #order {

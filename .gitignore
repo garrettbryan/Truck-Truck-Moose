@@ -12,3 +12,5 @@ test/.bowerrc
 dwolla_test_data/
 dist/
 app/scripts/temp.html
+app/images/ai/
+styling/

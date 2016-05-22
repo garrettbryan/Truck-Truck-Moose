@@ -33,17 +33,6 @@ var ViewModel = function() {
   this.selectedTruck = {};
   this.selectedTruckName = ko.observable('');
 
-//  this.truckSwiper = new Swiper ('.swiper-container', {
-//    // Optional parameters
-//    //pagination: '.swiper-pagination',
-//    slidesPerView: 'auto',
-//    centeredSlides: true,
-//    paginationClickable: true,
-//    spaceBetween: 30,
-//    loop: true
-//  });
-
-
 
   this.menu = ko.observableArray();
 
@@ -104,30 +93,34 @@ var ViewModel = function() {
   }.bind(this);
 
   this.resetUser = function() {
+    localStorage.setItem('MeetUpTruck', {});
     this.user = new User();
-    this.user.init(this.now());
+    //this.user.init(this.now());
+    this.savelocally();
   }.bind(this);
   this.toLogin = function(){
     console.log("to Login");
     this.resetUser();
     this.thankYouScreen(false);
     this.loginScreen(true);
+    this.getCurrentPosition(this.mapInit,generalError);
   }.bind(this);
   this.loginToSignUp = function(){
     console.log("signup");
-    console.log("this.user");
+    console.log(this.user);
     this.loginScreen(false);
     this.signUpScreen(true);
   }.bind(this);
   this.signUpToSettings = function(){
     console.log("signup");
     console.log(this.user);
-    localStorage.setItem('MeetUpTruck', ko.toJSON(this.user));
+    localStorage.setItem('MeetUpTruck', JSON.stringify(this.user));
+    //localStorage.setItem('MeetUpTruck', ko.toJSON(this.user));
     this.signUpScreen(false);
     this.settingsScreen(true);
   }.bind(this);
   this.settingsToMap = function() {
-    localStorage.setItem('MeetUpTruck', ko.toJSON(this.user));
+    localStorage.setItem('MeetUpTruck', JSON.stringify(this.user));
     this.toMap();
   }.bind(this);
   this.toMap = function(){
@@ -186,8 +179,8 @@ var ViewModel = function() {
 
 
   this.savelocally = function(){
-    console.log(this.user);
-    localStorage.setItem('MeetUpTruck', ko.toJSON(this.user));
+    console.log(JSON.stringify(this.user));
+    localStorage.setItem('MeetUpTruck', JSON.stringify(this.user));
     console.log(ko.utils.parseJson(localStorage.getItem('MeetUpTruck')));
   }.bind(this);
 
@@ -473,7 +466,6 @@ $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
   viewModel.toLogin();
-  viewModel.getCurrentPosition(viewModel.mapInit,generalError);
   //viewModel.mapInit();
 
 

@@ -90,7 +90,7 @@ function initialize() {
           position: aboutMy.position,
           map: map,
           title: "Current Location",
-          draggable:true
+          draggable:false
         });
 
         /*
