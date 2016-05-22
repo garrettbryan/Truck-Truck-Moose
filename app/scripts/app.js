@@ -18,6 +18,7 @@ var ViewModel = function() {
   //this.user.init(this.now());
 
   this.filter = ko.observable('');
+  this.description = ko.observable('');
 
   this.meetupRequest = new MeetupRequest();
   this.meetups = ko.observableArray();
@@ -139,6 +140,7 @@ var ViewModel = function() {
     console.log("to Trucks");
     if(this.selectedDestination && this.user.begin() && this.user.end()){
       console.log(this);
+      this.description('');
       this.selectedDestination.keepChosen(this.map, this);
       this.addFoodTrucksToMap();
       this.destinationSelectionScreen(false);
@@ -148,6 +150,7 @@ var ViewModel = function() {
   this.toOrder = function() {
     console.log("to Order");
     if(this.selectedTruckName()){
+      this.description('');
       console.log(this.selectedTruck);
       this.menu(this.selectedTruck.dailyMenu);
       console.log(this.menu());

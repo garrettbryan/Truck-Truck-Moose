@@ -1,11 +1,14 @@
 var globalHeader = [
+
+'<div class="container-fluid global-header-container">',
 '<div class="global-header row">',
 '  <div class="global-header-logo col-sm-2">',
 '    <a class="global-logo-section global-logo-mod" href="#">',
 '      <img class="global-logo-section-logo-image" src="images/svg/moose-logo.min.svg">',
-'      <div class="global-title col-sm-2">Truck Truck Moose</div>',
 '    </a>',
+'    <span class="global-title col-sm-2">Truck Truck Moose</span>',
 '  </div>',
+'</div>',
 '</div>'
 ].join("\n");
 ko.components.register('global-header', {
@@ -174,18 +177,35 @@ ko.components.register('settings', {
   template: settings
 });
 
+
 var descriptor = [
-'<div class="descriptor container-fluid">',
-'  <section>',
+'<div class="descriptor container-fluid" data-bind="visible: $parent.description, descriptorSlide: open">',
+'  <a href"#" data-bind="click: toggleDescriptor">x</a>',
+'  <section data-bind="html: $parent.description">',
+//'    <h4 data-bind="html: $parent."></h4>,
+//'    <p ></p>',
 '  </section>',
 '</div>'
 ].join("\n");
 ko.components.register('descriptor', {
   viewModel: function(params) {
+    var self = this;
+    this.open = ko.observable(false);
+
+    this.toggleDescriptor = function() {
+      console.log('click');
+      if (this.open()){
+        this.open(false);
+      }
+      else {
+        this.open(true);
+      }
+    }.bind(this);
 
   },
   template: descriptor
 });
+
 
 var destinationSelection = [
 //'    <div data-bind="text: ko.toJSON($parent.user.begin)"></div>',

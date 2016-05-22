@@ -33,13 +33,11 @@
 
   </head>
   <body>
-    <div class="container-fluid global-header">
-        <global-header></global-header>
-    </div>
     <div class="main-title-overlay">
         <div class="container-fluid" id="button-navi">
         </div>
         <div class="container-fluid" id="main-form">
+            <global-header></global-header>
             <div class="common-overlay" data-bind="if: loginScreen">
                 <intro ></intro>
                 <login-form></login-form>
@@ -68,6 +66,7 @@
             <div  data-bind="if: thankYouScreen">
                 <thank-you></thank-you>
             </div>
+            <descriptor params="description: description"></descriptor>
       </div>
       <div class="container-map">
         <div id="map-canvas"></div>

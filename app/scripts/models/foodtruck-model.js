@@ -350,10 +350,16 @@ FoodTruck.prototype.render = function(viewModel, map) {
         });
       }
     });
-    this.infowindow.open(map, this.marker);
-     this.flightPaths.forEach( function (path){
-        path.setMap(map);
-      });
+    if (this.name) {
+      viewModel.description('<h4 id="heading" class="heading">' + this.name + '</h4>');
+    }
+    if(this.description){
+      viewModel.description(viewModel.description() + this.description);
+    }
+//    this.infowindow.open(map, this.marker);
+    this.flightPaths.forEach( function (path){
+      path.setMap(map);
+    });
     viewModel.selectedTruckName(this.name);
   }.bind(this));
 

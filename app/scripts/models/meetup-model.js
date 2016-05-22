@@ -80,7 +80,13 @@ Meetup.prototype.render = function(map,viewModel) {
           meetup.flightPath.setMap(null);
         }
       });
-      this.infowindow.open(map, this.marker);
+      if (this.group.name) {
+        viewModel.description('<h4 id="heading" class="heading">' + this.group.name + '</h4>');
+      }
+      if(this.description){
+        viewModel.description(viewModel.description() + this.description);
+      }
+      //this.infowindow.open(map, this.marker);
       this.marker.setOpacity(1.0);
       viewModel.selectedDestination = this;
       viewModel.user.end(this.group.name);

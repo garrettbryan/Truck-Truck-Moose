@@ -246,10 +246,6 @@ footer {
   padding: 0.2em 0;
 }
 
-/* Space out content a bit */
-body {
-}
-
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -280,6 +276,35 @@ body {
   margin: 30px 0;
 }
 
+.descriptor-open {
+  height: 20% !important;
+}
+
+.descriptor {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5%;
+  background-color: #F8DAA6;
+}
+
+.descriptor section {
+  height: 100px;
+  overflow: scroll;
+}
+
+.global-header-container {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  padding: 0;
+  background-color: #F8DAA6;
+  z-index: 10;
+}
+
 .global-header {
   height: 50px;
   width: 100%;
@@ -287,8 +312,9 @@ body {
   position: fixed;
   top: 0px;
   right: 0px;
-  z-index: 100;
+  box-shadow: 0 5px 10px 0px #555;
   display: block;
+  margin: 0;
 }
 
 .global-header-logo {
@@ -308,7 +334,7 @@ body {
 }
 
 .global-title{
-
+  font-size:
 }
 
 #logo-container {

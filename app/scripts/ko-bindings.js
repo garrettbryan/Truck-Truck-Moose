@@ -410,6 +410,30 @@ ko.bindingHandlers.fadeVisible = {
     }
 };
 
+ko.bindingHandlers.descriptorSlide = {
+    init: function(element, valueAccessor) {
+        console.log(element);
+        console.log(valueAccessor);
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+
+    },
+    update: function(element, valueAccessor) {
+
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        console.log(element);
+        console.log(valueUnwrapped);
+
+        if (valueUnwrapped === true){
+            $(element).addClass('descriptor-open');
+            console.log(valueUnwrapped);
+        }
+        else {
+            $(element).removeClass('descriptor-open');
+        }
+    }
+};
 /*
 function Answer(text) { this.answerText = text; this.points = ko.observable(1); }
 
