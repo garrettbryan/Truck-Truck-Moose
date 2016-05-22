@@ -191,6 +191,13 @@ ko.components.register('descriptor', {
   viewModel: function(params) {
     var self = this;
     this.open = ko.observable(false);
+    this.description = params.description;
+
+    this.description.subscribe( function(value){
+      if (!value){
+        this.open(false);
+      }
+    }.bind(this));
 
     this.toggleDescriptor = function() {
       console.log('click');
