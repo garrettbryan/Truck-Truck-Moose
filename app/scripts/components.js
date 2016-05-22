@@ -190,7 +190,7 @@ var descriptor = [
 ko.components.register('descriptor', {
   viewModel: function(params) {
     var self = this;
-    this.open = ko.observable(false);
+    this.open = ko.observable(0);
     this.description = params.description;
 
     this.description.subscribe( function(value){
@@ -201,12 +201,7 @@ ko.components.register('descriptor', {
 
     this.toggleDescriptor = function() {
       console.log('click');
-      if (this.open()){
-        this.open(false);
-      }
-      else {
-        this.open(true);
-      }
+      this.open(this.open() + 1);
     }.bind(this);
 
   },

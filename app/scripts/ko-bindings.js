@@ -425,12 +425,16 @@ ko.bindingHandlers.descriptorSlide = {
         console.log(element);
         console.log(valueUnwrapped);
 
-        if (valueUnwrapped === true){
+        if (valueUnwrapped === 1){
             $(element).addClass('descriptor-open');
-            console.log(valueUnwrapped);
         }
-        else {
+        else if(valueUnwrapped === 2){
             $(element).removeClass('descriptor-open');
+            $(element).addClass('descriptor-open-more');
+        }
+        else{
+            $(element).removeClass('descriptor-open-more');
+            value(0);
         }
     }
 };
