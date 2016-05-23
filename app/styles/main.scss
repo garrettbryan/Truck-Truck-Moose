@@ -191,16 +191,31 @@ footer {
     z-index: 1;
 }
 
+.pre-swiper-container {
+  //position: fixed;
+  padding: 0;
+  height: 40%;
+  width: 100%;
+  background-color: #F0B54D;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .swiper-container {
     width: 100%;
     //height: 300px;
     margin: 20px auto;
 }
+
+.swiper-wrapper {
+  height: 100px;
+}
+
 .swiper-slide {
     text-align: center;
     font-size: 18px;
-    background: #fff;
-    width: 40%;
+    background: #F8DAA6;
+    //width: 40%;
     /* Center slide text vertically */
     display: -webkit-box;
     display: -ms-flexbox;
@@ -214,6 +229,21 @@ footer {
     -ms-flex-align: center;
     -webkit-align-items: center;
     align-items: center;
+}
+
+.swiper-title {
+  position: absolute;
+  margin-bottom: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.truck-swiper-container {
+  margin: 10px 0;
+}
+
+.swiper-truck-logo {
+
 }
 
 #truck-navi,
@@ -233,6 +263,7 @@ footer {
   z-index: 10;
   //height: 100%;
   width: 100%;
+  padding: 0;
 
   transition-property: opacity;
   transition-duration: 1s;
@@ -292,6 +323,7 @@ footer {
   height: 5%;
   background-color: #F8DAA6;
   box-shadow: 0 0 10px 0 #555;
+  transition: height 0.2s ease 0s;
 }
 
 .descriptor section {
@@ -299,8 +331,14 @@ footer {
   overflow: scroll;
 }
 
+.common-overlay {
+  background-color: #F0b54D;
+  position: fixed;
+  top: 10%;
+}
+
 .global-header-container {
-  height: 50px;
+  height: 7%;
   width: 100%;
   position: fixed;
   top: 0px;
@@ -311,7 +349,7 @@ footer {
 }
 
 .global-header {
-  height: 50px;
+  height: 7%;
   width: 100%;
   background-color: #F8DAA6;
   position: fixed;
@@ -323,17 +361,17 @@ footer {
 }
 
 .global-header-logo {
-  height: inherit;
-  width: inherit;
+  height: 100%;
+  width: auto;
 }
 
 .global-logo-section {
   height: 100%;
-  width: inherit;
+  width: auto;
 }
 
 .global-logo-section-logo-image {
-  padding: 5px 0;
+  padding: 5px 5px;
   height: 100%;
   width: auto;
 }

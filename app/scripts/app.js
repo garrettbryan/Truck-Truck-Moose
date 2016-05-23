@@ -20,6 +20,8 @@ var ViewModel = function() {
   this.filter = ko.observable('');
   this.description = ko.observable('');
 
+
+  this.gotMeetups = ko.observable('');
   this.meetupRequest = new MeetupRequest();
   this.meetups = ko.observableArray();
   this.prunedPossibleDestinations = ko.observableArray();

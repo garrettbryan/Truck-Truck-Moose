@@ -2,11 +2,11 @@ var globalHeader = [
 
 '<div class="container-fluid global-header-container">',
 '<div class="global-header row">',
-'  <div class="global-header-logo col-sm-2">',
+'  <div class="global-header-logo">',
 '    <a class="global-logo-section global-logo-mod" href="#">',
 '      <img class="global-logo-section-logo-image" src="images/svg/moose-logo.min.svg">',
 '    </a>',
-'    <span class="global-title col-sm-2">Truck Truck Moose</span>',
+'    <span class="global-title">Truck Truck Moose</span>',
 '  </div>',
 '</div>',
 '</div>'
@@ -216,14 +216,14 @@ var destinationSelection = [
 //'<form class="form-horizontal" data-bind="submit: $parent.toFoodTrucks">',
 '<form class="form-horizontal">',
 '  <div class="form-group">',
-'    <div class="col-xs-12 col-md-12">',
+'    <div class="">',
 //'      <input class="form-control col-sm-6" data-bind="geoToAddress: $parent.selectedDestination" placeholder="Start" type="text">',
-'      <input class="form-control col-sm-6" data-bind="geoToAddress: $parent.user.begin" placeholder="Start" type="text">',
+'      <input class="" data-bind="geoToAddress: $parent.user.begin" placeholder="Start" type="text">',
 '    </div>',
 '  </div>',
 '  <div class="form-group">',
-'    <div class="col-xs-12 col-md-12">',
-'      <input id="end" class="form-control col-sm-6" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="End" type="text">',
+'    <div class="">',
+'      <input id="end" class="" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="End" type="text">',
 '      <div data-bind="foreach: $parent.prunedPossibleDestinations">',
 '        <p class="destination" data-bind="destinationDropdown: group.name"></p>',
 '      </div>',
@@ -258,34 +258,21 @@ ko.components.register('destination-selection', {
 
 
 var foodTruckSelection = [
-'<span data-bind="text: selectedTruckName"></span>',
-'<form class="form-horizontal">',
-'    <div class="form-group">',
-'        <div class="col-sm-10">',
-'            <input class="form-control" data-bind="truckFilter: $parent.truckFilter" type="text" id="truck-filter" placeholder="Filter">',
-'        </div>',
+'<input class="form-control" data-bind="truckFilter: $parent.truckFilter" type="text" id="truck-filter" placeholder="Filter">',
+'    <div class="pre-swiper-container">',
+'       <div class="truck-swiper-container">',
+'           <!-- Additional required wrapper -->',
+'           <div class="swiper-wrapper">',
+'               <!-- Slides -->',
+'               <div class="swiper-slide"></div>',
+'           </div>',
+'           <!-- If we need pagination -->',
+'           <div class="swiper-pagination"></div>',
+'       </div>',
 '    </div>',
-'    <div class="row">',
-'        <div class="col-md-12">',
-'          <div class="truck-swiper-container">',
-'              <!-- Additional required wrapper -->',
-'              <div class="swiper-wrapper">',
-'                  <!-- Slides -->',
-'                  <div class="swiper-slide"></div>',
-'              </div>',
-'              <!-- If we need pagination -->',
-'              <div class="swiper-pagination"></div>',
-'          </div>',
-'        </div>',
-'    </div>',
-'  <div class="form-group">',
-'    <div class="col-sm-12">',
 '      <button class="btn btn-default" id="Done">Go Back</button>',
 //'      <button class="btn btn-default" data-bind="click: init" id="Done">Go Back</button>',
 '      <button class="btn btn-default" data-bind="click: $parent.toOrder" id="Done">Ok</button>',
-'    </div>',
-'  </div>',
-'</form>'
 ].join("\n");
 ko.components.register('food-truck-selection', {
   viewModel: function(params) {
@@ -335,7 +322,7 @@ ko.components.register('food-truck-selection', {
       foodTrucks.forEach(function(foodTruck, index){
         console.log(this.truckSwiper);
         console.log(index);
-        this.truckSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + foodTruck.name + '<img src="' + foodTruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
+        this.truckSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'"><img src="' + foodTruck.img + '" class="" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"><h3 class="swiper-title">' + foodTruck.name + '</h3></div>');
       }.bind(self));
 
       $('.swiper-slide').click(function(){

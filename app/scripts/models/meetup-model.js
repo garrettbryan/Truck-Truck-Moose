@@ -11,6 +11,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
       dataType: 'jsonp',
       success: function(data) {
         console.log(data);
+        this.gotMeetups('true');
         data.results.forEach(function(result){
 //          console.log(result);
           this.meetups.push(new Meetup(result));
@@ -18,7 +19,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
         }.bind(this));
         clearTimeout(meetupRequestTimeout);
 
-        console.log(this.meetups());
+        console.log(this.gotMeetups());
         this.meetups().sort(function(a,b){
           return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
         });
@@ -27,6 +28,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
         //console.log(this);
       }.bind(this),
       error: function(data) {
+        this.gotMeetups('false');
         console.log('meetup Error');
         console.log(data);
       }.bind(this)

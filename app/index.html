@@ -38,20 +38,20 @@
         </div>
         <div class="container-fluid" id="main-form">
             <global-header></global-header>
-            <div class="common-overlay" data-bind="if: loginScreen">
+            <div class="" data-bind="if: loginScreen">
                 <intro ></intro>
                 <login-form></login-form>
             </div>
-            <div  data-bind="if: signUpScreen">
+            <div class="common-overlay" data-bind="if: signUpScreen">
                 <sign-up-form></sign-up-form>
             </div>
-            <div  data-bind="if: settingsScreen">
+            <div class="common-overlay" data-bind="if: settingsScreen">
                 <settings></settings>
             </div>
-            <div  data-bind="if: destinationSelectionScreen">
+            <div class="common-overlay" data-bind="if: destinationSelectionScreen">
                 <destination-selection></destination-selection>
             </div>
-            <div  data-bind="if: foodTruckScreen">
+            <div class="common-overlay" data-bind="if: foodTruckScreen">
                 <food-truck-selection params="prunedPossibleFoodTrucks: prunedPossibleFoodTrucks(), selectedTruck: selectedTruck, selectedTruckName: selectedTruckName"></food-truck-selection>
             </div>
             <div  data-bind="if: orderScreen">
