@@ -1,5 +1,6 @@
 User.prototype.init = function(now){
-  var existingUser = ko.utils.parseJson(localStorage.getItem('MeetUpTruck'));
+  //var existingUser = ko.utils.parseJson(localStorage.getItem('MeetUpTruck'));
+  var existingUser;
   console.log(existingUser);
   if (!existingUser){
     this.clearUserFields();
@@ -30,8 +31,67 @@ User.prototype.populateFields = function(existingUser) {
   }
 };
 
-User.prototype.render = function(map){
 
+
+User.prototype.localSave = function(){
+//a function to run observable values through the toJSON function.
+//the function toJSON does not accept non ko objects.
+//must convert to string before trying to save.
+
+  var savedUserData = {
+    "handle": this.handle,
+    "password": this.password,
+    "ccNumber": this.ccNumber,
+    "ccExpiration": this.ccExpiration,
+    "ccv": this.ccv,
+    "weatherDisplay": this.weatherDisplay,
+    "rememberMe": this.rememberMe,
+    "favoriteFood": this.favoriteFood,
+    "currentLogin": this.currentLogin,
+    "begin": this.begin,
+    "end": this.end,
+    "name": this.name,
+    "email": this.email,
+    "position": this.position,
+    "startTime": this.startTime,
+    "endTime": this.endTime
+  };
+
+    for (var key in savedUserData) {
+      console.log(ko.toJSON(key));
+      console.log(ko.toJSON(savedUserData[key]));
+    }
+//    console.log(ko.toJSON(this.user));
+    //localStorage.setItem('MeetUpTruck', ko.toJSON.apply(this,this.user));
+    //console.log(ko.utils.parseJson(localStorage.getItem('MeetUpTruck')));
+
+  console.log(savedUserData);
+  localStorage.setItem('MeetUpTruck', ko.toJSON(savedUserData));
+  //console.log(ko.utils.parseJson(localStorage.getItem('MeetUpTruck')));
+};
+
+User.prototype.getLocalData = function(){
+  var localData = ko.utils.parseJson(localStorage.getItem('MeetUpTruck'));
+
+  this.handle(localData.handle);
+  this.password(localData.password);
+  this.ccNumber(localData.ccNumber);
+  this.ccExpiration(localData.ccExpiration);
+  this.ccv(localData.ccv);
+  this.weatherDisplay(localData.weatherDisplay);
+  this.rememberMe(localData.rememberMe);
+  this.favoriteFood(localData.favoriteFood);
+  this.currentLogin(localData.currentLogin);
+  this.begin(localData.begin);
+  this.end(localData.end);
+  this.name(localData.name);
+  this.email(localData.email);
+  this.position(localData.position);
+  this.startTime(localData.startTime);
+  this.endTime(localData.endTime);
+};
+
+User.prototype.render = function(map){
   this.marker = new google.maps.Marker({
     position: this.position(),
     map: map,

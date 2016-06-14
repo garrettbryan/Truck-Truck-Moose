@@ -410,6 +410,54 @@ ko.bindingHandlers.fadeVisible = {
     }
 };
 
+ko.bindingHandlers.scrollDown = {
+    init: function(element, valueAccessor) {
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        console.log("scrollDown");
+
+//        element.on('heightChange', function(){
+//            alert('xxx');
+//        });
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+        console.log("update scrollDown");
+
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        console.log(element);
+        console.log(valueUnwrapped);
+        console.log(context);
+ //       element.trigger("heightChange");
+         console.log($(element));
+         console.log(element.clientHeight);
+         console.log(element.scrollHeight);
+         // certain browsers have a bug such that scrollHeight is too small
+         // when content does not fill the client area of the element
+         var scrollHeight = Math.max(element.scrollHeight, element.clientHeight);
+         element.scrollTop = scrollHeight - element.clientHeight;
+         console.log(element.scrollTop);
+    }
+};
+
+
+ko.bindingHandlers.headerSlide = {
+    update: function(element, valueAccessor) {
+
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        console.log(element);
+        console.log(valueUnwrapped);
+
+        if (valueUnwrapped){
+            $(".global-header").addClass('header-close');
+        }
+        else{
+            $(".global-header").removeClass('header-close');
+        }
+    }
+};
+
 ko.bindingHandlers.descriptorSlide = {
     init: function(element, valueAccessor) {
         console.log(element);
@@ -438,6 +486,32 @@ ko.bindingHandlers.descriptorSlide = {
         }
     }
 };
+
+ko.bindingHandlers.formSlide = {
+    init: function(element, valueAccessor) {
+        console.log(element);
+        console.log(valueAccessor);
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+
+    },
+    update: function(element, valueAccessor) {
+
+        var value = valueAccessor();
+        var valueUnwrapped = ko.unwrap(value);
+        console.log(element);
+        console.log(valueUnwrapped);
+
+        if (!valueUnwrapped){
+            $("#main-form").addClass('main-form-close');
+        }
+        else {
+            $("#main-form").removeClass('main-form-close');
+        }
+    }
+};
+
+
 /*
 function Answer(text) { this.answerText = text; this.points = ko.observable(1); }
 

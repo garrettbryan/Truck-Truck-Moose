@@ -4,33 +4,40 @@ var MeetupRequest = function() {
 
 MeetupRequest.prototype.CORopenEvents = function(position) {
   var meetupRequestTimeout = setTimeout(function(){
-      console.log('Failed to get Meetups.');
-  }, 8000);
+      this.warningMessages.unshift("Meetup.com timeout");
+      this.warning(true);
+      console.log(this.warningMessages());
+  }.bind(this), 8000);
   $.ajax.call(this,{
       url: 'https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=' + position().lng() + '&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=' + position().lat() + '&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d',
       dataType: 'jsonp',
       success: function(data) {
         console.log(data);
-        this.gotMeetups('true');
-        data.results.forEach(function(result){
-//          console.log(result);
-          this.meetups.push(new Meetup(result));
-//          console.log(Date(meetup.time));
-        }.bind(this));
-        clearTimeout(meetupRequestTimeout);
+        if (data.results.length === 0) {
+          this.warningMessages.unshift("heard from Meetup.com there are no more upcoming meetups today");
+          this.warning(true);
+        }else{
+          data.results.forEach(function(result){
+  //          console.log(result);
+            this.meetups.push(new Meetup(result));
+  //          console.log(Date(meetup.time));
+          }.bind(this));
+          clearTimeout(meetupRequestTimeout);
 
-        console.log(this.gotMeetups());
-        this.meetups().sort(function(a,b){
-          return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
-        });
-        console.log(this.meetups());
-
+          console.log(this.meetups());
+          this.meetups().sort(function(a,b){
+            return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
+          });
+          console.log(this.meetups());
+        }
         //console.log(this);
       }.bind(this),
       error: function(data) {
-        this.gotMeetups('false');
-        console.log('meetup Error');
         console.log(data);
+        //this.warning(true);
+        this.warningMessages.unshift("Meetup.com error with ajax");
+        this.warning(true);
+        console.log(this.warningMessages());
       }.bind(this)
   });
 };
@@ -44,6 +51,14 @@ var Meetup = function(data) {
   this.img = 'images/resize_meetup.png';
 };
 Meetup.prototype.constructor = Meetup;
+
+Meetup.prototype.adjustDescriptionImages = function(selector) {
+  var str = this.description;
+  var html = $.parseHTML( str );
+  console.log(html);
+  html.find('img').css('width','100%');
+  console.log(html);
+};
 
 Meetup.prototype.render = function(map,viewModel) {
   //console.log(this);
@@ -87,6 +102,7 @@ Meetup.prototype.render = function(map,viewModel) {
       }
       if(this.description){
         viewModel.description(viewModel.description() + this.description);
+        //console.log(this.adjustDescriptionImages('img'));
       }
       //this.infowindow.open(map, this.marker);
       this.marker.setOpacity(1.0);

@@ -5,8 +5,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 html,
 body {
-  //overflow: hidden;
-  height: 100%;
+    height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -94,8 +93,7 @@ footer {
   width: 100%;
   position: absolute;
   z-index: 1;
-  //background-color: gray;
-}
+  }
 
 .left {
   bottom: 0;
@@ -120,11 +118,13 @@ footer {
   opacity: 1;
 }
 
-.truck-title-overlay,
+
 .main-title-overlay {
   position: relative;
-  height: 100%;
-  width: 100%;
+}
+
+.main-title-overlay {
+  z-index:2;
 }
 
 .map-invisable {
@@ -148,7 +148,9 @@ footer {
 .container-map {
   opacity: 1;
   position: fixed;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  z-index: 1;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -161,8 +163,9 @@ footer {
 }
 
 #map-canvas {
-  position: absolute;
-  z-index: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -191,31 +194,98 @@ footer {
     z-index: 1;
 }
 
-.pre-swiper-container {
-  //position: fixed;
-  padding: 0;
-  height: 40%;
+.hide-swiper-overflow-x {
+  overflow-x: hidden;
   width: 100%;
-  background-color: #F0B54D;
-  margin-right: auto;
-  margin-left: auto;
+  background-color: #F8DAA6;
+}
+
+.box {
+  height: 90%;
+  width: 100%;
+  background-color: blue;
+  position: relative;
+}
+
+.subbox {
+  width: 100%;
+  height: 200px;
+  background-color: red;
+  box-shadow: 0 5px 10px 0 #555;
+  position: fixed;
+}
+
+.lowerbox {
+  background-color: yellow;
+  overflow-y: scroll;
+  height: 200%;
+  width: 50%;
+}
+
+.spacer {
+  background-color: red;
+  box-shadow: 0 5px 10px 0 #555;
+}
+
+.content {
+  height: 500px;
+  width: 100%;
+}
+
+.frontbox {
+  top: 0;
+  width: 100%;
+  height: 5%;
+  background: green;
+  }
+
+.endbox {
+    bottom: 0;
+  width: 100%;
+  height: 5%;
+  background: green;
+}
+
+.menu {
+  position: fixed;
+  height: auto;
+  width: 100%;
+  z-index: 2;
+}
+
+.truck-swiper-row,
+.menu-swiper-row {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.truck-swiper-container,
+.menu-swiper-container {
+  height: 100px;
+  background-color: #DAA446;
+  box-shadow: inset 0 5px 10px 0 #555;
+}
+
+#menu-swiper-pagination,
+#truck-swiper-pagination {
+  position: relative;
+  margin-top: 15px;
 }
 
 .swiper-container {
     width: 100%;
-    //height: 300px;
-    margin: 20px auto;
-}
-
-.swiper-wrapper {
-  height: 100px;
+        margin: 20px auto;
 }
 
 .swiper-slide {
+    box-shadow: 0 5px 10px 0 #555;
+    height: auto;
+    margin: 10px 0;
     text-align: center;
     font-size: 18px;
     background: #F8DAA6;
-    //width: 40%;
+    border-radius: 2px;
+    width: 40%;
     /* Center slide text vertically */
     display: -webkit-box;
     display: -ms-flexbox;
@@ -229,6 +299,28 @@ footer {
     -ms-flex-align: center;
     -webkit-align-items: center;
     align-items: center;
+    transition: box-shadow 1s ease;
+}
+
+.slide-content {
+  height: 80px;
+}
+
+.user-order-container {
+  z-index: -1;
+}
+
+#user-confirmation,
+#user-order {
+  padding: 10px;
+  background-color: white;
+  overflow-y: scroll;
+}
+
+.descriptor-content::-webkit-scrollbar,
+#user-confirmation::-webkit-scrollbar,
+#user-order::-webkit-scrollbar {
+    display: none;
 }
 
 .swiper-title {
@@ -250,7 +342,6 @@ footer {
 #navi {
   position: absolute;
   z-index: 10;
-  //height: 100%;
   width: 100%;
 
   transition-property: opacity;
@@ -258,16 +349,68 @@ footer {
   transition-timing-function: ease;
 }
 
-#main-form {
-  position: absolute;
-  z-index: 10;
-  //height: 100%;
-  width: 100%;
-  padding: 0;
+.confirmation {
+    background-color: #FFF;
+    height: 100%;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 5%;
+    box-shadow: 0 5px 10px #777;
+    padding: 15px;
+}
 
-  transition-property: opacity;
-  transition-duration: 1s;
-  transition-timing-function: ease;
+.swiper-pagination-bullet-active {
+  background: #97E080;
+}
+
+.ttg-button {
+    color: #333;
+    background-color: #97E080;
+    border-color: #f8daa6;
+    box-shadow: 0 5px 15px 0 #555;
+}
+
+.ttg-button:hover {
+    color: #333;
+    background-color: #F8DAA6;
+    border-color: #f8daa6;
+    box-shadow: 0 5px 15px 0 #555;
+}
+
+.form-control:focus {
+      border-color: #97E080;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(151, 224, 128, 0.6);
+}
+
+.label-right {
+  text-align: right;
+}
+
+.label-left {
+  text-align: left;
+}
+
+#settings {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/*
+.form-horizontal {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+*/
+
+#main-form.main-form-close {
+  top: -100vh ;
+}
+
+
+.full-screen {
+  height: 100vh;
 }
 
 .browsehappy {
@@ -316,25 +459,35 @@ footer {
 }
 
 .descriptor {
+  padding-top: 5%;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 5%;
+  height: 3%;
   background-color: #F8DAA6;
   box-shadow: 0 0 10px 0 #555;
   transition: height 0.2s ease 0s;
 }
 
-.descriptor section {
-  height: 100px;
+.swiper-slide-active {
+  box-shadow: 0 5px 10px 0 #97E080;
+}
+
+.descriptor div {
+  height: 100%;
   overflow: scroll;
 }
 
-.common-overlay {
-  background-color: #F0b54D;
-  position: fixed;
-  top: 10%;
+.descriptor-img {
+  width: 100%;
+}
+
+#cog-setting {
+  color: #333;
+  padding: 10px 15px;
+  position: relative;
+  display: block;
 }
 
 .global-header-container {
@@ -345,19 +498,20 @@ footer {
   right: 0px;
   padding: 0;
   background-color: #F8DAA6;
-  z-index: 10;
 }
 
 .global-header {
-  height: 7%;
+  transition: top 0.1s ease;
+  height: 50px;
   width: 100%;
   background-color: #F8DAA6;
   position: fixed;
   top: 0px;
   right: 0px;
-  box-shadow: 0 5px 10px 0px #555;
+  box-shadow: 0 3px 15px 0px #555;
   display: block;
   margin: 0;
+  z-index:5;
 }
 
 .global-header-logo {
@@ -371,51 +525,135 @@ footer {
 }
 
 .global-logo-section-logo-image {
-  padding: 5px 5px;
+  padding: 5px;
   height: 100%;
   width: auto;
 }
 
+.header-close {
+  top: -40px;
+}
+
+
+#main-form.half {
+    height: auto;
+}
+
+#main-form {
+  position: fixed;
+  margin-top: 50px;
+  padding-bottom: 5%;
+  top: 0;
+  z-index: 2;
+  background-color: #F0B54D;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 5px 10px 0 #555;
+  transition: top 0.2s ease-out;
+}
+
+
+@media only screen and (max-width: 320px) {
+  .global-title {
+    font-size: 1em;
+  }
+}
+
+@media only screen and (max-width: 250px) {
+  .global-title {
+    font-size: 1em;
+    visibility: hidden;
+  }
+}
+
+@media only screen and (min-width: 365px) {
+  .global-title {
+    font-size: 2em;
+  }
+}
+
+
+@media only screen and (min-width: 400px) {
+}
+
+/*
+.form-group {
+  height: 34px !important;
+}
+*/
+
 .global-title{
-  font-size:
+  font-style: italic;
 }
 
 #logo-container {
-  background-color: #F0B54D;
   position: absolute;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 /*99dbd7ff*/
+
 #logo {
-  position: absolute;
-  top: 15%;
-  bottom: 60%;
+  position: relative;
+  margin-top: 5%;
+  margin-bottom: 5%;
   width: 100%;
+  padding-bottom: 2%;
   background-color: #DAA446;
   border-top: 5px solid #97E080;
   border-bottom: 5px solid #97E080;
-  overflow: hidden;
-  box-shadow: 0 2px 10px 2px #333;
+  box-shadow: 0 2px 10px 2px #555;
+  line-height: 0;
+  font-size: 0;
 }
 
 svg#background {
   height: 110%;
-  //z-index: 0;
+}
+
+#city {
+    position: relative;
+    bottom: 100%;
+    margin-bottom: -32%;
 }
 
 #truck-logo {
-  position: absolute;
-  top: 25%;
-  bottom: 50%;
+  position: relative;
   width: 100%;
- // z-index: 1;
+}
+
+.first-row {
+  padding-top: 5%;
+  height: 100%;
+}
+
+.screen {
+
+}
+
+#loginScreen {
+
+}
+
+#signUpScreen {
+
+}
+
+.login {
+  background-color: #F8DAA6;
+  padding-top: 5%;
+  margin-top: 5%;
+  box-shadow: 0 5px 10px 0 #555;
+}
+
+.signup {
+
 }
 
 #login-form {
-  position: absolute;
+
   top: 0;
   left: 0;
   height: 100vh;
@@ -426,6 +664,29 @@ svg#background {
   position: absolute;
   top: 45%;
   width: 100%;
+}
+
+.no-meetups {
+  position: absolute;
+  height: auto;
+  width: 90vw;
+  top: 25%;
+  background-color: blue;
+  z-index: 5;
+  margin: auto;
+  border-radius: 3px;
+  box-shadow: 0 8px 15px 0 #555;
+  border: 2px solid #Daa446;
+  background-color: #F8DAA6;
+}
+
+.no-meetups .title {
+  margin: 10px;
+  border-bottom: 2px solid #Daa446;
+}
+
+.no-meetups p {
+  margin: 10px;
 }
 
 #order {
@@ -474,3 +735,4 @@ svg#background {
     border-bottom: 0;
   }
 }
+
