@@ -8,9 +8,29 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
 
-    <link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+    <!--<link rel="shortcut icon" href="/favicon.ico">-->
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
+    <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css">
+    <link rel="stylesheet" href="styles/font-awesome.css">
     <!-- bower:css -->
     <!-- endbower -->
     <!-- endbuild -->
@@ -22,12 +42,63 @@
     <!-- endbuild -->
 
     <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7fFwCspNYDKZZ53el6Qs0Fjjhn0X7Jhs">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7fFwCspNYDKZZ53el6Qs0Fjjhn0X7Jhs&libraries=geometry,places">
     </script>
+    <!--
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
+     <script type="text/javascript"src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+    -->
 
   </head>
   <body>
+    <div class="main-title-overlay">
+        <div class="container-fluid" id="button-navi">
+        </div>
+        <div id="main-form" class="container-fluid">
+            <div data-bind="if: warning">
+                <ui-warning params="warningMessages: warningMessages"></ui-warning>
+            </div>
+            <div id="loginScreen" data-bind="if: loginScreen">
+                <intro ></intro>
+                <login-form></login-form>
+            </div>
+            <div id="signUpScreen"  data-bind="if: signUpScreen">
+                <sign-up-form></sign-up-form>
+            </div>
+            <div class="common-overlay" data-bind="if: settingsScreen">
+                <settings></settings>
+            </div>
+            <div class="common-overlay" data-bind="if: destinationSelectionScreen">
+                <destination-selection></destination-selection>
+            </div>
+            <div class="common-overlay" data-bind="if: foodTruckScreen">
+                <food-truck-selection params="prunedPossibleFoodTrucks: prunedPossibleFoodTrucks(), selectedTruck: selectedTruck, selectedTruckName: selectedTruckName"></food-truck-selection>
+            </div>
+            <div data-bind="if: orderScreen">
+                <food-order params="menu: menu, order: order, orderTotal, orderTotal"></food-order>
+            </div>
+            <div  data-bind="if: confirmationScreen">
+                <confirmation params="puTime: puTime"></confirmation>
+            </div>
+            <div  data-bind="if: arrivedScreen">
+                <arrived></arrived>
+            </div>
+            <div  data-bind="if: thankYouScreen">
+                <thank-you></thank-you>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <global-header params="exposeApp: exposeApp"></global-header>
+        </div>
+        <descriptor params="description: description"></descriptor>
+    </div>
+
+    <div class="container-map">
+        <div id="map-canvas"></div>
+    </div>
+
+
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -48,6 +119,8 @@
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
     <script src="bower_components/knockout/dist/knockout.js"></script>
+    <script src="bower_components/swiper/dist/js/swiper.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -62,16 +135,34 @@
     </script>
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
+        <script src="scripts/ko-bindings.js"></script>
+        <script src="scripts/models/tm.js"></script>
+        <script src="scripts/models/model.js"></script>
+        <script src="scripts/models/menu_item_model.js"></script>
+        <script src="scripts/models/foodtrucks.js"></script>
+        <script src="scripts/models/weather_model.js"></script>
+        <script src="scripts/models/foodtruck-model.js"></script>
+        <script src="scripts/models/map-model.js"></script>
+        <script src="scripts/models/meetup-model.js"></script>
+        <script src="scripts/models/user-model.js"></script>
+        <script src="scripts/models/order-model.js"></script>
+        <script src="scripts/components.js"></script>
+        <script src="scripts/app.js"></script>
+
+        <!-- endbuild -->
+<!--
         <script src="scripts/html.js"></script>
         <script src="scripts/view_template.js"></script>
         <script src="scripts/tm.js"></script>
         <script src="scripts/model_user.js"></script>
         <script src="scripts/model_meetup.js"></script>
+        <script src="scripts/model_menu_item.js"></script>
         <script src="scripts/model_foodtruck.js"></script>
         <script src="scripts/model_weather.js"></script>
+        <script src="scripts/map_model.js"></script>
         <script src="scripts/model.js"></script>
         <script src="scripts/interface.js"></script>
         <script src="scripts/main.js"></script>
-        <!-- endbuild -->
+-->
 </body>
 </html>

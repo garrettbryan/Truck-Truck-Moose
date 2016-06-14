@@ -1,144 +1,14 @@
-$(document).ready(function() {
-  //wait fo title page to load before requesting google map.
- // $('body').prepend(HTML);
-  //$('body').prepend(foodTruckDetail);
-  //function hideAddressBar()
-//  $('.main-title-overlay').append(SearchHTML(1));
-  //$('.main-title-overlay').append(SearchHTML(1));
- // $('#main-form').append(logo);
- // $('#main-form').append(signInForm);
- // $('#main-form').append(addMenuItemButton);
- // $('#special-requests-item-1').append(specialRequest);
- // $('#special-requests-item-1').append(addSpecialRequestButton);
-
-  //google.maps.event.addDomListener(window, 'load', initialize);
-  initialize();
-  fiveSecLoad();
-
-  var user = new User();
-  user.init();
-  console.log(user);
-  //user.restoreSession();
-  console.log(user);
-
-//  var viewModel = new ViewModel();
-//  ko.applyBindings(viewModel);
-//  viewModel.details(logo + signInForm);
-});
+var Map = function(){
+  this.markers = [];
+  this.path = [];
+};
 
 
-/*
-
-  localStorage.setItem('bgcolor', 'red');
-  var currentColor = localStorage.getItem('bgcolor');
-  window.addEventListener('storage', function(e) {
-    document.querySelector('.my-key').textContent = e.key;
-  });
-
-*/
 
 
-$(function() { /* code here */ });
-/*
-$("#open-menu").click(function(){
-  $(".top-input").removeClass("hidden-offscreen-left");
-  $(".search-bar").focus();
-});
-
-$("#open-menu").focus(function(){
-  $(this).blur();
-});
-
-$(".search-bar").change(function() {
-  $(".top-input").addClass("hidden-offscreen-left");
-  setInterval(function() {
-    $("#open-menu").prop("disabled", false);
-  }, 1000);
-});
-
-
-$("#open-list").click(function(){
-  $(".left").removeClass("hidden-offscreen-left");
-  //$(".search-bar").focus();
-});
-
-$("#open-list").focus(function(){
-  $(this).blur();
-});
-
-$(".search-bar").blur(function() {
-  $(".left").addClass("hidden-offscreen-left");
-  setInterval(function() {
-    $("#open-list").prop("disabled", false);
-  }, 1000);
-});
-*/
-
-/*
-The initialize function uses modernizer to test browser.
-Depending on the outcome the app will gracefully downgrade.
-The app will have two quality steps.
-With geolocation map will load with surrounding area.
-Without geolocation map will load United States map, and ask user for location.
-
-Initialize will also initialize the random foodtrucks and their postions.
-*/
-
-/*
-fiveSecLoad fades in the map after five seconds.
-TODO successful load of all entities fade in map.
-TODO failure to load all entities fade in try again later.
-*/
-function fiveSecLoad() {
-  console.log();
-  pretendMapLoad = window.setTimeout( function(){
-    $('.container-map').css('opacity', 1.0);
-  }, 5000);
-}
-
-
-function updateForm(html){
-  removeForm( function() {
-    console.log(html);
-    loadForm(html);
-  });
-}
-
-/*
-remove html
-*/
-function removeForm( cb ) {
-  $('#main-form').css('opacity', 0);
-  window.setTimeout( function(){
-    $('#main-form').html("");
-    if (cb) {
-      cb();
-    }
-  }, 1000);
-}
-
-/*
-add html
-*/
-function loadForm(html) {
-  $('#main-form').html(html);
-  $('#main-form').css('opacity', 1);
-}
 
 
 function initialize() {
-/*  $('#sign-in-btn').click( function(event) {
-    event.preventDefault();
-    $('#navi').css('opacity', 0);
-    removeForm( function() {
-      $('#navi').remove();
-    });
-  });
-  $('#sign-up-btn').click( function(event) {
-    event.preventDefault();
-    updateForm(signupForm);
-  });
-*/
   console.log(Modernizr);
 
   if (Modernizr.geolocation) {
@@ -193,8 +63,8 @@ function initialize() {
 
         google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
 
-          var meetupRequest = new MeetupRequest();
-          meetupRequest.CORopenEvents(aboutMy.position);
+ //         var meetupRequest = new MeetupRequest();
+ //         meetupRequest.CORopenEvents(aboutMy.position);
 
 
 /*
@@ -220,7 +90,7 @@ function initialize() {
           position: aboutMy.position,
           map: map,
           title: "Current Location",
-          draggable:true
+          draggable:false
         });
 
         /*
@@ -368,12 +238,11 @@ function initialize() {
       */
       function(){
         console.log("err");
-      });
+      }
+    );
   }
 
   //401 and tenten 35.665270, -78.699227
   //home 35.798124, -78.666578
   //console.log(map);
 }
-
-//fiveSecLoad(google.maps.event.addDomListener(window, 'load', initialize));

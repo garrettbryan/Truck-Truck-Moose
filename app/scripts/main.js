@@ -21,8 +21,20 @@ var prediction = function(place) {
   this.details = ko.observable(place);
 };
 
-var ViewModel = function() {
+var ViewModelNG = function() {
   var self = this;
+
+  this.details = ko.observable();
+
+  this.signIn = function(formElement) {
+    console.log(formElement);
+  };
+
+  this.signUp = function() {
+    console.log("signUp");
+  };
+
+
 
   this.query = ko.observable("");
   this.pois = ko.observableArray([]);
@@ -46,11 +58,11 @@ var ViewModel = function() {
       keyword: self.query()
     };
 
-    console.log(request.keyword)
+    console.log(request.keyword);
 
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch(request, self.searchCallback);
-  }
+  };
 
   self.createPlaceMarker = function(place){
     console.log(aboutMy.markers);
@@ -59,7 +71,7 @@ var ViewModel = function() {
       map: map,
       title: place.name
     }));
-  }
+  };
 
   self.searchCallback = function(results, status) {
     aboutMy.markers = [];
@@ -74,10 +86,10 @@ var ViewModel = function() {
       self.pois.push(new POI(result) );
     });
     self.pois.sort();
-  }
-}
+  };
+};
 
-ko.applyBindings(new ViewModel());
+
 
 function autocompleteCallback(predictions, status) {
   autocompletePredictions = "";

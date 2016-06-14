@@ -1,105 +1,3 @@
-var program = {
-  name: "Meet Truck",
-  description: "Meetups and Food Trucks",
-  extendedDescription : "Coordinate your love of socializing with your love for food trucks",
-  icon: ""
-};
-
-var aboutMy = {
-  now: new Date(2015,12,7,13,30,0),
-  position: {},
-  searches: [],
-  markers: [],
-  weather: {},
-  foodTrucks: [],
-  meetups: [],
-  meetupMapBounds: {},
-  mapBounds: {},
-
-/*
-meetup map bounds expands the map bounds. But this function should ignore any outliers.  Often times the meetup request returns meetups that do not have the  coorrect lat lons.
-*/
-  determineMeetupMapBounds: function(){
-    var that = this;
-
-    var bounds = new google.maps.LatLngBounds();
-//    console.log(bounds.toString());
-//    console.log("hmm");
-
-    this.meetups.forEach(function(meetup){
-      var meetupLatLng;
-      if (typeof meetup.venue !== 'undefined'){
-        meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
-        //console.dir(google.maps);
-        if (meetupLatLng && (google.maps.geometry.spherical.computeDistanceBetween(aboutMy.position,meetupLatLng) < 40000)){
-          if (!that.meetupMapBounds.max) {
-            that.meetupMapBounds.max = {
-              lat: meetup.venue.lat,
-              lng: meetup.venue.lon
-            };
-            that.meetupMapBounds.min = {
-              lat: meetup.venue.lat,
-              lng: meetup.venue.lon
-            };
-          }
-          that.meetupMapBounds.max.lat =
-            that.meetupMapBounds.max.lat > meetup.venue.lat ?
-            that.meetupMapBounds.max.lat :
-            meetup.venue.lat;
-          that.meetupMapBounds.max.lng =
-            that.meetupMapBounds.max.lng > meetup.venue.lon ?
-            that.meetupMapBounds.max.lng :
-            meetup.venue.lon;
-          that.meetupMapBounds.min.lat =
-            that.meetupMapBounds.min.lat < meetup.venue.lat ?
-            that.meetupMapBounds.min.lat :
-            meetup.venue.lat;
-          that.meetupMapBounds.min.lng =
-            that.meetupMapBounds.min.lng < meetup.venue.lon ?
-            that.meetupMapBounds.min.lng :
-            meetup.venue.lon;
-        }
-      }
-    });
-    console.log(that.meetupMapBounds);
-    that.mapBounds = {
-      north: that.meetupMapBounds.max.lat,
-      south: that.meetupMapBounds.min.lat,
-      east: that.meetupMapBounds.max.lng,
-      west: that.meetupMapBounds.min.lng
-    };
-//    map.fitBounds(that.mapBounds);
-    var weather = new WeatherUnderground();
-    weather.setDimensions(map);
-    //weather.render();
-    aboutMy.weather = weather;
-
-    aboutMy.foodTrucks = [];
-    //locallyRandomizeFoodTruck(this.getBounds(), pos);
-
-    foodTrucks.forEach(function(truckData){
-      var truck = new FoodTruck();
-      truck.initNoSchedule(truckData);
-      truck.create3RandomStopPoints(aboutMy.position, map);
-    //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
-      truck.getDirections();
-      truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
-      truck.initRandomMenu();
-  //    console.log(truck);
-    });
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
 var foodTrucks10 = [
   {
     name: "Mammoth Meats",
@@ -113,7 +11,7 @@ var foodTrucks10 = [
       "yummy"
     ],
     menuOfferings: [
-      "Lettus Wrapped Burger",
+      "Burger",
       "Salad",
       "Sticks"
     ],
@@ -276,4 +174,4 @@ var foodTrucks10 = [
 ];
 
 var foodTrucks1 = foodTrucks10.slice(0,1);
-var foodTrucks = foodTrucks10.slice(0,5);
+var foodTrucks5 = foodTrucks10.slice(0,5);
