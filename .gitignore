@@ -10,9 +10,7 @@ node_modules-old/
 .yo-rc.json
 test/.bowerrc
 dwolla_test_data/
-dist/
 app/scripts/temp.html
 app/images/ai/
-styling/
 *font-awesome-4.6.3.zip
 *test.html
