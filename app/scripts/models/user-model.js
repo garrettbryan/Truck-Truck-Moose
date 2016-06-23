@@ -39,7 +39,7 @@ User.prototype.localSave = function(){
 //must convert to string before trying to save.
 
   var savedUserData = {
-    "handle": this.handle,
+//    "handle": this.handle,
     "password": this.password,
     "ccNumber": this.ccNumber,
     "ccExpiration": this.ccExpiration,
@@ -73,22 +73,24 @@ User.prototype.localSave = function(){
 User.prototype.getLocalData = function(){
   var localData = ko.utils.parseJson(localStorage.getItem('MeetUpTruck'));
 
-  this.handle(localData.handle);
-  this.password(localData.password);
-  this.ccNumber(localData.ccNumber);
-  this.ccExpiration(localData.ccExpiration);
-  this.ccv(localData.ccv);
-  this.weatherDisplay(localData.weatherDisplay);
-  this.rememberMe(localData.rememberMe);
-  this.favoriteFood(localData.favoriteFood);
-  this.currentLogin(localData.currentLogin);
-  this.begin(localData.begin);
-  this.end(localData.end);
-  this.name(localData.name);
-  this.email(localData.email);
-  this.position(localData.position);
-  this.startTime(localData.startTime);
-  this.endTime(localData.endTime);
+  if (localData){
+    this.handle(localData.handle);
+    this.password(localData.password);
+    this.ccNumber(localData.ccNumber);
+    this.ccExpiration(localData.ccExpiration);
+    this.ccv(localData.ccv);
+    this.weatherDisplay(localData.weatherDisplay);
+    this.rememberMe(localData.rememberMe);
+    this.favoriteFood(localData.favoriteFood);
+    this.currentLogin(localData.currentLogin);
+    this.begin(localData.begin);
+    this.end(localData.end);
+    this.name(localData.name);
+    this.email(localData.email);
+    this.position(localData.position);
+    this.startTime(localData.startTime);
+    this.endTime(localData.endTime);
+  }
 };
 
 User.prototype.render = function(map){
