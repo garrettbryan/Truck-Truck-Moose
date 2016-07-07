@@ -448,6 +448,7 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
 
   //var bounds = new google.maps.LatLngBounds();
 //    console.log(bounds.toString());
+  console.log(this)
   console.log(this.map.getBounds().getNorthEast());
 
   if (this.meetups().length > 0){
