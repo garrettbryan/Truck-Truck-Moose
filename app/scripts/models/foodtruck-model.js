@@ -173,7 +173,7 @@ FoodTruck.prototype.styleFoodTruckPath = function(icopy,directionsService,direct
           strokeOpacity: 0.5,
           strokeWeight: (that.schedule.length - icopy) * 3
         });
-        flightPath.setMap(that.map);
+        //flightPath.setMap(that.map);
         that.flightPaths.push(flightPath);
       } else {
         window.alert('Directions request failed due to ' + status);
