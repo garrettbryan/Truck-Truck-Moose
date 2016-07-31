@@ -175,6 +175,9 @@ var ViewModel = function() {
     var self = this;
     this.foodTrucks().forEach(function(foodTruck){
       foodTruck.marker.setVisible(false);
+      foodTruck.flightPaths.forEach( function (path){
+          path.setMap(null);
+        });
       if(foodTruck.flightPaths > 0){
         foodTruck.flightPaths.forEach( function (path){
           path.setMap(null);

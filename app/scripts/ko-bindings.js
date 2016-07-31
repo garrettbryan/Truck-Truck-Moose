@@ -171,8 +171,8 @@ ko.bindingHandlers.truckFilter = {
 //swiper-wrapper
         context.$root.prunedPossibleFoodTrucks(context.$root.foodTrucks());
 
-        var searchFoodTrucks = function(regexp) {
-            var re = new RegExp(regexp,'i');
+        var searchFoodTrucks = function(searchString) {
+            var re = new RegExp(searchString,'i');
             //console.log(regexp);
             //console.log(context.$root.meetups());
             context.$root.foodTrucks().forEach( function(foodTruck) {

@@ -291,7 +291,7 @@ var destinationSelection = [
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <input id="end" class="form-control" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="MeetUp Search" type="text">',
 '      <div data-bind="foreach: $parent.prunedPossibleDestinations">',
-'        <p class="destination" data-bind="destinationDropdown: group.name"></p>',
+'        <div class="destination" data-bind="destinationDropdown: group.name"></div>',
 '      </div>',
 '    </div>',
 '  </div>',
@@ -358,7 +358,7 @@ var foodTruckSelection = [
 ].join("\n");
 ko.components.register('food-truck-selection', {
   viewModel: function(params) {
-
+    var self = this;
     this.displayFoodTrucks = params.prunedPossibleFoodTrucks;
     this.previousFoodTrucks = [];
     this.selectedTruck = params.selectedTruck;
@@ -372,7 +372,15 @@ ko.components.register('food-truck-selection', {
       paginationClickable: true,
       spaceBetween: 30,
       observer: false,
-      loop: false
+      loop: false,
+      onSlideChangeEnd: function (swiper) {
+        console.log('slide change end - after');
+        console.log(swiper);
+        console.log(swiper.activeIndex);
+        //after Event use it for your purpose
+        self.selectedTruck = self.displayFoodTrucks()[swiper.activeIndex];
+        self.selectedTruckName(self.selectedTruck.name);
+      }
     });
 
     this.selectedTruckName.subscribe(function(name){
