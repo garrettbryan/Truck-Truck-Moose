@@ -421,6 +421,10 @@ ViewModel.prototype.addFoodTrucksToMap = function() {
     this.foodTrucks.push(truck);
   }.bind(this));
 
+    this.map.fitBounds(new google.maps.LatLngBounds(google.maps.geometry.spherical.computeOffset(this.selectedDestination.marker.position, 5000, 225),google.maps.geometry.spherical.computeOffset(this.selectedDestination.marker.position, 5000, 45)));
+    //fitBounds(bounds:LatLngBounds|LatLngBoundsLiteral)
+    //LatLngBounds(sw?:LatLng|LatLngLiteral, ne?:LatLng|LatLngLiteral)
+
   console.log(this.foodTrucks);
   this.prunedPossibleFoodTrucks(this.foodTrucks());
 };
