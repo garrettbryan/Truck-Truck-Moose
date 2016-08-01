@@ -50,14 +50,16 @@ FoodTruck.prototype.initRandomMenu = function(){
 /*
 randomizeStopPoint takes the users postion and the google map(needs the bounds of the map) to randomly distribute the foodtrucks around the user within the bounds of the map. The radius of the circular distribution area is constrained by the smallest dimension of the map - 1/2 height of the custom markers.
 */
-FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
-  console.log(pos);
+FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
+  console.log(dest.marker.position);
   var dayOver = 22 * 3600; //the food trucks last stop begins at 22 hours
   var bounds = map.getBounds();
-
-  var boundLat = bounds.getNorthEast().lat()-bounds.getSouthWest().lat();
-  var boundLng = bounds.getNorthEast().lng()-bounds.getSouthWest().lng();
-  var boundLatLng;
+  var randomRadius = 3000 * Math.random();
+  var randomHeading = 360 * Math.random();
+  var randomPt = google.maps.geometry.spherical.computeOffset(dest.marker.position, randomRadius, randomHeading);
+  /*
+  computeOffset(from:LatLng, distance:number, heading:number, radius?:number)
+  */
 
   var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+1800 : 0; //Gives at least a 30minute buffer till the next stop.
   if (initialTime < dayOver){
@@ -69,8 +71,8 @@ FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
     etime.initSecs(time + 3600);
 
     this.schedule.push({
-      lat: bounds.getSouthWest().lat() + boundLat * Math.random(),
-      lng: bounds.getSouthWest().lng() + boundLng * Math.random(),
+      lat: randomPt.lat(),
+      lng: randomPt.lng(),
       starttime: stime,
       endtime: etime
     });
@@ -81,9 +83,9 @@ FoodTruck.prototype.randomizeStopPoint = function(pos, map) {
 /*
 Foodtrucks have 3  randomized 1 hour stops unless the end of day is reached. The function takes the initial time and adds a random fraction of the difference between initial and final times.
 */
-FoodTruck.prototype.create3RandomStopPoints = function(pos, map) {
+FoodTruck.prototype.create3RandomStopPoints = function(dest, map) {
   for (var i = 0; i < 3; i++){
-    this.randomizeStopPoint(pos, map);
+    this.randomizeStopPoint(dest, map);
   }
 };
 

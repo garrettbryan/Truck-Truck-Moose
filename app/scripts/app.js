@@ -411,7 +411,8 @@ ViewModel.prototype.addFoodTrucksToMap = function() {
     var truck = new FoodTruck();
     truck.initNoSchedule(truckData,this.map);
     console.log(this.user);
-    truck.create3RandomStopPoints(this.user.begin(), this.map);
+    console.log(this.selectedDestination);
+    truck.create3RandomStopPoints(this.selectedDestination, this.map);
   //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
     truck.getDirections();
     truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
