@@ -33,7 +33,7 @@ var globalHeader = [
 '  </div>',
 '  <div id="settings" class="col-sm-1">',
 //class="list-group-item"
-'<a id="cog-setting" data-bind="click: $parent.changeScreen.bind($parent, \'settings\')"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a>',
+'<a id="cog-setting" data-bind="visible: !$parent.loginScreen(), click: $parent.changeScreen.bind($parent, \'settings\')"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a>',
 '  </div>',
 '</div>',
 //'</div>'
