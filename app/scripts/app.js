@@ -1,4 +1,4 @@
-
+// get trucks https://fast-basin-67072.herokuapp.com/trucks
 var ViewModel = function() {
   this.map = {};
 
@@ -504,6 +504,9 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     //console.log(this.noMeetups());
   }
 
+//$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('#main-form').outerHeight(true));
+  console.log($('#main-form').outerHeight(true));
+
   console.log(this.meetupMapBounds);
   try {
     this.mapBounds = {
@@ -520,8 +523,19 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     //console.log(this.noMeetups());
   }
 
-    this.map.fitBounds(this.mapBounds);
+  this.map.fitBounds(this.mapBounds);
 
+/*
+  var overlay = new google.maps.OverlayView();
+  overlay.draw = function () {};
+  overlay.setMap(this.map);
+
+  var point = new google.maps.Point(1,$('#main-form').outerHeight(true));
+  var projection = this.map.getProjection();
+
+  console.log(projection);
+  console.log(overlay.getProjection().fromContainerPixelToLatLng(point));
+*/
 /*
 
     var weather = new WeatherUnderground();
