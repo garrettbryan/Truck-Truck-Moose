@@ -33,7 +33,7 @@ var globalHeader = [
 '  </div>',
 '  <div id="settings" class="col-sm-1">',
 //class="list-group-item"
-'<a id="cog-setting" data-bind="visible: !$parent.loginScreen(), click: $parent.changeScreen.bind($parent, \'settings\')"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a>',
+'<a id="cog-setting" data-bind="visible: $parent.showSettings(), click: $parent.changeScreen.bind($parent, \'last\')"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a>',
 '  </div>',
 '</div>',
 //'</div>'
@@ -41,11 +41,12 @@ var globalHeader = [
 ko.components.register('global-header', {
   viewModel: function(params) {
     var self = this;
-    this.exposeApp = params.exposeApp;
+    this.exposeMap = params.exposeMap;
+    this.preventMapExposure = params.preventMapExposure;
     this.close = ko.observable(false);
 
 
-    this.exposeApp.subscribe(function(value){
+    this.exposeMap.subscribe(function(value){
         if (!value){
             $("#main-form").addClass('main-form-close');
         }
@@ -57,9 +58,11 @@ ko.components.register('global-header', {
 
 
     this.toggle = function() {
-      console.log(this.exposeApp());
-      console.log('click');
-      this.exposeApp(!this.exposeApp());
+      if(!this.preventMapExposure()){
+        console.log(this.exposeMap());
+        console.log('click');
+        this.exposeMap(!this.exposeMap());
+      }
     }.bind(this);
 
   },
@@ -225,7 +228,7 @@ var settings = [
 '    <div class="col-xs-3 col-md-3">',
 '    </div>',
 '    <div class="col-xs-3 col-md-3">',
-'      <button class="ttg-button btn btn-default" id="save-settings-btn" data-bind="click: $parent.changeScreen.bind($parent, \'destination\')">Done</button>',
+'      <button class="ttg-button btn btn-default" id="save-settings-btn" data-bind="click: $parent.changeScreen.bind($parent, \'last\')">Done</button>',
 '    </div>',
 '  </div>',
 '</form>',
@@ -443,7 +446,7 @@ ko.components.register('food-truck-selection', {
 
 var menuItem = [
 '<div class="row login menu">',
-'  <form class="hide-swiper-overflow-x form-horizontal" data-bind="submit: $parent.toConfirmation">',
+'  <form class="hide-swiper-overflow-x form-horizontal">',
 '      <div class="row menu-swiper-row">',
 //'        <div class="col-md-12">',
 '            <div class="menu-swiper-container">',
@@ -460,7 +463,7 @@ var menuItem = [
 '    <div class="side-padding-zero form-group">',
 '      <div class="col-sm-6 col-sm-offset-3">',
 '        <button class="btn btn-default" id="Done">Go Back</button>',
-'        <button type="submit" class="ttg-button btn btn-default" id="Done">Ok</button>',
+'        <button class="ttg-button btn btn-default" id="Done" data-bind="click: $parent.changeScreen.bind($parent, \'confirmation\')">Ok</button>',
 '      </div>',
 '    </div>',
 '  </form>',
