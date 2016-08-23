@@ -69,6 +69,7 @@ var ViewModel = function() {
 
 
   this.meetupRequest = new MeetupRequest();
+  this.foodTruckRequest = new FoodTruckRequest();
 
   this.radarMap = new WeatherUnderground();
 
@@ -489,6 +490,7 @@ meetup map bounds exp             the meetup request returns meetups this do not
 
   //var bounds = new google.maps.LatLngBounds();F
 //    console.log(bounds.toString());
+
   console.log(JSON.stringify(this.map.getBounds().getNorthEast()));
   console.log($('#main-form').outerHeight(true));
 
@@ -508,7 +510,7 @@ meetup map bounds exp             the meetup request returns meetups this do not
 
   if (this.meetups().length > 0){
     console.log(this.meetups());
-
+/*
     this.meetupMapBounds.max = {
       lat: this.map.getBounds().getNorthEast().lat(),
       lng: this.map.getBounds().getNorthEast().lng()
@@ -517,10 +519,20 @@ meetup map bounds exp             the meetup request returns meetups this do not
       lat: this.map.getBounds().getSouthWest().lat(),
       lng: this.map.getBounds().getSouthWest().lng()
     };
+*/
 
+    this.meetupMapBounds.max = {
+      lat: -360,
+      lng: -360
+    };
+    this.meetupMapBounds.min = {
+      lat: 360,
+      lng: 360
+    };
 
     this.meetups().forEach(function(meetup){
-      //console.log(meetup);
+
+
       if (typeof meetup.venue !== 'undefined'){
         var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
         //console.dir(google.maps);
@@ -563,6 +575,7 @@ meetup map bounds exp             the meetup request returns meetups this do not
       east: this.meetupMapBounds.max.lng,
       west: this.meetupMapBounds.min.lng
     };
+
   }
   catch(err) {
     console.log("dang no meetups");
@@ -573,6 +586,10 @@ meetup map bounds exp             the meetup request returns meetups this do not
 
   try {
     this.map.fitBounds(this.mapBounds);
+    console.log(this.map.getCenter());
+    //new google.maps.LatLng({lat: -34, lng: 151});
+
+    //this.map.panTo(new this.map.LatLng({lat: this.map.getCenter().lat() - latDiff, lng: this.map.getCenter().lng()}));
   }
   catch (err){
     console.log(err);
@@ -656,6 +673,8 @@ ViewModel.prototype.mapInit = function() {
   console.log(this);
 
   this.meetupRequest.CORopenEvents.call(this,this.user.position);
+
+  this.foodTruckRequest.getFoodTrucks.call(this);
 
 
   var mapOptions = {

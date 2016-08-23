@@ -513,7 +513,7 @@ ko.components.register('food-order', {
     console.log(this.menu());
     console.log(this.order());
 
-    $('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('.login').outerHeight(true));
+    $('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - 20 - $('.login').outerHeight(true));
 
     this.order.subscribe(function (dishes) {
       this.newOrderLength = dishes.length;
@@ -653,7 +653,10 @@ ko.components.register('confirmation', {
       console.log( $(window).height());
       console.log($('.login').outerHeight(true));
       console.log($('.login').offset().top);
-    $('#user-confirmation').css('margin-top', $('.login').outerHeight(true) + $('.login').offset().top).css('height', $(window).height() - 50 - $('.login').outerHeight(true) - $('.login').offset().top);
+
+    //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('.login').outerHeight(true));
+
+    $('#user-confirmation').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - $('.login').outerHeight(true));
 
     $( window ).resize(function() {
       console.log( $(window).height());
@@ -662,7 +665,7 @@ ko.components.register('confirmation', {
 
 
       //$('.spacer').css('height',  $('.login').outerHeight(true));
-      $('#user-confirmation').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - $('.login').outerHeight(true));
+    $('#user-confirmation').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - $('.login').outerHeight(true));
     }.bind(this));
 
     var testint = setInterval(function(){
