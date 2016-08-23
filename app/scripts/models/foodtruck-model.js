@@ -28,6 +28,31 @@ schedule is an array of objects of stoptimes in 24hour timestamps and stoppoints
 //  this.menu = {};
 //};
 
+FoodTruckRequest = function() {
+  this.data = {};
+};
+
+FoodTruckRequest.prototype.getFoodTrucks = function(){
+  $.ajax.call(this,{
+      url: 'https://fast-basin-67072.herokuapp.com/trucks',
+      dataType: 'jsonp',
+      success: function(data) {
+        console.log(data);
+        //console.log(this);
+      }.bind(this),
+      error: function(data) {
+        console.log(data);
+        //this.warning(true);
+        this.warningMessages.unshift("foodTrucks error with ajax");
+        this.warning(true);
+        console.log(this.warningMessages());
+      }.bind(this)
+  });
+
+};
+
+
+
 
 FoodTruck.prototype.initNoSchedule = function(truckData, map){
   this.name = truckData.name;
