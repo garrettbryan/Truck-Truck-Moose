@@ -92,7 +92,8 @@ var ViewModel = function() {
           this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
-          this.getCurrentPosition(this.mapInit,generalError);
+          this.getCurrentPosition();
+          //this.getCurrentPosition(this.mapInit,generalError);
             break;
         case 'signup':
           console.log('signup');
@@ -652,11 +653,12 @@ ViewModel.prototype.getCurrentPosition = function(successCB, errorCB) {
           console.log(this.user.position().toString());
           //this.user.begin = this.user.position();
   //        alert(this.user.position.toString());
-          successCB.call(this);
+          this.mapInit.call(this);
+          //successCB.call(this);
         }.bind(this),
         function(){
-          alert("err");
-          errorCB.call(this);
+          console.log("could not get location, possibly due to github not supporting https, trying google geolocate api");
+
         }.bind(this)
       );
     }
