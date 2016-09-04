@@ -33,7 +33,7 @@ var globalHeader = [
 '  </div>',
 '  <div id="settings" class="col-sm-1">',
 //class="list-group-item"
-'<a id="cog-setting" data-bind="click: $parent.changeScreen.bind($parent, \'settings\')"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a>',
+'<a id="cog-setting" data-bind="visible: $parent.showSettings(), click: $parent.changeScreen.bind($parent, \'last\')"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a>',
 '  </div>',
 '</div>',
 //'</div>'
@@ -41,11 +41,12 @@ var globalHeader = [
 ko.components.register('global-header', {
   viewModel: function(params) {
     var self = this;
-    this.exposeApp = params.exposeApp;
+    this.exposeMap = params.exposeMap;
+    this.preventMapExposure = params.preventMapExposure;
     this.close = ko.observable(false);
 
 
-    this.exposeApp.subscribe(function(value){
+    this.exposeMap.subscribe(function(value){
         if (!value){
             $("#main-form").addClass('main-form-close');
         }
@@ -57,9 +58,11 @@ ko.components.register('global-header', {
 
 
     this.toggle = function() {
-      console.log(this.exposeApp());
-      console.log('click');
-      this.exposeApp(!this.exposeApp());
+      if(!this.preventMapExposure()){
+        console.log(this.exposeMap());
+        console.log('click');
+        this.exposeMap(!this.exposeMap());
+      }
     }.bind(this);
 
   },
@@ -71,21 +74,21 @@ var loginForm = [
 '<div class="row login">',
 //'  <form class="form-horizontal" data-bind="submit: $parent.toMap">',
 '  <form class="form-horizontal">',
-'    <div class="form-group">',
+'    <div class="side-padding-zero form-group">',
 //'<div class="row">',
 '      <label for="email" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
 '      <div class="col-sm-6">',
 '        <input type="email" data-bind="value: $parent.user.email" class="form-control" id="email" placeholder="email">',
 '      </div>',
 '    </div>',
-'    <div class="form-group">',
+'    <div class="side-padding-zero form-group">',
 //'<div class="row">',
 '      <label for="password" class="col-sm-2 col-sm-offset-1 control-label">Password</label>',
 '      <div class="col-sm-6">',
 '        <input type="password" data-bind="value: $parent.user.password" class="form-control" id="password" placeholder="Password">',
 '      </div>',
 '    </div>',
-'    <div class="form-group">',
+'    <div class="side-padding-zero form-group">',
 //'<div class="row">',
 '      <div class="col-sm-6 col-sm-offset-3">',
 '        <button type="submit" class="ttg-button btn btn-default" id="sign-in-btn" data-bind="click: $parent.changeScreen.bind($parent, \'destination\')">Sign in</button>',
@@ -111,31 +114,31 @@ ko.components.register('login-form', {
 var signupForm = [
 '<div class="row login first-row">',
 '<form class="form-horizontal">',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="name" class="col-sm-2 col-sm-offset-1 control-label">Name</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.name" class="form-control" id="name" placeholder="Name">',
 '    </div>',
 '  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="id="inputEmail" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.email" class="form-control" id="inputEmail" placeholder="Email">',
 '    </div>',
 '  </div>',
-//'  <div class="form-group">',
+//'  <div class="side-padding-zero form-group">',
 //'    <div class="col-sm-6 col-sm-offset-3">',
 //'    <label for="id="inputEmail" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
 //'      <input type="text" data-bind="value: $parent.user.handle" class="form-control" id="handle" placeholder="Handle">',
 //'    </div>',
 //'  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="createPassword" class="col-sm-2 col-sm-offset-1 control-label">Password</label>',
 '    <div class="col-sm-6">',
 '      <input type="password" data-bind="value: $parent.user.password" class="form-control" id="createPassword" placeholder="Password">',
 '    </div>',
 '  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <button type="submit" class="ttg-button btn btn-default" id="sign-up-btn" data-bind="click: $parent.changeScreen.bind($parent, \'settings\')">Sign up</button>',
 '    </div>',
@@ -161,51 +164,51 @@ var settings = [
 '<form class="form-horizontal">',
 //'<form data-bind="submit: $parent.settingsToMap">',
 //'    <div data-bind="text: ko.toJSON($parent)"></div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="name" class="col-sm-2 col-sm-offset-1 control-label">Name</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.name" class="form-control" id="name" placeholder="Name" disabled>',
 '    </div>',
 '  </div>',
-//'  <div class="form-group">',
+//'  <div class="side-padding-zero form-group">',
 //'    <label for="" class="col-md-3 control-label">Handle</label>',
 //'    <div class="=col-md-6">',
 //'        <p class="form-control-static label-left" data-bind="text: $parent.user.handle">Cool Guy</p>',
 //'    </div>',
 //'  </div>',
 
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="email" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.email" class="form-control" id="email" placeholder="Name" disabled>',
 '    </div>',
 '  </div>',
 
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="position" class="col-sm-2 col-sm-offset-1 control-label">Position</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="text: $parent.user.position" class="form-control" id="position" placeholder="Lat,Long">',
 '  </div>',
 '  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="ccnumber" class="col-sm-2 col-sm-offset-1 control-label">Credit Card Number</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.ccNumber" class="form-control" id="ccnumber" placeholder="xxxx xxxx xxxx xxxx" disabled>',
 '  </div>',
 '  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="ccexpiration" class="col-sm-3 control-label">Expiration Date</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.ccExpiration" class="form-control" id="ccexpiration" placeholder="mm/yy" disabled>',
 '  </div>',
 '  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <label for="ccv" class="col-sm-3 control-label">CCV</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.ccv" class="form-control"  id="ccv" placeholder="xxxx" disabled>',
 '  </div>',
 '  </div>',
-'  <div class="form-group label-left">',
+'  <div class="side-padding-zero form-group label-left">',
 '    <label for="" class="col-sm-3 control-label"></label>',
 '    <div class="col-sm-6">',
 '      <div class="checkbox">',
@@ -213,7 +216,7 @@ var settings = [
 '      </div>',
 '    </div>',
 '  </div>',
-'  <div class="form-group label-left">',
+'  <div class="side-padding-zero form-group label-left">',
 '    <label for="" class="col-sm-3 control-label"></label>',
 '    <div class="col-sm-6">',
 '      <div class="checkbox">',
@@ -221,11 +224,11 @@ var settings = [
 '      </div>',
 '    </div>',
 '  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <div class="col-xs-3 col-md-3">',
 '    </div>',
 '    <div class="col-xs-3 col-md-3">',
-'      <button class="ttg-button btn btn-default" id="save-settings-btn" data-bind="click: $parent.changeScreen.bind($parent, \'destination\')">Done</button>',
+'      <button class="ttg-button btn btn-default" id="save-settings-btn" data-bind="click: $parent.changeScreen.bind($parent, \'last\')">Done</button>',
 '    </div>',
 '  </div>',
 '</form>',
@@ -281,21 +284,21 @@ var destinationSelection = [
 //'<form class="form-horizontal" data-bind="submit: $parent.toFoodTrucks">',
 '<div class="row login first-row">',
 '  <form class="form-horizontal">',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 //'      <input class="form-control col-sm-6" data-bind="geoToAddress: $parent.selectedDestination" placeholder="Start" type="text">',
 '      <input class="form-control" data-bind="geoToAddress: $parent.user.begin" placeholder="Start" type="text" disabled>',
 '    </div>',
 '  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <input id="end" class="form-control" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="MeetUp Search" type="text">',
 '      <div data-bind="foreach: $parent.prunedPossibleDestinations">',
-'        <p class="destination" data-bind="destinationDropdown: group.name"></p>',
+'        <div class="destination" data-bind="destinationDropdown: group.name"></div>',
 '      </div>',
 '    </div>',
 '  </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'foodtruck\')" id="Done">Done</button>',
 '    </div>',
@@ -328,7 +331,7 @@ var foodTruckSelection = [
 //'<span data-bind="text: selectedTruckName"></span>',
 '<div class="row login first-row">',
 '<form class="hide-swiper-overflow-x form-horizontal">',
-'    <div class="form-group">',
+'    <div class="side-padding-zero form-group">',
 '        <div class="col-sm-6 col-sm-offset-3">',
 '            <input class="form-control" data-bind="truckFilter: $parent.truckFilter" type="text" id="truck-filter" placeholder="Food Truck Search">',
 '        </div>',
@@ -346,7 +349,7 @@ var foodTruckSelection = [
 '          </div>',
 //'        </div>',
 '    </div>',
-'  <div class="form-group">',
+'  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <button class="btn btn-default" id="Done">Go Back</button>',
 //'      <button class="btn btn-default" data-bind="click: init" id="Done">Go Back</button>',
@@ -358,7 +361,7 @@ var foodTruckSelection = [
 ].join("\n");
 ko.components.register('food-truck-selection', {
   viewModel: function(params) {
-
+    var self = this;
     this.displayFoodTrucks = params.prunedPossibleFoodTrucks;
     this.previousFoodTrucks = [];
     this.selectedTruck = params.selectedTruck;
@@ -372,7 +375,15 @@ ko.components.register('food-truck-selection', {
       paginationClickable: true,
       spaceBetween: 30,
       observer: false,
-      loop: false
+      loop: false,
+      onSlideChangeEnd: function (swiper) {
+        console.log('slide change end - after');
+        console.log(swiper);
+        console.log(swiper.activeIndex);
+        //after Event use it for your purpose
+        self.selectedTruck = self.displayFoodTrucks()[swiper.activeIndex];
+        self.selectedTruckName(self.selectedTruck.name);
+      }
     });
 
     this.selectedTruckName.subscribe(function(name){
@@ -435,7 +446,7 @@ ko.components.register('food-truck-selection', {
 
 var menuItem = [
 '<div class="row login menu">',
-'  <form class="hide-swiper-overflow-x form-horizontal" data-bind="submit: $parent.toConfirmation">',
+'  <form class="hide-swiper-overflow-x form-horizontal">',
 '      <div class="row menu-swiper-row">',
 //'        <div class="col-md-12">',
 '            <div class="menu-swiper-container">',
@@ -449,10 +460,10 @@ var menuItem = [
 '            </div>',
 //'          </div>',
 '      </div>',
-'    <div class="form-group">',
+'    <div class="side-padding-zero form-group">',
 '      <div class="col-sm-6 col-sm-offset-3">',
 '        <button class="btn btn-default" id="Done">Go Back</button>',
-'        <button type="submit" class="ttg-button btn btn-default" id="Done">Ok</button>',
+'        <button class="ttg-button btn btn-default" id="Done" data-bind="click: $parent.changeScreen.bind($parent, \'confirmation\')">Ok</button>',
 '      </div>',
 '    </div>',
 '  </form>',
@@ -502,7 +513,7 @@ ko.components.register('food-order', {
     console.log(this.menu());
     console.log(this.order());
 
-    $('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('.login').outerHeight(true));
+    $('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - 20 - $('.login').outerHeight(true));
 
     this.order.subscribe(function (dishes) {
       this.newOrderLength = dishes.length;
@@ -642,7 +653,10 @@ ko.components.register('confirmation', {
       console.log( $(window).height());
       console.log($('.login').outerHeight(true));
       console.log($('.login').offset().top);
-    $('#user-confirmation').css('margin-top', $('.login').outerHeight(true) + $('.login').offset().top).css('height', $(window).height() - 50 - $('.login').outerHeight(true) - $('.login').offset().top);
+
+    //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('.login').outerHeight(true));
+
+    $('#user-confirmation').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - $('.login').outerHeight(true));
 
     $( window ).resize(function() {
       console.log( $(window).height());
@@ -651,7 +665,7 @@ ko.components.register('confirmation', {
 
 
       //$('.spacer').css('height',  $('.login').outerHeight(true));
-      $('#user-confirmation').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - $('.login').outerHeight(true));
+    $('#user-confirmation').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - $('.login').outerHeight(true));
     }.bind(this));
 
     var testint = setInterval(function(){

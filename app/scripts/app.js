@@ -1,4 +1,4 @@
-
+// get trucks https://fast-basin-67072.herokuapp.com/trucks
 var ViewModel = function() {
   this.map = {};
 
@@ -22,8 +22,10 @@ var ViewModel = function() {
 
   //this.user = new User();
   //this.user.init(this.now());
+  this.showSettings = ko.observable(false);
 
-  this.exposeApp = ko.observable(true);
+  this.preventMapExposure = ko.observable(true);
+  this.exposeMap = ko.observable(true);
   this.filter = ko.observable('');
   this.description = ko.observable('');
 
@@ -32,6 +34,7 @@ var ViewModel = function() {
   this.prunedPossibleNames = ko.observableArray();
   this.selectedDestination = {};
   this.meetupMapBounds = {};
+  this.meetupsAdded = false;
 
   this.truckFilter = ko.observable('');
   this.foodTrucks = ko.observableArray();
@@ -39,6 +42,7 @@ var ViewModel = function() {
   this.prunedPossibleFoodTruckNames = ko.observableArray();
   this.selectedTruck = {};
   this.selectedTruckName = ko.observable('');
+  this.foodTrucksAdded = false;
 
   this.menu = ko.observableArray();
 
@@ -65,11 +69,12 @@ var ViewModel = function() {
 
 
   this.meetupRequest = new MeetupRequest();
+  this.foodTruckRequest = new FoodTruckRequest();
 
   this.radarMap = new WeatherUnderground();
 
 
-  this.exposeApp.subscribe(function(expose){
+  this.exposeMap.subscribe(function(expose){
     console.log(expose);
     if (expose === true) {
     }
@@ -82,6 +87,8 @@ var ViewModel = function() {
     switch(screen) {
         case 'login':
           console.log('login');
+          this.preventMapExposure(true);
+          this.showSettings(false);
           this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
@@ -89,6 +96,8 @@ var ViewModel = function() {
             break;
         case 'signup':
           console.log('signup');
+          this.preventMapExposure(true);
+          this.showSettings(false);
           //this.configureMainForm('50%', '45px');
           this.user.localSave();
           this.turnOffScreens();
@@ -96,6 +105,9 @@ var ViewModel = function() {
             break;
         case 'settings':
           console.log('settings');
+          this.preventMapExposure(true);
+          this.exposeMap(true);
+          //this.showSettings(true);
           //this.configureMainForm('100%', '0');
           this.user.localSave();
           this.turnOffScreens();
@@ -103,8 +115,10 @@ var ViewModel = function() {
             break;
         case 'destination':
           console.log('destination');
+          this.preventMapExposure(false);
+          this.showSettings(true);
           this.configureMainForm('responsive');
-          if(this.meetups()){
+          if(this.meetups() && !this.meetupsAdded){
             this.addMeetupsToMap();
             this.renderMeetups();
           }
@@ -113,18 +127,29 @@ var ViewModel = function() {
             break;
         case 'foodtruck':
           console.log('foodtruck');
+          this.preventMapExposure(false);
+          this.showSettings(true);
           if(this.selectedDestination && this.user.begin() && this.user.end()){
             this.description('');
             //this.configureMainForm('45%', '0');
-            this.selectedDestination.keepChosen(this.map, this);
-            this.addFoodTrucksToMap();
-            this.turnOffScreens();
-            this.foodTruckScreen(true);
+            try {
+              this.selectedDestination.keepChosen(this.map, this);
+            }
+            catch (err) {
+              console.log(err);
+            }
+            if (!this.foodTrucksAdded){
+              this.addFoodTrucksToMap();
+              this.turnOffScreens();
+              this.foodTruckScreen(true);
+            }
           }
             break;
         case 'order':
           console.log('order');
           console.log(this.selectedTruckName());
+          this.preventMapExposure(false);
+          this.showSettings(true);
           if(this.selectedTruckName()){
             this.description('');
             console.log(this.selectedTruck);
@@ -140,6 +165,8 @@ var ViewModel = function() {
         case 'confirmation':
           console.log('confirmation');
           console.log(this.order().length>0);
+          this.preventMapExposure(false);
+          this.showSettings(true);
           if(this.order().length>0){
             this.configureMainForm();
             this.puPhrase(makePUPhrase());
@@ -175,6 +202,9 @@ var ViewModel = function() {
     var self = this;
     this.foodTrucks().forEach(function(foodTruck){
       foodTruck.marker.setVisible(false);
+      foodTruck.flightPaths.forEach( function (path){
+          path.setMap(null);
+        });
       if(foodTruck.flightPaths > 0){
         foodTruck.flightPaths.forEach( function (path){
           path.setMap(null);
@@ -367,23 +397,28 @@ var ViewModel = function() {
 };
 
 ViewModel.prototype.changeScreen = function(newScreen) {
-  var screen = newScreen;
-  console.log(screen);
-  console.log(this.screenHistory());
-  if (this.currentScreen() === 'settings'){
-    var tempScreen = this.currentScreen();
-    this.user.localSave();
-    this.currentScreen(this.previousScreen());
-    this.previousScreen(tempScreen);
-    this.screenHistory.pop();
+  var screen;
+  if (newScreen === 'last') {
+    console.log('last');
+    if (this.screenHistory()[this.screenHistory().length - 2] === 'signup'){
+      console.log('signup');
+      screen = 'destination';
+    } else {
+      if(this.screenHistory()[this.screenHistory().length -1] !== 'settings') {
+        console.log(this.screenHistory()[this.screenHistory().length -1]);
+        console.log('settings');
+        screen = 'settings';
+      } else {
+        console.log(this.screenHistory()[this.screenHistory().length - 2]);
+        screen = this.screenHistory()[this.screenHistory().length - 2];
+      }
+    }
   } else {
-    this.screenHistory.push(screen);
-    this.previousScreen(this.currentScreen());
-    this.currentScreen(screen);
+    screen = newScreen;
   }
-  console.log(screen);
+  this.screenHistory.push(screen);
   console.log(this.screenHistory());
-  console.log(this.currentScreen());
+  this.currentScreen(screen);
 
 };
 
@@ -402,13 +437,15 @@ ViewModel.prototype.turnOffScreens = function(){
 
 
 ViewModel.prototype.addFoodTrucksToMap = function() {
+  this.foodTrucksAdded = true;
   console.log(foodTrucks10);
   foodTrucks10.forEach(function(truckData){
     console.log(truckData);
     var truck = new FoodTruck();
     truck.initNoSchedule(truckData,this.map);
     console.log(this.user);
-    truck.create3RandomStopPoints(this.user.begin(), this.map);
+    console.log(this.selectedDestination);
+    truck.create3RandomStopPoints(this.selectedDestination, this.map);
   //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
     truck.getDirections();
     truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
@@ -416,6 +453,10 @@ ViewModel.prototype.addFoodTrucksToMap = function() {
     truck.initRandomMenu();
     this.foodTrucks.push(truck);
   }.bind(this));
+
+    this.map.fitBounds(new google.maps.LatLngBounds(google.maps.geometry.spherical.computeOffset(this.selectedDestination.marker.position, 5000, 225),google.maps.geometry.spherical.computeOffset(this.selectedDestination.marker.position, 5000, 45)));
+    //fitBounds(bounds:LatLngBounds|LatLngBoundsLiteral)
+    //LatLngBounds(sw?:LatLng|LatLngLiteral, ne?:LatLng|LatLngLiteral)
 
   console.log(this.foodTrucks);
   this.prunedPossibleFoodTrucks(this.foodTrucks());
@@ -437,23 +478,40 @@ ViewModel.prototype.renderMeetups = function() {
   this.meetups().forEach( function(meetup){
     meetup.render(this.map, this);
   }.bind(this));
+  this.meetupsAdded = true;
 };
 
 
 ViewModel.prototype.addMeetupsToMap = function() {
 /*
-meetup map bounds expands the map bounds. But this function should ignore any outliers.  Often times the meetup request returns meetups this do not have the  coorrect lat lons.
+meetup map bounds exp             the meetup request returns meetups this do not have the  coorrect lat lons.
 */
     //var this = this;
 
-  //var bounds = new google.maps.LatLngBounds();
+  //var bounds = new google.maps.LatLngBounds();F
 //    console.log(bounds.toString());
-  console.log(this)
-  console.log(this.map.getBounds().getNorthEast());
+
+  console.log(JSON.stringify(this.map.getBounds().getNorthEast()));
+  console.log($('#main-form').outerHeight(true));
+
+    var ne = this.map.getBounds().getNorthEast();
+    var sw = this.map.getBounds().getSouthWest();
+    var scale = 1 << this.map.getZoom();
+    var projection = this.map.getProjection();
+    var topRight = projection.fromLatLngToPoint(ne);
+    var bottomLeft = projection.fromLatLngToPoint(sw);
+
+    //var newLatlng = projection.fromPointToLatLng(new google.maps.Point(xcoor / scale + bottomLeft.x, ycoor / scale + topRight.y));
+    var newLatlng = projection.fromPointToLatLng(new google.maps.Point($('#main-form').outerWidth(true)/scale + bottomLeft.x, $('#main-form').outerHeight(true)/scale + topRight.y));
+    console.log(JSON.stringify(newLatlng));
+
+    var latDiff = Math.abs(newLatlng.lat()-this.map.getBounds().getNorthEast().lat());
+    console.log(latDiff);
+
 
   if (this.meetups().length > 0){
     console.log(this.meetups());
-
+/*
     this.meetupMapBounds.max = {
       lat: this.map.getBounds().getNorthEast().lat(),
       lng: this.map.getBounds().getNorthEast().lng()
@@ -462,10 +520,20 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
       lat: this.map.getBounds().getSouthWest().lat(),
       lng: this.map.getBounds().getSouthWest().lng()
     };
+*/
 
+    this.meetupMapBounds.max = {
+      lat: -360,
+      lng: -360
+    };
+    this.meetupMapBounds.min = {
+      lat: 360,
+      lng: 360
+    };
 
     this.meetups().forEach(function(meetup){
-      //console.log(meetup);
+
+
       if (typeof meetup.venue !== 'undefined'){
         var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
         //console.dir(google.maps);
@@ -497,6 +565,9 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     //console.log(this.noMeetups());
   }
 
+//$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('#main-form').outerHeight(true));
+  console.log($('#main-form').outerHeight(true));
+
   console.log(this.meetupMapBounds);
   try {
     this.mapBounds = {
@@ -505,6 +576,7 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
       east: this.meetupMapBounds.max.lng,
       west: this.meetupMapBounds.min.lng
     };
+
   }
   catch(err) {
     console.log("dang no meetups");
@@ -513,8 +585,28 @@ meetup map bounds expands the map bounds. But this function should ignore any ou
     //console.log(this.noMeetups());
   }
 
+  try {
     this.map.fitBounds(this.mapBounds);
+    console.log(this.map.getCenter());
+    //new google.maps.LatLng({lat: -34, lng: 151});
 
+    //this.map.panTo(new this.map.LatLng({lat: this.map.getCenter().lat() - latDiff, lng: this.map.getCenter().lng()}));
+  }
+  catch (err){
+    console.log(err);
+  }
+
+/*
+  var overlay = new google.maps.OverlayView();
+  overlay.draw = function () {};
+  overlay.setMap(this.map);
+
+  var point = new google.maps.Point(1,$('#main-form').outerHeight(true));
+  var projection = this.map.getProjection();
+
+  console.log(projection);
+  console.log(overlay.getProjection().fromContainerPixelToLatLng(point));
+*/
 /*
 
     var weather = new WeatherUnderground();
@@ -582,6 +674,8 @@ ViewModel.prototype.mapInit = function() {
   console.log(this);
 
   this.meetupRequest.CORopenEvents.call(this,this.user.position);
+
+  this.foodTruckRequest.getFoodTrucks.call(this);
 
 
   var mapOptions = {

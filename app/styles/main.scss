@@ -352,7 +352,6 @@ footer {
 .confirmation {
     background-color: #FFF;
     height: 100%;
-    margin-left: 15px;
     margin-right: 15px;
     margin-bottom: 5%;
     box-shadow: 0 5px 10px #777;
@@ -504,7 +503,7 @@ footer {
 
 .global-header-logo {
   height: 100%;
-  width: auto;
+  width: 100%;
 }
 
 .global-logo-section {
@@ -522,6 +521,10 @@ footer {
   top: -40px;
 }
 
+.form-horizontal > .side-padding-zero {
+  margin-left: 0;
+  margin-right: 0;
+}
 
 #main-form.half {
     height: auto;
@@ -530,7 +533,7 @@ footer {
 #main-form {
   position: fixed;
   margin-top: 50px;
-  padding-bottom: 5%;
+  padding-bottom: 2%;
   top: 0;
   z-index: 2;
   background-color: #F0B54D;
@@ -622,18 +625,17 @@ svg#background {
 }
 
 #loginScreen {
-
 }
 
 #signUpScreen {
-
 }
 
 .login {
   background-color: #F8DAA6;
-  padding-top: 5%;
-  margin-top: 5%;
-  box-shadow: 0 5px 10px 0 #555;
+  padding-top: 2%;
+  margin-top: 2%;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 5px 0 #444;
 }
 
 .signup {

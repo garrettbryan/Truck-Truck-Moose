@@ -171,8 +171,8 @@ ko.bindingHandlers.truckFilter = {
 //swiper-wrapper
         context.$root.prunedPossibleFoodTrucks(context.$root.foodTrucks());
 
-        var searchFoodTrucks = function(regexp) {
-            var re = new RegExp(regexp,'i');
+        var searchFoodTrucks = function(searchString) {
+            var re = new RegExp(searchString,'i');
             //console.log(regexp);
             //console.log(context.$root.meetups());
             context.$root.foodTrucks().forEach( function(foodTruck) {
@@ -271,12 +271,13 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             context.$root.prunedPossibleDestinations([]);
             var observable = valueAccessor();
             observable($(element).val());
+            /* add google destinations
             autocomplete.getQueryPredictions({
                 input: $(element).val(),
                 location: context.$root.user.position(),
                 radius: '500',
                // type: ['store']
-            }, autocompleteCallback);
+            }, autocompleteCallback);*/
             searchMeetups($(element).val());
             console.log(observable());
         });

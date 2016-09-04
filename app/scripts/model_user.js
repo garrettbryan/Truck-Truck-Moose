@@ -1,5 +1,21 @@
 /*
+--------Model
 The user data is complex enough to warrrant it's own Model.
+https://addyosmani.com/blog/understanding-mvvm-a-guide-for-javascript-developers/
+1.represents domain-specific data or information that our application will be working with.
+2.Models hold information, but typically don’t handle behaviour. They don’t format information or influence how data appears in the browser as this isn’t their responsibility.
+3.formatting of data is handled by the View
+4.behaviour is considered business logic that should be encapsulated in another layer that interacts with the Model - the ViewModel
+5.it’s considered acceptable for Models to validate data being used to define or update existing models
+6.KnockoutJS, Models fall under the above definition, but often make Ajax calls to a server-side service to both read and write Model data
+
+--------View
+1.A KnockoutJS View is simply a HTML document with declarative bindings to link it to the ViewModel. KnockoutJS Views display information from the ViewModel, pass commands to it (e.g a user clicking on an element) and update as the state of the ViewModel changes. Templates generating markup using data from the ViewModel can however also be used for this purpose.
+
+--------ViewModel
+1.the ViewModel can be considered a specialized Controller that acts as a data converter. It changes Model information into View information, passing commands from the View to the Model.
+
+
 
 */
 var User = function(){
