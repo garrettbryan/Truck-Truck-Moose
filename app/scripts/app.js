@@ -274,7 +274,7 @@ var ViewModel = function() {
     this.resetUser();
     this.thankYouScreen(false);
     this.loginScreen(true);
-    this.getCurrentPosition(this.mapInit,generalError);
+    this.getCurrentPosition();
   }.bind(this);
   this.loginToSignUp = function(){
     console.log("signup");
@@ -642,8 +642,33 @@ var generalError = function(){
   alert('error');
 };
 
+ViewModel.prototype.useGoogleGeoLocate = function(){
+  $.ajax.call(this,{
+      url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCywABd4efsIAUleeL-4kdtomWr1NAjG4w',
+      dataType: 'json',
+      type: 'POST',
+      data: {},
+      success: function(position) {
+        console.log(position);
+        //console.log(this);
+        this.user.position(new google.maps.LatLng(position.location.lat, position.location.lng));
+        console.log(this.user.position().toString());
+        this.user.begin(this.user.position());
+  //        alert(this.user.position.toString());
 
-ViewModel.prototype.getCurrentPosition = function(successCB, errorCB) {
+        this.mapInit.call(this);
+      }.bind(this),
+      error: function(err) {
+        console.log(JSON.stringify(err, null, 2));
+        //this.warning(true);
+        this.warningMessages.unshift("geolocation error with ajax");
+        this.warning(true);
+        console.log(this.warningMessages());
+      }.bind(this)
+  });
+};
+
+ViewModel.prototype.getCurrentPosition = function() {
   if (Modernizr.geolocation) {
     console.log("geolocation available");
     if(google){
@@ -651,14 +676,15 @@ ViewModel.prototype.getCurrentPosition = function(successCB, errorCB) {
         function(position){
           this.user.position(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
           console.log(this.user.position().toString());
-          //this.user.begin = this.user.position();
+          this.user.begin(this.user.position());
   //        alert(this.user.position.toString());
+
           this.mapInit.call(this);
-          //successCB.call(this);
+          //this.useGoogleGeoLocate();
         }.bind(this),
         function(){
           console.log("could not get location, possibly due to github not supporting https, trying google geolocate api");
-
+          this.useGoogleGeoLocate();
         }.bind(this)
       );
     }
