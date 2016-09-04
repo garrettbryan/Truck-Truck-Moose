@@ -271,12 +271,13 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             context.$root.prunedPossibleDestinations([]);
             var observable = valueAccessor();
             observable($(element).val());
+            /* add google destinations
             autocomplete.getQueryPredictions({
                 input: $(element).val(),
                 location: context.$root.user.position(),
                 radius: '500',
                // type: ['store']
-            }, autocompleteCallback);
+            }, autocompleteCallback);*/
             searchMeetups($(element).val());
             console.log(observable());
         });
