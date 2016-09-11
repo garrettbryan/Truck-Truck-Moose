@@ -93,7 +93,6 @@ var ViewModel = function() {
           this.turnOffScreens();
           this.loginScreen(true);
           this.getCurrentPosition();
-          //this.getCurrentPosition(this.mapInit,generalError);
             break;
         case 'signup':
           console.log('signup');
@@ -220,8 +219,6 @@ var ViewModel = function() {
         });
       }
     });
-    //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
-
   }.bind(this));
 
 
@@ -242,16 +239,8 @@ var ViewModel = function() {
         $('#main-form.half').removeClass('half');
       }
     }
-
   }.bind(this);
 
-/*
-  this.configureMainForm = function (height, padding) {
-    var mainFormHeight = height;
-    var paddingTop = padding;
-      $('#main-form').css({'height': mainFormHeight,'padding-top': paddingTop});
-  }.bind(this);
-*/
   this.init = function() {
     //meetups
     //google maps
@@ -267,134 +256,6 @@ var ViewModel = function() {
     this.user.getLocalData();
     //this.savelocally();
   }.bind(this);
-
-
-  this.toLogin = function(){
-    console.log("to Login");
-    this.resetUser();
-    this.thankYouScreen(false);
-    this.loginScreen(true);
-    this.getCurrentPosition();
-  }.bind(this);
-  this.loginToSignUp = function(){
-    console.log("signup");
-    console.log(this.user);
-    this.user.localSave();
-    this.loginScreen(false);
-    this.signUpScreen(true);
-  }.bind(this);
-  this.signUpToSettings = function(){
-    console.log("settings");
-    console.log(this.user);
-    //localStorage.setItem('MeetUpTruck', JSON.stringify(this.user));
-    this.user.localSave();
-    this.signUpScreen(false);
-    this.settingsScreen(true);
-  }.bind(this);
-  this.settingsToMap = function() {
-    //localStorage.setItem('MeetUpTruck', JSON.stringify(this.user));
-    console.log(this.user);
-    this.user.localSave();
-    this.toMap();
-  }.bind(this);
-  this.toMap = function(){
-    console.log("to map");
-    console.log(this.user);
-    if(this.meetups()){
-      this.addMeetupsToMap();
-      this.renderMeetups();
-    }
-    this.settingsScreen(false);
-    this.loginScreen(false);
-    this.foodTruckScreen(false);
-    this.destinationSelectionScreen(true);
-  }.bind(this);
-  this.toFoodTrucks = function() {
-    console.log("to Trucks");
-    if(this.selectedDestination && this.user.begin() && this.user.end()){
-      console.log(this);
-      this.description('');
-      this.selectedDestination.keepChosen(this.map, this);
-      this.addFoodTrucksToMap();
-      this.destinationSelectionScreen(false);
-      this.foodTruckScreen(true);
-    }
-  }.bind(this);
-  this.toOrder = function() {
-    console.log("to Order");
-    if(this.selectedTruckName()){
-      this.description('');
-      console.log(this.selectedTruck);
-      this.menu(this.selectedTruck.dailyMenu);
-      console.log(this.menu());
-      this.foodTruckScreen(false);
-      this.orderScreen(true);
-      console.log(this.selectedTruck);
-      this.selectedTruck.keepChosen(this.map, this);
-    }
-  }.bind(this);
-  this.toConfirmation = function() {
-    console.log("to Confirmation");
-    console.log(this.order().length>0);
-    if(this.order().length>0){
-      this.puPhrase(makePUPhrase());
-      this.orderScreen(false);
-      this.confirmationScreen(true);
-    }
-  }.bind(this);
-//  this.toArrived = function() {
-//    console.log("to Arrived");
-//    this.confirmationScreen(false);
-//    this.arrivedScreen(true);
-//  }.bind(this);
-//  this.toThankYou = function() {
-//    console.log("to ThankYou");
-//    this.arrivedScreen(false);
-//    this.thankYouScreen(true);
-//  }.bind(this);
-
-
-
-
-
-
-  this.toggleLoginScreen = function() {
-    this.loginScreen(!this.loginScreen());
-    console.log(this.loginScreen());
-  }.bind(this);
-  this.toggleSignUpScreen = function() {
-    this.signUpScreen(!this.signUpScreen());
-    console.log(this.loginScreen());
-  }.bind(this);
-  this.toggleSettingsScreen = function() {
-    this.settingsScreen(!this.settingsScreen());
-    console.log(this.settingsScreen());
-  }.bind(this);
-  this.toggleDestinationSelectionScreen = function() {
-    this.destinationSelectionScreen(!this.destinationSelectionScreen());
-    console.log(this.destinationSelectionScreen());
-  }.bind(this);
-  this.toggleFoodTruckScreen = function() {
-    this.foodTruckScreen(!this.foodTruckScreen());
-    console.log(this.foodTruckScreen());
-  }.bind(this);
-  this.toggleOrderScreen = function() {
-    this.orderScreen(!this.orderScreen());
-    console.log(this.orderScreen());
-  }.bind(this);
-  this.toggleConfirmationScreen = function() {
-    this.confirmationScreen(!this.confirmationScreen());
-    console.log(this.confirmationScreen());
-  }.bind(this);
-  this.toggleArrivedScreen = function() {
-    this.arrivedScreen(!this.arrivedScreen());
-    console.log(this.arrivedScreen());
-  }.bind(this);
-  this.toggleThankYouScreen = function() {
-    this.thankYouScreen(!this.thankYouScreen());
-    console.log(this.thankYouScreen());
-  }.bind(this);
-
 };
 
 ViewModel.prototype.changeScreen = function(newScreen) {
@@ -484,44 +345,25 @@ ViewModel.prototype.renderMeetups = function() {
 
 
 ViewModel.prototype.addMeetupsToMap = function() {
-/*
-meetup map bounds exp             the meetup request returns meetups this do not have the  coorrect lat lons.
-*/
-    //var this = this;
-
-  //var bounds = new google.maps.LatLngBounds();F
-//    console.log(bounds.toString());
-
   console.log(JSON.stringify(this.map.getBounds().getNorthEast()));
   console.log($('#main-form').outerHeight(true));
 
-    var ne = this.map.getBounds().getNorthEast();
-    var sw = this.map.getBounds().getSouthWest();
-    var scale = 1 << this.map.getZoom();
-    var projection = this.map.getProjection();
-    var topRight = projection.fromLatLngToPoint(ne);
-    var bottomLeft = projection.fromLatLngToPoint(sw);
+  var ne = this.map.getBounds().getNorthEast();
+  var sw = this.map.getBounds().getSouthWest();
+  var scale = 1 << this.map.getZoom();
+  var projection = this.map.getProjection();
+  var topRight = projection.fromLatLngToPoint(ne);
+  var bottomLeft = projection.fromLatLngToPoint(sw);
+  var newLatlng = projection.fromPointToLatLng(new google.maps.Point($('#main-form').outerWidth(true)/scale + bottomLeft.x, $('#main-form').outerHeight(true)/scale + topRight.y));
 
-    //var newLatlng = projection.fromPointToLatLng(new google.maps.Point(xcoor / scale + bottomLeft.x, ycoor / scale + topRight.y));
-    var newLatlng = projection.fromPointToLatLng(new google.maps.Point($('#main-form').outerWidth(true)/scale + bottomLeft.x, $('#main-form').outerHeight(true)/scale + topRight.y));
-    console.log(JSON.stringify(newLatlng));
+  console.log(JSON.stringify(newLatlng));
 
-    var latDiff = Math.abs(newLatlng.lat()-this.map.getBounds().getNorthEast().lat());
-    console.log(latDiff);
+  var latDiff = Math.abs(newLatlng.lat()-this.map.getBounds().getNorthEast().lat());
 
+  console.log(latDiff);
 
   if (this.meetups().length > 0){
     console.log(this.meetups());
-/*
-    this.meetupMapBounds.max = {
-      lat: this.map.getBounds().getNorthEast().lat(),
-      lng: this.map.getBounds().getNorthEast().lng()
-    };
-    this.meetupMapBounds.min = {
-      lat: this.map.getBounds().getSouthWest().lat(),
-      lng: this.map.getBounds().getSouthWest().lng()
-    };
-*/
 
     this.meetupMapBounds.max = {
       lat: -360,
@@ -533,8 +375,6 @@ meetup map bounds exp             the meetup request returns meetups this do not
     };
 
     this.meetups().forEach(function(meetup){
-
-
       if (typeof meetup.venue !== 'undefined'){
         var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
         //console.dir(google.maps);
@@ -597,50 +437,11 @@ meetup map bounds exp             the meetup request returns meetups this do not
     console.log(err);
   }
 
-/*
-  var overlay = new google.maps.OverlayView();
-  overlay.draw = function () {};
-  overlay.setMap(this.map);
-
-  var point = new google.maps.Point(1,$('#main-form').outerHeight(true));
-  var projection = this.map.getProjection();
-
-  console.log(projection);
-  console.log(overlay.getProjection().fromContainerPixelToLatLng(point));
-*/
-/*
-
-    var weather = new WeatherUnderground();
-    weather.setDimensions(map);
-    //weather.render();
-    aboutMy.weather = weather;
-
-    aboutMy.foodTrucks = [];
-    //locallyRandomizeFoodTruck(this.getBounds(), pos);
-
-    foodTrucks.forEach(function(truckData){
-      var truck = new FoodTruck();
-      truck.initNoSchedule(truckData);
-      truck.create3RandomStopPoints(aboutMy.position, map);
-    //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
-      truck.getDirections();
-      truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
-      truck.initRandomMenu();
-  //    console.log(truck);
-    });
-*/
 };
 
 ViewModel.prototype.meetUpInit = function() {
 };
 
-var generalSuccess = function() {
-  console.log(this);
-};
-
-var generalError = function(){
-  alert('error');
-};
 
 ViewModel.prototype.useGoogleGeoLocate = function(){
   $.ajax.call(this,{
@@ -699,12 +500,12 @@ ViewModel.prototype.getCurrentPosition = function() {
 
 
 ViewModel.prototype.mapInit = function() {
+
   console.log(this);
 
   this.meetupRequest.CORopenEvents.call(this,this.user.position);
 
   this.foodTruckRequest.getFoodTrucks.call(this);
-
 
   var mapOptions = {
     center: this.user.position(),
@@ -754,53 +555,12 @@ ViewModel.prototype.mapInit = function() {
 
   console.log(this.user);
   this.user.render(this.map);
-
-
-  /*
-  verify the marker anchor is appropriate
-
-  var marker1 = new google.maps.Marker({
-    position: this.user.position(),
-    map: this.map,
-    title: "Current Location",
-    draggable:true
-  });
-
-  /*
-  add an info window
-
-  var contentString = '<div id="content">'+
-    '<h3 id="heading" class="heading">You are here.</h3>' +
-    '<div id="body-content"> Wow you are right here</div>' +
-    '</div>';
-
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
-
-  marker1.addListener('click', function() {
-    infowindow.open(this.map, marker1);
-  });
-*/
 };
 
 
 $(document).ready(function() {
-/*
-  $('#button-navi').prepend('<button data-bind="click: toggleLoginScreen">Toggle Login</button>');
-  $('button:last-of-type').after('<button data-bind="click: toggleSignUpScreen">Toggle signUp</button>');
-  $('button:last-of-type').after('<button data-bind="click: toggleSettingsScreen">Toggle Settings</button>');
-  $('button:last-of-type').after('<button data-bind="click: toggleDestinationSelectionScreen">Toggle destination</button>');
-  $('button:last-of-type').after('<button data-bind="click: toggleFoodTruckScreen">Toggle FoodTruck Selection</button>');
-  $('button:last-of-type').after('<button data-bind="click: toggleOrderScreen">Toggle Order</button>');
-  $('button:last-of-type').after('<button data-bind="click: toggleConfirmationScreen">Toggle Order Confirmation</button>');
-  $('button:last-of-type').after('<button data-bind="click: toggleArrivedScreen">Toggle Arrived</button>');
-  $('button:last-of-type').after('<button data-bind="click: toggleThankYouScreen">Toggle Thank You</button>');
-*/
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
   viewModel.changeScreen('login');
-  //viewModel.mapInit();
-
 
 });
