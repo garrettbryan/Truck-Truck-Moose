@@ -197,6 +197,27 @@ var ViewModel = function() {
     }.bind(this));
   }.bind(this));
 
+
+  this.prunedPossibleDestinations.subscribe(function(destinations) {
+    //console.log(this.displayFoodTrucks());
+    var self = this;
+    this.meetups().forEach(function(meetup){
+      console.log(meetup);
+      meetup.marker.setVisible(false);
+      meetup.flightPath.setMap(null);
+      if(meetup.flightPath){
+        meetup.flightPath.setMap(null);
+      }
+    });
+    destinations.forEach(function(meetup, index){
+      meetup.marker.setVisible(true);
+      if(meetup.flightPath){
+        meetup.flightPath.setMap(this.map);
+      }
+    });
+  }.bind(this));
+
+
   this.prunedPossibleFoodTrucks.subscribe(function(foodTrucks) {
     //console.log(this.displayFoodTrucks());
     var self = this;

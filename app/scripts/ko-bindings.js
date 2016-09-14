@@ -258,12 +258,28 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             //console.log(context.$root.meetups());
             context.$root.meetups().forEach( function(meetup) {
             //    console.log(meetup);
-                if(re.test(meetup.description) || re.test(meetup.group.name) || re.test(meetup.name)) {
+                if(searchFunction(re, meetup)) {
                     context.$root.prunedPossibleDestinations.push(meetup);
                 }
             });
             console.log(context.$root.prunedPossibleDestinations());
         };
+
+        var searchFunction = function(re, meetup){
+            var result = false;
+            //result = re.test(foodTruck.description) || re.test(foodTruck.name);
+            if (re.test(meetup.description)){
+                result = true;
+            } else if (re.test(meetup.group.name)){
+                result = true;
+            } else if (re.test(meetup.name)){
+                result = true;
+            }
+            return result;
+        };
+
+
+
 
         var autocomplete = new google.maps.places.AutocompleteService();
         //console.log(element);
