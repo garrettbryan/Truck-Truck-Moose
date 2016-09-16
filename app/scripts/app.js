@@ -139,9 +139,10 @@ var ViewModel = function() {
               console.log(err);
             }
             if (!this.foodTrucksAdded){
-              this.addFoodTrucksToMap();
-              this.turnOffScreens();
-              this.foodTruckScreen(true);
+              this.addFoodTrucksToMap(function(err){
+                this.turnOffScreens();
+                this.foodTruckScreen(true);
+              }.bind(this));
             }
           }
             break;
@@ -323,30 +324,17 @@ ViewModel.prototype.turnOffScreens = function(){
 
 
 
-ViewModel.prototype.addFoodTrucksToMap = function() {
-  this.foodTrucksAdded = true;
-  console.log(foodTrucks10);
-  foodTrucks10.forEach(function(truckData){
-    console.log(truckData);
-    var truck = new FoodTruck();
-    truck.initNoSchedule(truckData,this.map);
-    console.log(this.user);
-    console.log(this.selectedDestination);
-    truck.create3RandomStopPoints(this.selectedDestination, this.map);
-  //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
-    truck.getDirections();
-    truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
-    truck.render(this, this.map);
-    truck.initRandomMenu();
-    this.foodTrucks.push(truck);
-  }.bind(this));
-
+ViewModel.prototype.addFoodTrucksToMap = function(cb) {
+  var err = null;
+  this.foodTruckRequest.getFoodTrucks.call(this, function(err){
     this.map.fitBounds(new google.maps.LatLngBounds(google.maps.geometry.spherical.computeOffset(this.selectedDestination.marker.position, 5000, 225),google.maps.geometry.spherical.computeOffset(this.selectedDestination.marker.position, 5000, 45)));
     //fitBounds(bounds:LatLngBounds|LatLngBoundsLiteral)
     //LatLngBounds(sw?:LatLng|LatLngLiteral, ne?:LatLng|LatLngLiteral)
 
-  console.log(this.foodTrucks);
-  this.prunedPossibleFoodTrucks(this.foodTrucks());
+    console.log(this.foodTrucks);
+    this.prunedPossibleFoodTrucks(this.foodTrucks());
+    cb(err);
+  }.bind(this));
 };
 
 
@@ -540,8 +528,6 @@ ViewModel.prototype.mapInit = function() {
   console.log(this);
 
   this.meetupRequest.CORopenEvents.call(this,this.user.position);
-
-  this.foodTruckRequest.getFoodTrucks.call(this);
 
   var mapOptions = {
     center: this.user.position(),

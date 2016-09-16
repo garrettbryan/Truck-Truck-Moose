@@ -32,9 +32,10 @@ FoodTruckRequest = function() {
   this.data = {};
 };
 
-FoodTruckRequest.prototype.getFoodTrucks = function(){
+FoodTruckRequest.prototype.getFoodTrucks = function(cb){
+  var err = null;
   var foodTruckTimeout = setTimeout(function(){
-    this.warningMessages.unshift('Looks like the Truck Truck Moose server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while')
+    this.warningMessages.unshift('Looks like the Truck Truck Moose server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while');
   }.bind(this), 8000);
   $.ajax.call(this,{
       url: 'https://fast-basin-67072.herokuapp.com/trucks',
@@ -43,6 +44,27 @@ FoodTruckRequest.prototype.getFoodTrucks = function(){
         clearTimeout(foodTruckTimeout);
         console.log(data);
         //console.log(this);
+        if (data.length === 0) {
+          this.warningMessages.unshift("heard from Meetup.com, there are no more upcoming meetups today");
+          this.warning(true);
+        } else {
+          data.forEach(function(truckData){
+            console.log(truckData);
+            var truck = new FoodTruck();
+            truck.initNoSchedule(truckData,this.map);
+            console.log(this.user);
+            console.log(this.selectedDestination);
+            truck.create3RandomStopPoints(this.selectedDestination, this.map);
+          //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
+            truck.getDirections();
+            truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
+            truck.render(this, this.map);
+            truck.initRandomMenu();
+            this.foodTrucks.push(truck);
+          }.bind(this));
+          this.foodTrucksAdded = true;
+          cb(err);
+        }
       }.bind(this),
       error: function(data) {
         clearTimeout(foodTruckTimeout);
@@ -51,6 +73,7 @@ FoodTruckRequest.prototype.getFoodTrucks = function(){
         this.warningMessages.unshift("There's been an error contacting the Truck Truck Moose Server.\nPlease try again later");
         this.warning(true);
         console.log(this.warningMessages());
+        cb(err);
       }.bind(this)
   });
 
