@@ -33,17 +33,22 @@ FoodTruckRequest = function() {
 };
 
 FoodTruckRequest.prototype.getFoodTrucks = function(){
+  var foodTruckTimeout = setTimeout(function(){
+    this.warningMessages.unshift('Looks like the Truck Truck Moose server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while')
+  }.bind(this), 8000);
   $.ajax.call(this,{
       url: 'https://fast-basin-67072.herokuapp.com/trucks',
       dataType: 'jsonp',
       success: function(data) {
+        clearTimeout(foodTruckTimeout);
         console.log(data);
         //console.log(this);
       }.bind(this),
       error: function(data) {
+        clearTimeout(foodTruckTimeout);
         console.log(data);
         //this.warning(true);
-        this.warningMessages.unshift("foodTrucks error with ajax");
+        this.warningMessages.unshift("There's been an error contacting the Truck Truck Moose Server.\nPlease try again later");
         this.warning(true);
         console.log(this.warningMessages());
       }.bind(this)

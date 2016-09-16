@@ -4,7 +4,7 @@ var MeetupRequest = function() {
 
 MeetupRequest.prototype.CORopenEvents = function(position) {
   var meetupRequestTimeout = setTimeout(function(){
-      this.warningMessages.unshift("Meetup.com timeout");
+      this.warningMessages.unshift("Looks like the Meetup.com server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
       this.warning(true);
       console.log(this.warningMessages());
   }.bind(this), 8000);
@@ -12,9 +12,10 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
       url: 'https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=' + position().lng() + '&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=' + position().lat() + '&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d',
       dataType: 'jsonp',
       success: function(data) {
+        clearTimeout(meetupRequestTimeout);
         console.log(data);
         if (data.results.length === 0) {
-          this.warningMessages.unshift("heard from Meetup.com there are no more upcoming meetups today");
+          this.warningMessages.unshift("heard from Meetup.com, there are no more upcoming meetups today");
           this.warning(true);
         }else{
           data.results.forEach(function(result){
@@ -22,7 +23,6 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
             this.meetups.push(new Meetup(result));
   //          console.log(Date(meetup.time));
           }.bind(this));
-          clearTimeout(meetupRequestTimeout);
 
           console.log(this.meetups());
           this.meetups().sort(function(a,b){
@@ -33,9 +33,10 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
         //console.log(this);
       }.bind(this),
       error: function(data) {
+        clearTimeout(meetupRequestTimeout);
         console.log(data);
         //this.warning(true);
-        this.warningMessages.unshift("Meetup.com error with ajax");
+        this.warningMessages.unshift("There's been an error contacting Meetup.com.\nPlease try again later.");
         this.warning(true);
         console.log(this.warningMessages());
       }.bind(this)

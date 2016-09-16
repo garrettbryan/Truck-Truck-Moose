@@ -469,12 +469,18 @@ ViewModel.prototype.meetUpInit = function() {
 
 
 ViewModel.prototype.useGoogleGeoLocate = function(){
+    var googleTimeout = setTimeout(function(){
+      this.warningMessages.unshift("Looks like the Google server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
+      this.warning(true);
+      console.log(this.warningMessages());
+  }.bind(this), 8000);
   $.ajax.call(this,{
       url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCywABd4efsIAUleeL-4kdtomWr1NAjG4w',
       dataType: 'json',
       type: 'POST',
       data: {},
       success: function(position) {
+        clearTimeout(googleTimeout);
         console.log(position);
         //console.log(this);
         this.user.position(new google.maps.LatLng(position.location.lat, position.location.lng));
@@ -485,9 +491,11 @@ ViewModel.prototype.useGoogleGeoLocate = function(){
         this.mapInit.call(this);
       }.bind(this),
       error: function(err) {
+        clearTimeout(googleTimeout);
         console.log(JSON.stringify(err, null, 2));
         //this.warning(true);
-        this.warningMessages.unshift("geolocation error with ajax");
+        //$('#myModal').modal('show');
+        this.warningMessages.unshift("Unable to access Google Maps.\nPlease check your internet connection.");
         this.warning(true);
         console.log(this.warningMessages());
       }.bind(this)
@@ -497,7 +505,7 @@ ViewModel.prototype.useGoogleGeoLocate = function(){
 ViewModel.prototype.getCurrentPosition = function() {
   if (Modernizr.geolocation) {
     console.log("geolocation available");
-    if(google){
+    if(typeof(google) !== undefined){
       navigator.geolocation.getCurrentPosition(
         function(position){
           this.user.position(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
@@ -509,17 +517,20 @@ ViewModel.prototype.getCurrentPosition = function() {
           //this.useGoogleGeoLocate();
         }.bind(this),
         function(){
-          console.log("could not get location, possibly due to github not supporting https, trying google geolocate api");
+          console.log("Could not get location, possibly due to github not supporting https, trying google geolocate api");
           this.useGoogleGeoLocate();
         }.bind(this)
       );
     }
     else {
-      this.noGoogleMaps(true);
+      this.useGoogleGeoLocate();
+      //this.noGoogleMaps(true);
+      //$('#myModal').modal('show');
     }
   }
   else {
-    this.noGeo(true);
+    this.useGoogleGeoLocate();
+    //this.noGeo(true);
   }
 };
 
