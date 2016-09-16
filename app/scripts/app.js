@@ -247,7 +247,11 @@ var ViewModel = function() {
     this.warningMessages.shift();
     console.log(this.warningMessages());
     if (this.warningMessages().length === 0){
-      this.warning(false);
+      $('#myModal').modal('hide');
+      $("#myModal").on("hidden.bs.modal", function () {
+        this.warning(false);
+        console.log(this.warning());
+      }.bind(this));
     }
   }.bind(this);
 

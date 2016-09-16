@@ -52,13 +52,13 @@
 
   </head>
   <body>
+    <div data-bind="if: warning">
+        <ui-warning params="warningMessages: warningMessages"></ui-warning>
+    </div>
     <div class="main-title-overlay">
         <div class="container-fluid" id="button-navi">
         </div>
         <div id="main-form" class="container-fluid">
-            <div data-bind="if: warning">
-                <ui-warning params="warningMessages: warningMessages"></ui-warning>
-            </div>
             <div id="loginScreen" data-bind="if: loginScreen">
                 <intro ></intro>
                 <login-form></login-form>

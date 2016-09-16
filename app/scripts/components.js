@@ -1,18 +1,29 @@
 var uiWarning = [
-'<div class="no-meetups">',
-'<div class="title">',
-'<h3> Something is wrong </h3>',
-'</div>',
-'<p data-bind="text: currentMessage">there\'s an error</p>',
-'<p><a data-bind="click: $parent.continue">continue any way</a></p>',
-'</div>'
-].join("\n");
+'    <!-- Modal -->',
+'    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">',
+'      <div class="modal-dialog" role="document">',
+'        <div class="modal-content">',
+'          <div class="modal-header">',
+'            <button type="button" class="close" data-bind="click: $parent.continue" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
+'            <h4 class="modal-title" id="myModalLabel">Truck Truck Moose Error</h4>',
+'          </div>',
+'          <div class="modal-body">',
+'            <p data-bind="text: currentMessage">there\'s an error</p>',
+'          </div>',
+'          <div class="modal-footer">',
+'            <button type="button" class="btn btn-default" data-bind="click: $parent.continue">Close</button>',
+'          </div>',
+'        </div>',
+'      </div>',
+'    </div>'
+].join('\n');
 ko.components.register('ui-warning', {
   viewModel: function(params) {
     var self = this;
     this.warningMessages = params.warningMessages;
     this.currentMessage = ko.observable(this.warningMessages()[0]);
     console.log(this.warningMessages);
+    $('#myModal').modal('show');
 
     this.warningMessages.subscribe(function(messages){
       var self = this;
