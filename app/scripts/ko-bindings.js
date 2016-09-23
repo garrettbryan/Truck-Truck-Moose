@@ -316,6 +316,18 @@ ko.bindingHandlers.destinationDropdown = {
         //console.log(data);
         //console.log(context);
         //ko.bindingHandlers.text.init(valueAccessor())
+        $(element).mouseover(function(){
+            console.log($(element).siblings());
+            $(element).siblings().removeClass('highlight-destination');
+            $(element).addClass('highlight-destination');
+            if (data.type === 'google'){
+                console.log(data);
+            }else if (data.type === 'meetup') {
+                //this.selectedDestination = data;
+                console.log(data);
+                google.maps.event.trigger(data.marker, 'highlight');
+            }
+        });
         $(element).click(function(){
             context.$root.user.end(valueAccessor());
             console.log(context.$root.user.end());

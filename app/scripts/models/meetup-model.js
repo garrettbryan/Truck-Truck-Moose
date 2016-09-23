@@ -81,6 +81,33 @@ Meetup.prototype.render = function(map,viewModel) {
       position: this.marker.position
     });
 
+    this.marker.addListener('highlight', function() {
+      viewModel.meetups().forEach( function(meetup){
+        if(meetup.infowindow){
+          meetup.infowindow.close();
+          meetup.marker.setOpacity(0.5);
+        }
+        if (meetup.flightPath){
+          meetup.flightPath.setMap(null);
+        }
+      });
+      if (this.group.name) {
+        viewModel.description('<h4 id="heading" class="heading">' + this.group.name + '</h4>');
+      }
+      if(this.description){
+        viewModel.description(viewModel.description() + this.description);
+        //console.log(this.adjustDescriptionImages('img'));
+      }
+      //this.infowindow.open(map, this.marker);
+      this.marker.setOpacity(1.0);
+
+
+    }.bind(this));
+
+
+
+
+
     this.infowindow.addListener('closeclick', function () {
       this.marker.setOpacity(0.5);
       this.flightPath.setMap(null);
