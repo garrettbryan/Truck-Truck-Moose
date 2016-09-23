@@ -204,14 +204,17 @@ var ViewModel = function() {
     var self = this;
     this.meetups().forEach(function(meetup){
       console.log(meetup);
-      meetup.marker.setVisible(false);
-      meetup.flightPath.setMap(null);
+      if (meetup.marker) {
+        meetup.marker.setVisible(false);
+      }
       if(meetup.flightPath){
         meetup.flightPath.setMap(null);
       }
     });
     destinations.forEach(function(meetup, index){
-      meetup.marker.setVisible(true);
+      if (meetup.marker) {
+        meetup.marker.setVisible(true);
+      }
       if(meetup.flightPath){
         meetup.flightPath.setMap(this.map);
       }
@@ -272,9 +275,12 @@ var ViewModel = function() {
     //google maps
     //weather
   };
+
+
   this.initMeetups = function(){
     console.log(this.meetups());
   }.bind(this);
+
 
   this.resetUser = function() {
     //localStorage.setItem('MeetUpTruck', {});
@@ -283,6 +289,7 @@ var ViewModel = function() {
     //this.savelocally();
   }.bind(this);
 };
+
 
 ViewModel.prototype.changeScreen = function(newScreen) {
   var screen;
