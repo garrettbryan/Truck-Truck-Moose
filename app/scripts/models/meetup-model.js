@@ -15,8 +15,28 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
         clearTimeout(meetupRequestTimeout);
         console.log(data);
         if (data.results.length === 0) {
-          this.warningMessages.unshift("heard from Meetup.com, there are no more upcoming meetups today");
+          this.warningMessages.unshift("Heard from Meetup.com, there are no more upcoming meetups today. Loading a test response.");
           this.warning(true);
+          $.ajax.call(this,{
+            url: 'http://localhost:9000/json/open_events_meetups.js',
+            dataType: 'json',
+            success: function(data) {
+              data.results.forEach(function(result){
+      //          console.log(result);
+                this.meetups.push(new Meetup(result));
+      //          console.log(Date(meetup.time));
+              }.bind(this));
+
+              console.log(this.meetups());
+              this.meetups().sort(function(a,b){
+                return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
+              });
+              console.log(this.meetups());
+            }.bind(this),
+            error: function(err) {
+              console.log(err);
+            }
+          });
         }else{
           data.results.forEach(function(result){
   //          console.log(result);
@@ -36,9 +56,29 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
         clearTimeout(meetupRequestTimeout);
         console.log(data);
         //this.warning(true);
-        this.warningMessages.unshift("There's been an error contacting Meetup.com.\nPlease try again later.");
+        this.warningMessages.unshift("There's been an error contacting Meetup.com.\nPlease try again later. Loading a test response.");
         this.warning(true);
         console.log(this.warningMessages());
+        $.ajax.call(this,{
+          url: 'http://localhost:9000/json/open_events_meetups.js',
+          dataType: 'json',
+          success: function(data) {
+            data.results.forEach(function(result){
+    //          console.log(result);
+              this.meetups.push(new Meetup(result));
+    //          console.log(Date(meetup.time));
+            }.bind(this));
+
+            console.log(this.meetups());
+            this.meetups().sort(function(a,b){
+              return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
+            });
+            console.log(this.meetups());
+          }.bind(this),
+          error: function(err) {
+            console.log(err);
+          }
+        });
       }.bind(this)
   });
 };
