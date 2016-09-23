@@ -304,8 +304,10 @@ var destinationSelection = [
 '  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <input id="end" class="form-control" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="MeetUp Search" type="text">',
-'      <div data-bind="foreach: $parent.prunedPossibleDestinations">',
+'      <div class="destination-container col-sm-6">',
+'        <div class="destination-list" data-bind="visible: $parent.prunedPossibleDestinations().length > 0, foreach: $parent.prunedPossibleDestinations">',
 '        <div class="destination" data-bind="destinationDropdown: group.name"></div>',
+'        </div>',
 '      </div>',
 '    </div>',
 '  </div>',
@@ -319,20 +321,7 @@ var destinationSelection = [
 ].join("\n");
 ko.components.register('destination-selection', {
   viewModel: function() {
-/*    this.destination = params.dest;
 
-    this.destination.subscribe(function(newValue) {
-      //console.log(this.displayFoodTrucks());
-      console.log(newValue);
-      truckSwiper.removeAllSlides();
-      newValue.forEach(function(foodtruck){
-        console.log(truckSwiper);
-        truckSwiper.appendSlide('<div class="swiper-slide">' + foodtruck.name + '<img src="' + foodtruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>')
-      });row
-      //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
-
-    });
-*/
   },
   template: destinationSelection
 });
