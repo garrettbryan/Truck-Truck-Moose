@@ -294,8 +294,10 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
                 radius: '500',
                // type: ['store']
             }, autocompleteCallback);*/
-            searchMeetups($(element).val());
-            console.log(observable());
+            if($(element).val()){
+                searchMeetups($(element).val());
+                console.log(observable());
+            }
         });
     },
     update: function(element, valueAccessor, allBindings, data, context) {

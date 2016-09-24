@@ -140,13 +140,7 @@ Meetup.prototype.render = function(map,viewModel) {
       }
       //this.infowindow.open(map, this.marker);
       this.marker.setOpacity(1.0);
-
-
     }.bind(this));
-
-
-
-
 
     this.infowindow.addListener('closeclick', function () {
       this.marker.setOpacity(0.5);
@@ -156,6 +150,8 @@ Meetup.prototype.render = function(map,viewModel) {
 
 
     this.marker.addListener('click', function() {
+      console.log(this);
+      console.log(viewModel);
       viewModel.meetups().forEach( function(meetup){
         if(meetup.infowindow){
           meetup.infowindow.close();
@@ -173,6 +169,7 @@ Meetup.prototype.render = function(map,viewModel) {
         //console.log(this.adjustDescriptionImages('img'));
       }
       //this.infowindow.open(map, this.marker);
+      this.marker.setVisible(true);
       this.marker.setOpacity(1.0);
       viewModel.selectedDestination = this;
       viewModel.user.end(this.group.name);

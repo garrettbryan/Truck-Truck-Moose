@@ -45,7 +45,7 @@ FoodTruckRequest.prototype.getFoodTrucks = function(cb){
         console.log(data);
         //console.log(this);
         if (data.length === 0) {
-          this.warningMessages.unshift("heard from Meetup.com, there are no more upcoming meetups today");
+          this.warningMessages.unshift("heard from Truck Truck Moose, there are no more local trucks today");
           this.warning(true);
         } else {
           data.forEach(function(truckData){

@@ -543,12 +543,16 @@ footer {
   transition: top 0.2s ease-out;
 }
 
+.show-destination-container{
+  height: 119px !important;
+}
+
 .destination-container{
   position: absolute;
   z-index: 5;
   width: 100%;
-  height: 119px;
-  overflow-y: hidden;
+  height: 0;
+  //overflow-y: hidden;
 }
 
 .destination-list {

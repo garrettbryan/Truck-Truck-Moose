@@ -203,7 +203,7 @@ var ViewModel = function() {
     //console.log(this.displayFoodTrucks());
     var self = this;
     this.meetups().forEach(function(meetup){
-      console.log(meetup);
+      //console.log(meetup);
       if (meetup.marker) {
         meetup.marker.setVisible(false);
       }
@@ -212,6 +212,7 @@ var ViewModel = function() {
       }
     });
     destinations.forEach(function(meetup, index){
+      console.log(meetup);
       if (meetup.marker) {
         meetup.marker.setVisible(true);
       }
