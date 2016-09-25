@@ -254,7 +254,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
 
         var searchMeetups = function(regexp) {
             var re = new RegExp(regexp,'i');
-            //console.log(regexp);
+            console.log(regexp);
             //console.log(context.$root.meetups());
             context.$root.meetups().forEach( function(meetup) {
             //    console.log(meetup);
@@ -268,6 +268,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         var searchFunction = function(re, meetup){
             var result = false;
             //result = re.test(foodTruck.description) || re.test(foodTruck.name);
+            console.log(re);
             if (re.test(meetup.description)){
                 result = true;
             } else if (re.test(meetup.group.name)){
@@ -297,6 +298,8 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             if($(element).val()){
                 searchMeetups($(element).val());
                 console.log(observable());
+            } else {
+                console.log("no values");
             }
         });
     },

@@ -3,11 +3,18 @@ var MeetupRequest = function() {
 };
 
 MeetupRequest.prototype.CORopenEvents = function(position) {
+
+  var verifyMeetupCanBeUsed = function(meetup){
+    return meetup && meetup.group && meetup.description && meetup.venue && meetup.venue.lat && meetup.venue.lon;
+  };
+
+
   var meetupRequestTimeout = setTimeout(function(){
       this.warningMessages.unshift("Looks like the Meetup.com server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
       this.warning(true);
       console.log(this.warningMessages());
   }.bind(this), 8000);
+
   $.ajax.call(this,{
       url: 'https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=' + position().lng() + '&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=' + position().lat() + '&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d',
       dataType: 'jsonp',
@@ -23,8 +30,10 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
             success: function(data) {
               data.results.forEach(function(result){
       //          console.log(result);
-                this.meetups.push(new Meetup(result));
+                if (verifyMeetupCanBeUsed(result)){
+                  this.meetups.push(new Meetup(result));
       //          console.log(Date(meetup.time));
+                }
               }.bind(this));
 
               console.log(this.meetups());
@@ -40,8 +49,10 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
         }else{
           data.results.forEach(function(result){
   //          console.log(result);
-            this.meetups.push(new Meetup(result));
+            if (verifyMeetupCanBeUsed(result)){
+              this.meetups.push(new Meetup(result));
   //          console.log(Date(meetup.time));
+            }  //          console.log(Date(meetup.time));
           }.bind(this));
 
           console.log(this.meetups());
@@ -65,8 +76,10 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
           success: function(data) {
             data.results.forEach(function(result){
     //          console.log(result);
-              this.meetups.push(new Meetup(result));
+              if (verifyMeetupCanBeUsed(result)){
+                this.meetups.push(new Meetup(result));
     //          console.log(Date(meetup.time));
+              }
             }.bind(this));
 
             console.log(this.meetups());
