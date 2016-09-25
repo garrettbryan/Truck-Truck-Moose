@@ -420,13 +420,7 @@ ViewModel.prototype.addMeetupsToMap = function() {
       }
     }.bind(this));
 
-  } else {
-    //alert("dang no meetups");
-    console.log("dang no meetups");
-    //this.noMeetups(true);
-    //console.log(this.noMeetups());
   }
-
 //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('#main-form').outerHeight(true));
   console.log($('#main-form').outerHeight(true));
 
