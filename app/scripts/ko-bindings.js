@@ -196,12 +196,12 @@ ko.bindingHandlers.truckFilter = {
 
             else {
                 foodTruck.dailyMenu.forEach(function(dish){
-                    if (re.test(dish.name)){
-                        console.log(dish.name);
+                    if (re.test(dish.name())){
+                        console.log(dish.name());
                         result = true;
                     }
                     else {
-                        dish.ingredients.forEach(function(ingredient){
+                        dish.ingredients().forEach(function(ingredient){
                             if (re.test(ingredient)){
                                 result = true;
                             }

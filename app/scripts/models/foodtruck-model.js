@@ -1,4 +1,4 @@
-/*
+ /*
 FoodTruck
 schedule is an array of objects of stoptimes in 24hour timestamps and stoppoints given in latitude and longitude. The stop times should not overlap. The Foodtrucks will be indicated on the map at various times. Having a future postion data will allow users to plan a rendezvous
 {
@@ -95,7 +95,7 @@ FoodTruck.prototype.initNoSchedule = function(truckData, map){
 
 FoodTruck.prototype.initRandomMenu = function(){
   this.menuOfferings.forEach(function(offering){
-    this.dailyMenu.push(makeRandomMenuItem(offering));
+    this.dailyMenu.push(new Dish(makeRandomMenuItem(offering)));
   }, this);
 };
 

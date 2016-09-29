@@ -161,6 +161,11 @@ Meetup.prototype.render = function(map,viewModel) {
       viewModel.selectedDestination = {};
     }.bind(this));
 
+    this.marker.addListener('mouseover', function() {
+      $('#end').val(this.group.name);
+    }.bind(this));
+
+    // assuming you also want to hide the infowindow when user mouses-out
 
     this.marker.addListener('click', function() {
       console.log(this);

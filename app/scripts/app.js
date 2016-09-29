@@ -50,6 +50,7 @@ var ViewModel = function() {
   this.orderTotal = ko.computed(function(){
     var subtotal = 0;
     this.order().forEach( function(item){
+      console.log(item.price());
       subtotal += item.price();
     });
     return Number(subtotal.toFixed(2));

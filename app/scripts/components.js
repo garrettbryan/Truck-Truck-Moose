@@ -513,7 +513,11 @@ ko.components.register('food-order', {
     console.log(this.menu());
     console.log(this.order());
 
-    $('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - 20 - $('.login').outerHeight(true));
+    $('#user-order')
+      .css('margin-top', $('.login').outerHeight(true) )
+      .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.login').outerHeight(true));
+
+
 
     this.order.subscribe(function (dishes) {
       this.newOrderLength = dishes.length;
@@ -531,6 +535,8 @@ ko.components.register('food-order', {
       this.currentOrderLength = this.newOrderLength;
     }.bind(this));
 
+
+
     this.menu.subscribe(function (dishes) {
       var self = this;
       console.log(dishes);
@@ -539,15 +545,17 @@ ko.components.register('food-order', {
         console.log(this.menuSwiper);
         console.log(index);
         //this.menuSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + dish.name + '<img src="' + dish.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
-        this.menuSwiper.appendSlide('<div class="swiper-slide dish-slide" data-value="'+index+'">' + dish.name + ' $' + dish.price + '</div>');
+        this.menuSwiper.appendSlide('<div class="swiper-slide dish-slide" data-value="'+index +'">' + dish.name() + ' $' + dish.price() + '</div>');
       }.bind(this));
 
       $('.dish-slide').click(function(){
         console.log(self);
-        console.log($(this).data('value'));
+        console.log(self.menu()[$(this).data('value')]);
+
+
         //self.order.push(self.menu()[$(this).data('value')]);
         //self.order.unshift( new Dish(self.menu()[$(this).data('value')]));
-        self.order.push( new Dish(self.menu()[$(this).data('value')]));
+        self.order.push( new SelectedDish( self.menu()[$(this).data('value')] ));
 
         console.log(self.order());
       });
@@ -559,7 +567,9 @@ ko.components.register('food-order', {
       console.log($('.login').outerHeight(true));
 
       //$('.spacer').css('height',  $('.login').outerHeight(true));
-      $('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('.login').outerHeight(true));
+      $('#user-order')
+      .css('margin-top', $('.login').outerHeight(true))
+      .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.login').outerHeight(true));
     }.bind(this));
 
     self.removeItem = function(item) {
@@ -572,6 +582,9 @@ ko.components.register('food-order', {
   },
   template: menuItem
 });
+
+
+
 
 var ingredients = [
 '        <ul data-bind="foreach: ingredients">',
@@ -587,7 +600,7 @@ ko.components.register('ingredients', {
     this.ingredients = params.ingredients;
 
     self.no = function(ingredient) {
-      console.log(self);
+      console.log(self.ingredients());
       self.ingredients.remove(ingredient);
     };
 
@@ -607,7 +620,7 @@ var confirmation = [
 //'    </div>',
 '  <div class="col-sm-6 col-sm-offset-3">',
 '    <div class="confirmation">',
-'      <h2>Your order at <span data-bind="text: $parent.selectedTruckName"></span> <span data-bind="text: puPhraseTense"></span> <span data-bind="text: orderPuTime"></span>.</h2>',
+'      <h2>Your order at <span data-bind="text: $parent.selectedTruckName">Truck</span> <span data-bind="text: puPhraseTense">ThisIsASpacingStringItWillBeReplacedItIsUsedToProperlySizeTheElement</span> <span data-bind="text: orderPuTime">X minutes</span>.</h2>',
 '    </div>',
 "  </div>",
 '</div>',
@@ -648,6 +661,9 @@ ko.components.register('confirmation', {
       } else {
         this.puPhraseTense('will be ready');
       }
+      $('#user-confirmation')
+      .css('margin-top', $('.login').outerHeight(true) )
+      .css('height', $(window).height() - $('.login').outerHeight(true));
     }.bind(this));
 
       console.log( $(window).height());
@@ -656,7 +672,9 @@ ko.components.register('confirmation', {
 
     //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('.login').outerHeight(true));
 
-    $('#user-confirmation').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - $('.login').outerHeight(true));
+    $('#user-confirmation')
+      .css('margin-top', $('.login').outerHeight(true) )
+      .css('height', $(window).height() - $('.login').outerHeight(true));
 
     $( window ).resize(function() {
       console.log( $(window).height());
@@ -665,7 +683,9 @@ ko.components.register('confirmation', {
 
 
       //$('.spacer').css('height',  $('.login').outerHeight(true));
-    $('#user-confirmation').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - $('.login').outerHeight(true));
+    $('#user-confirmation')
+      .css('margin-top', $('.login').outerHeight(true))
+      .css('height', $(window).height() - $('.login').outerHeight(true));
     }.bind(this));
 
     var testint = setInterval(function(){
