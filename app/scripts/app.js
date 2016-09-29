@@ -309,13 +309,17 @@ ViewModel.prototype.changeScreen = function(newScreen) {
         screen = this.screenHistory()[this.screenHistory().length - 2];
       }
     }
+  } else if(newScreen === this.screenHistory()[this.screenHistory().length - 1]) {
+    //double click
   } else {
     screen = newScreen;
   }
-  this.screenHistory.push(screen);
-  console.log(this.screenHistory());
-  this.currentScreen(screen);
 
+  if (screen) {
+    this.screenHistory.push(screen);
+    console.log(this.screenHistory());
+    this.currentScreen(screen);
+  }
 };
 
 ViewModel.prototype.turnOffScreens = function(){
