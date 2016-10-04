@@ -113,9 +113,7 @@ var loginForm = [
 ].join("\n");
 ko.components.register('login-form', {
   viewModel: function(loginData) {
-    this.submit = function(){
-      console.log('login');
-    };
+
 
   },
   template: loginForm

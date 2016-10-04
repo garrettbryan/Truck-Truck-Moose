@@ -299,8 +299,13 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             }, autocompleteCallback);*/
             if($(element).val()){
                 searchMeetups($(element).val());
+                if (context.$root.prunedPossibleDestinations().length > 1){
+                    context.$data.showDropdown(true);
+                }
+                else {
+                    context.$data.showDropdown(false);
+                }
                 console.log(observable());
-                context.$data.showDropdown(true);
                 /*
                 if (context.$root.prunedPossibleDestinations().length === 1){
                     var finishDestination = setTimeout( function(){
