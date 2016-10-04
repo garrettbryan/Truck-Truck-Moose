@@ -155,6 +155,7 @@ Meetup.prototype.render = function(map,viewModel) {
       this.marker.setOpacity(1.0);
     }.bind(this));
 
+
     this.infowindow.addListener('closeclick', function () {
       this.marker.setOpacity(0.5);
       this.flightPath.setMap(null);
@@ -162,7 +163,15 @@ Meetup.prototype.render = function(map,viewModel) {
     }.bind(this));
 
     this.marker.addListener('mouseover', function() {
-      $('#end').val(this.group.name);
+      if( !viewModel.selectedDestination ) {
+        $('#end').val(this.group.name);
+      }
+    }.bind(this));
+
+    this.marker.addListener('mouseout', function() {
+      if( !viewModel.selectedDestination ) {
+        $('#end').val('');
+      }
     }.bind(this));
 
     // assuming you also want to hide the infowindow when user mouses-out
@@ -195,6 +204,14 @@ Meetup.prototype.render = function(map,viewModel) {
 
       this.directionsService = new google.maps.DirectionsService();
       this.drawRoute(map, viewModel);
+
+      google.maps.event.addListener(map, 'click', function(){
+        viewModel.selectedDestination = {};
+        this.marker.setOpacity(0.5);
+        this.flightPath.setMap(null);
+        viewModel.user.end('');
+        $('#end').val('');
+      }.bind(this));
 
     }.bind(this));
   }

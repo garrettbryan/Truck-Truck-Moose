@@ -230,6 +230,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
     init: function(element, valueAccessor, allBindings, data, context){
 
         console.log(context);
+        console.log(data);
         var places, infoWindow;
         var markers = [];
         var countryRestrict = {'country': 'us'};
@@ -285,6 +286,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         var autocomplete = new google.maps.places.AutocompleteService();
         //console.log(element);
         $(element).keyup( function(){
+            //clearTimeout(finishDestination);
             context.$root.prunedPossibleDestinations([]);
             var observable = valueAccessor();
             observable($(element).val());
@@ -297,9 +299,37 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
             }, autocompleteCallback);*/
             if($(element).val()){
                 searchMeetups($(element).val());
+                if (context.$root.prunedPossibleDestinations().length > 1){
+                    context.$data.showDropdown(true);
+                }
+                else {
+                    context.$data.showDropdown(false);
+                }
                 console.log(observable());
+                /*
+                if (context.$root.prunedPossibleDestinations().length === 1){
+                    var finishDestination = setTimeout( function(){
+                        $(element).val(context.$root.prunedPossibleDestinations()[0].group.name);
+                    }, 500);
+                    context.$data.showDropdown(false);
+                }
+                */
             } else {
                 console.log("no values");
+                context.$data.showDropdown(false);
+                context.$root.prunedPossibleDestinations(context.$root.meetups());
+            }
+        });
+
+        $(element).focusout( function(){
+            if (!($('.destination').is('.highlight-destination'))){
+                context.$data.showDropdown(false);
+            }
+        });
+
+        $(element).focusin( function(){
+            if (context.$root.prunedPossibleDestinations().length > 1){
+                context.$data.showDropdown(true);
             }
         });
     },
@@ -319,7 +349,7 @@ ko.bindingHandlers.destinationDropdown = {
         //console.log(valueAccessor());
         //console.log(allbindings);
         //console.log(data);
-        //console.log(context);
+        console.log(context);
         //ko.bindingHandlers.text.init(valueAccessor())
         $(element).mouseover(function(){
             console.log($(element).siblings());
@@ -333,7 +363,15 @@ ko.bindingHandlers.destinationDropdown = {
                 google.maps.event.trigger(data.marker, 'highlight');
             }
         });
+
+        $(element).mouseout(function(){
+            //$(element).siblings().removeClass('highlight-destination');
+            $(element).removeClass('highlight-destination');
+        });
+
         $(element).click(function(){
+            console.log(context);
+            context.$component.showDropdown(false);
             context.$root.user.end(valueAccessor());
             console.log(context.$root.user.end());
             $('#end').val(context.$root.user.end());
@@ -366,6 +404,25 @@ ko.bindingHandlers.destinationDropdown = {
         //ko.bindingHandlers.text(value);
     }
 };
+
+
+ko.bindingHandlers.confirm = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        console.log(element);
+        //valueAccessor(20);
+        //console.log(valueAccessor());
+        //console.log(allbindings);
+        //console.log(data);
+        console.log(context);
+        //ko.bindingHandlers.text.init(valueAccessor())
+        $(element)
+          .css('margin-top', $('.pu-time').outerHeight(true))
+          .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.pu-time').outerHeight(true));
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
 
 ko.bindingHandlers.slideVisible = {
     update: function(element, valueAccessor, allBindings) {
