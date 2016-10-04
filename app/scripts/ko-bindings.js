@@ -357,6 +357,12 @@ ko.bindingHandlers.destinationDropdown = {
                 google.maps.event.trigger(data.marker, 'highlight');
             }
         });
+
+        $(element).mouseout(function(){
+            //$(element).siblings().removeClass('highlight-destination');
+            $(element).removeClass('highlight-destination');
+        });
+
         $(element).click(function(){
             console.log(context);
             context.$component.showDropdown(false);
@@ -392,6 +398,47 @@ ko.bindingHandlers.destinationDropdown = {
         //ko.bindingHandlers.text(value);
     }
 };
+
+
+ko.bindingHandlers.confirm = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        console.log(element);
+        //valueAccessor(20);
+        //console.log(valueAccessor());
+        //console.log(allbindings);
+        //console.log(data);
+        console.log(context);
+        //ko.bindingHandlers.text.init(valueAccessor())
+        $(element)
+          .css('margin-top', $('.pu-time').outerHeight(true))
+          .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.pu-time').outerHeight(true));
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ko.bindingHandlers.slideVisible = {
     update: function(element, valueAccessor, allBindings) {
