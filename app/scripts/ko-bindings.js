@@ -317,10 +317,11 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         });
 
         $(element).focusout( function(){
-            if (context.$root.prunedPossibleDestinations().length <= 1){
+            if (!($('.destination').is('.highlight-destination'))){
                 context.$data.showDropdown(false);
             }
         });
+
         $(element).focusin( function(){
             if (context.$root.prunedPossibleDestinations().length > 1){
                 context.$data.showDropdown(true);
@@ -416,28 +417,6 @@ ko.bindingHandlers.confirm = {
     update: function(element, valueAccessor, allBindings, data, context) {
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ko.bindingHandlers.slideVisible = {
