@@ -304,7 +304,7 @@ var destinationSelection = [
 '  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <input id="end" class="form-control" data-bind="meetupsGoogleAutoComplete: $parent.user.end" placeholder="MeetUp Search" type="text">',
-'      <div class="destination-container col-sm-6" data-bind="css: { \'show-destination-container\': $parent.prunedPossibleDestinations().length > 1}">',
+'      <div class="destination-container col-sm-6" data-bind="css: { \'show-destination-container\': $component.showDropdown()}">',
 '        <div class="destination-list" data-bind="foreach: $parent.prunedPossibleDestinations">',
 '        <div class="destination" data-bind="destinationDropdown: group.name"></div>',
 '        </div>',
@@ -321,6 +321,8 @@ var destinationSelection = [
 ].join("\n");
 ko.components.register('destination-selection', {
   viewModel: function() {
+    var self = this;
+    self.showDropdown = ko.observable(false);
 
   },
   template: destinationSelection
@@ -610,7 +612,7 @@ ko.components.register('ingredients', {
 
 
 var confirmation = [
-'<div class="row login menu">',
+'<div class="row pu-time menu">',
 //'    <div class="col-sm-6 col-sm-offset-3">',
 //'      <h1>Thank you for your order.</h1>',
 //'    </div>',
@@ -619,8 +621,8 @@ var confirmation = [
 //'      <h3 data-bind="text: $parent.puPhrase"></h3>',
 //'    </div>',
 '  <div class="col-sm-6 col-sm-offset-3">',
-'    <div class="confirmation">',
-'      <h2>Your order at <span data-bind="text: $parent.selectedTruckName">Truck</span> <span data-bind="text: puPhraseTense">ThisIsASpacingStringItWillBeReplacedItIsUsedToProperlySizeTheElement</span> <span data-bind="text: orderPuTime">X minutes</span>.</h2>',
+'    <div class="confirmation" data-bind="template: { afterRender: resize() }">',
+'      <h2>Your order at <span data-bind="text: $parent.selectedTruckName">Truck</span> <span data-bind="text: puPhraseTense">Your order at Mammoth Meats will be ready in </span> <span data-bind="text: orderPuTime">X minutes</span>.</h2>',
 '    </div>',
 "  </div>",
 '</div>',
@@ -653,6 +655,12 @@ ko.components.register('confirmation', {
     this.orderPuTime = ko.observable(this.puTime().fromNow());
     this.puPhraseTense = ko.observable('will be ready');
 
+    this.resize = function() {
+      $('#user-confirmation')
+      .css('margin-top', $('.pu-time').outerHeight(true))
+      .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.pu-time').outerHeight(true));
+    }.bind(this);
+
     this.orderPuTime.subscribe(function(time){
       console.log(this.puTime().format('x'));
       console.log(Date.now());
@@ -661,38 +669,26 @@ ko.components.register('confirmation', {
       } else {
         this.puPhraseTense('will be ready');
       }
-      $('#user-confirmation')
-      .css('margin-top', $('.login').outerHeight(true) )
-      .css('height', $(window).height() - $('.login').outerHeight(true));
+      this.resize();
     }.bind(this));
 
       console.log( $(window).height());
-      console.log($('.login').outerHeight(true));
-      console.log($('.login').offset().top);
+      console.log($('.pu-time').outerHeight(true));
+      console.log($('.pu-time').offset().top);
 
     //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('.login').outerHeight(true));
 
-    $('#user-confirmation')
-      .css('margin-top', $('.login').outerHeight(true) )
-      .css('height', $(window).height() - $('.login').outerHeight(true));
-
     $( window ).resize(function() {
       console.log( $(window).height());
-      console.log($('.login').outerHeight(true));
-      console.log($('.login').offset().top);
-
-
-      //$('.spacer').css('height',  $('.login').outerHeight(true));
-    $('#user-confirmation')
-      .css('margin-top', $('.login').outerHeight(true))
-      .css('height', $(window).height() - $('.login').outerHeight(true));
+      console.log($('.pu-time').outerHeight(true));
+      console.log($('.pu-time').offset().top);
+      this.resize();
     }.bind(this));
 
     var testint = setInterval(function(){
       this.orderPuTime(this.puTime().fromNow());
 
     }.bind(this), 6000);
-
 
   },
   template: confirmation

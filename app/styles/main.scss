@@ -306,23 +306,6 @@ footer {
   height: 80px;
 }
 
-.user-order-container {
-  z-index: -1;
-}
-
-#user-confirmation,
-#user-order {
-  padding: 10px;
-  background-color: white;
-  overflow-y: scroll;
-}
-
-.descriptor-content::-webkit-scrollbar,
-#user-confirmation::-webkit-scrollbar,
-#user-order::-webkit-scrollbar {
-    display: none;
-}
-
 .swiper-title {
   position: absolute;
   margin-bottom: 0;
@@ -349,10 +332,26 @@ footer {
   transition-timing-function: ease;
 }
 
+.user-order-container {
+  z-index: -1;
+}
+
+#user-confirmation,
+#user-order {
+  padding: 10px;
+  background-color: white;
+  overflow-y: scroll;
+}
+
+.descriptor-content::-webkit-scrollbar,
+#user-confirmation::-webkit-scrollbar,
+#user-order::-webkit-scrollbar {
+    display: none;
+}
+
 .confirmation {
     background-color: #FFF;
     height: 100%;
-    margin-right: 15px;
     margin-bottom: 5%;
     box-shadow: 0 5px 10px #777;
     padding: 15px;
@@ -668,7 +667,8 @@ svg#background {
 #signUpScreen {
 }
 
-.login {
+.login,
+.pu-time {
   background-color: #F8DAA6;
   padding-top: 2%;
   margin-top: 2%;
