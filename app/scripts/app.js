@@ -122,6 +122,8 @@ var ViewModel = function() {
           if(this.meetups() && !this.meetupsAdded){
             this.addMeetupsToMap();
             this.renderMeetups();
+          } else if (this.meetups()){
+            this.renderMeetups();
           }
           this.turnOffScreens();
           this.destinationSelectionScreen(true);
@@ -292,6 +294,10 @@ var ViewModel = function() {
   }.bind(this);
 };
 
+
+ViewModel.prototype.goBack = function() {
+  this.currentScreen(this.screenHistory.pop());
+};
 
 ViewModel.prototype.changeScreen = function(newScreen) {
   var screen;

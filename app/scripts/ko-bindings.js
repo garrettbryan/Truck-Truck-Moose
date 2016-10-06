@@ -417,7 +417,7 @@ ko.bindingHandlers.confirm = {
         //ko.bindingHandlers.text.init(valueAccessor())
         $(element)
           .css('margin-top', $('.pu-time').outerHeight(true))
-          .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.pu-time').outerHeight(true));
+          .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.pu-time').outerHeight(true));
     },
     update: function(element, valueAccessor, allBindings, data, context) {
     }

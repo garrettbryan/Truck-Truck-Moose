@@ -35,15 +35,12 @@ ko.components.register('ui-warning', {
 });
 
 var globalHeader = [
-//'<div class="container-fluid global-header-container">',
 '<div class="row global-header">',
 '  <div class="global-header-logo col-sm-1" data-bind="click: toggle">',
 '      <img class="global-logo-section-logo-image" src="images/svg/moose-logo.min.svg">',
 '    <span class="global-title ">Truck Truck Moose</span>',
-//'    </a>',
 '  </div>',
 '  <div id="settings" class="col-sm-1">',
-//class="list-group-item"
 '<a id="cog-setting" data-bind="visible: $parent.showSettings(), click: $parent.changeScreen.bind($parent, \'last\')"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a>',
 '  </div>',
 '</div>',
@@ -81,30 +78,24 @@ ko.components.register('global-header', {
 });
 
 var loginForm = [
-//'<div id="login-form">',
 '<div class="row login">',
-//'  <form class="form-horizontal" data-bind="submit: $parent.toMap">',
 '  <form class="form-horizontal">',
 '    <div class="side-padding-zero form-group">',
-//'<div class="row">',
 '      <label for="email" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
 '      <div class="col-sm-6">',
 '        <input type="email" data-bind="value: $parent.user.email" class="form-control" id="email" placeholder="email">',
 '      </div>',
 '    </div>',
 '    <div class="side-padding-zero form-group">',
-//'<div class="row">',
 '      <label for="password" class="col-sm-2 col-sm-offset-1 control-label">Password</label>',
 '      <div class="col-sm-6">',
 '        <input type="password" data-bind="value: $parent.user.password" class="form-control" id="password" placeholder="Password">',
 '      </div>',
 '    </div>',
 '    <div class="side-padding-zero form-group">',
-//'<div class="row">',
 '      <div class="col-sm-6 col-sm-offset-3">',
 '        <button type="submit" class="ttg-button btn btn-default" id="sign-in-btn" data-bind="click: $parent.changeScreen.bind($parent, \'destination\')">Sign in</button>',
 '        <button class="ttg-button btn btn-default" id="sign-up-btn" data-bind="click: $parent.changeScreen.bind($parent, \'signup\')">Sign up</button>',
-'        <button class="btn btn-default" id="reset-btn" data-bind="click: $parent.resetUser">Reset</button>',
 '      </div>',
 '    </div>',
 '  </form>',
@@ -113,8 +104,6 @@ var loginForm = [
 ].join("\n");
 ko.components.register('login-form', {
   viewModel: function(loginData) {
-
-
   },
   template: loginForm
 });
@@ -135,12 +124,6 @@ var signupForm = [
 '      <input type="text" data-bind="value: $parent.user.email" class="form-control" id="inputEmail" placeholder="Email">',
 '    </div>',
 '  </div>',
-//'  <div class="side-padding-zero form-group">',
-//'    <div class="col-sm-6 col-sm-offset-3">',
-//'    <label for="id="inputEmail" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
-//'      <input type="text" data-bind="value: $parent.user.handle" class="form-control" id="handle" placeholder="Handle">',
-//'    </div>',
-//'  </div>',
 '  <div class="side-padding-zero form-group">',
 '    <label for="createPassword" class="col-sm-2 col-sm-offset-1 control-label">Password</label>',
 '    <div class="col-sm-6">',
@@ -149,7 +132,7 @@ var signupForm = [
 '  </div>',
 '  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
-'      <button type="submit" class="ttg-button btn btn-default" id="sign-up-btn" data-bind="click: $parent.changeScreen.bind($parent, \'settings\')">Sign up</button>',
+'      <button class="ttg-button btn btn-default" id="sign-up-btn" data-bind="click: $parent.changeScreen.bind($parent, \'settings\')">Sign up</button>',
 '    </div>',
 '  </div>',
 '</form>',
@@ -157,12 +140,6 @@ var signupForm = [
 ].join("\n");
 ko.components.register('sign-up-form', {
   viewModel: function(formData) {
-    this.submit = function(formElement){
-      console.log('signup');
-      console.log(formData);
-      console.log(this);
-    };
-
   },
   template: signupForm
 });
@@ -171,21 +148,12 @@ ko.components.register('sign-up-form', {
 var settings = [
 '<div class="row login first-row">',
 '<form class="form-horizontal">',
-//'<form data-bind="submit: $parent.settingsToMap">',
-//'    <div data-bind="text: ko.toJSON($parent)"></div>',
 '  <div class="side-padding-zero form-group">',
 '    <label for="name" class="col-sm-2 col-sm-offset-1 control-label">Name</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.name" class="form-control" id="name" placeholder="Name" disabled>',
 '    </div>',
 '  </div>',
-//'  <div class="side-padding-zero form-group">',
-//'    <label for="" class="col-md-3 control-label">Handle</label>',
-//'    <div class="=col-md-6">',
-//'        <p class="form-control-static label-left" data-bind="text: $parent.user.handle">Cool Guy</p>',
-//'    </div>',
-//'  </div>',
-
 '  <div class="side-padding-zero form-group">',
 '    <label for="email" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
 '    <div class="col-sm-6">',
@@ -245,11 +213,6 @@ var settings = [
 ].join("\n");
 ko.components.register('settings', {
   viewModel: function(formData) {
-
-    this.submit = function(formElement){
-      console.log(formElement);
-    };
-
   },
   template: settings
 });
@@ -257,10 +220,7 @@ ko.components.register('settings', {
 
 var descriptor = [
 '<div class="descriptor container-fluid" data-bind="click: toggleDescriptor, visible: $parent.description, descriptorSlide: open">',
-//'  <a href"#" data-bind="click: toggleDescriptor">x</a>',
 '  <div class="descriptor-content" data-bind="html: $parent.description">',
-//'    <h4 data-bind="html: $parent."></h4>,
-//'    <p ></p>',
 '  </div>',
 '</div>'
 ].join("\n");
@@ -287,15 +247,10 @@ ko.components.register('descriptor', {
 
 
 var destinationSelection = [
-//'    <div data-bind="text: ko.toJSON($parent.user.begin)"></div>',
-//'    <div data-bind="text: ko.toJSON($parent.selectedDestination)"></div>',
-//'    <div data-bind="text: ko.toJSON($parent.user.end)"></div>',
-//'<form class="form-horizontal" data-bind="submit: $parent.toFoodTrucks">',
 '<div class="row login first-row">',
 '  <form class="form-horizontal">',
 '  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
-//'      <input class="form-control col-sm-6" data-bind="geoToAddress: $parent.selectedDestination" placeholder="Start" type="text">',
 '      <input class="form-control" data-bind="geoToAddress: $parent.user.begin" placeholder="Start" type="text" disabled>',
 '    </div>',
 '  </div>',
@@ -311,7 +266,7 @@ var destinationSelection = [
 '  </div>',
 '  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
-'      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'foodtruck\')" id="Done">Done</button>',
+'      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'foodtruck\')" id="Done">OK</button>',
 '    </div>',
 '  </div>',
 '</form>',
@@ -321,14 +276,12 @@ ko.components.register('destination-selection', {
   viewModel: function() {
     var self = this;
     self.showDropdown = ko.observable(false);
-
   },
   template: destinationSelection
 });
 
 
 var foodTruckSelection = [
-//'<span data-bind="text: selectedTruckName"></span>',
 '<div class="row login first-row">',
 '<form class="hide-swiper-overflow-x form-horizontal">',
 '    <div class="side-padding-zero form-group">',
@@ -337,7 +290,6 @@ var foodTruckSelection = [
 '        </div>',
 '    </div>',
 '    <div class="row truck-swiper-row">',
-//'        <div class="col-md-12">',
 '          <div class="truck-swiper-container">',
 '              <!-- Additional required wrapper -->',
 '              <div class="swiper-wrapper">',
@@ -347,12 +299,9 @@ var foodTruckSelection = [
 '              <!-- If we need pagination -->',
 '              <div id="truck-swiper-pagination" class="swiper-pagination"></div>',
 '          </div>',
-//'        </div>',
 '    </div>',
 '  <div class="side-padding-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
-'      <button class="btn btn-default" id="Done">Go Back</button>',
-//'      <button class="btn btn-default" data-bind="click: init" id="Done">Go Back</button>',
 '      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'order\')" id="Done">Ok</button>',
 '    </div>',
 '  </div>',
@@ -380,7 +329,6 @@ ko.components.register('food-truck-selection', {
         console.log('slide change end - after');
         console.log(swiper);
         console.log(swiper.activeIndex);
-        //after Event use it for your purpose
         self.selectedTruck = self.displayFoodTrucks()[swiper.activeIndex];
         self.selectedTruckName(self.selectedTruck.name);
       }
@@ -391,7 +339,6 @@ ko.components.register('food-truck-selection', {
       this.previousFoodTrucks.forEach(function(foodTruck) {
         if(foodTruck.infowindow){
           foodTruck.infowindow.close();
-          //foodTruck.marker.setOpacity(0.5);
         }
       }.bind(this));
 
@@ -406,7 +353,6 @@ ko.components.register('food-truck-selection', {
     }.bind(this));
 
     this.displayFoodTrucks.subscribe(function(foodTrucks) {
-      //console.log(this.displayFoodTrucks());
       this.selectedTruckName('');
       this.selectedTruck = {};
       var self = this;
@@ -426,7 +372,6 @@ ko.components.register('food-truck-selection', {
         self.selectedTruckName(self.selectedTruck.name);
         console.log(self.selectedTruck);
       });
-      //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
       this.previousFoodTrucks = self.displayFoodTrucks();
     }.bind(this));
 
@@ -435,8 +380,6 @@ ko.components.register('food-truck-selection', {
       console.log(this.displayFoodTrucks()[truckNumber]);
       this.selectedTruck = this.displayFoodTrucks()[truckNumber];
       console.log(this.selectedTruck);
-      //this.selectedTruckName(this.selectedTruck.name);
-      //this.selectedTruck(this.displayFoodTrucks()[0]);
     }).bind(this);
 
   },
@@ -448,7 +391,6 @@ var menuItem = [
 '<div class="row login menu">',
 '  <form class="hide-swiper-overflow-x form-horizontal">',
 '      <div class="row menu-swiper-row">',
-//'        <div class="col-md-12">',
 '            <div class="menu-swiper-container">',
 '                <!-- Additional required wrapper -->',
 '                <div class="swiper-wrapper">',
@@ -458,23 +400,18 @@ var menuItem = [
 '                <!-- If we need pagination -->',
 '                <div id="menu-swiper-pagination" class="swiper-pagination"></div>',
 '            </div>',
-//'          </div>',
 '      </div>',
 '    <div class="side-padding-zero form-group">',
 '      <div class="col-sm-6 col-sm-offset-3">',
-'        <button class="btn btn-default" id="Done">Go Back</button>',
 '        <button class="ttg-button btn btn-default" id="Done" data-bind="click: $parent.changeScreen.bind($parent, \'confirmation\')">Ok</button>',
 '      </div>',
 '    </div>',
 '  </form>',
 '</div>',
-//'  <div id="user-order" data-bind="scrollDown: order">',
 '<div class="row">',
 '<div class="col-sm-6 col-sm-offset-3">',
-//'<div class="col-sm-6  col-sm-offset-3"',
 '  <div id="user-order" class="user-order-container">',
 '    <ol class="order-item" data-bind="foreach: order">',
-//'    <ol class="order-item" data-bind="foreach: order, afterRender: slideDown">',
 '      <li class="name">',
 '          <a href="#" data-bind="click: $component.removeItem">X</a>',
 '          <span data-bind="text: name"></span>',
@@ -483,7 +420,7 @@ var menuItem = [
 '      </li>',
 '    </ol>',
 '    <div>',
-'      <h4 >Total $<span data-bind="text: $parent.orderTotal"></span></h4>',
+'      <h4 >Total $<span data-bind="text: $parent.orderTotal">$0.00</span></h4>',
 '    </div>',
 '  </div>',
 '</div>',
@@ -515,7 +452,7 @@ ko.components.register('food-order', {
 
     $('#user-order')
       .css('margin-top', $('.login').outerHeight(true) )
-      .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.login').outerHeight(true));
+      .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.login').outerHeight(true));
 
 
 
@@ -528,7 +465,7 @@ ko.components.register('food-order', {
           console.log($('#user-order')[0].clientHeight);
           console.log($('#user-order')[0].scrollHeight);
           var scrollHeight = Math.max($('#user-order')[0].scrollHeight, $('#user-order')[0].clientHeight);
-          $('#user-order')[0].scrollTop = scrollHeight - $('#user-order')[0].clientHeight;
+          $('#user-order')[0].scrollTop = scrollHeight + 100 - $('#user-order')[0].clientHeight;
       }.bind(this),
         50);
       }
@@ -544,7 +481,6 @@ ko.components.register('food-order', {
       dishes.forEach(function(dish, index){
         console.log(this.menuSwiper);
         console.log(index);
-        //this.menuSwiper.appendSlide('<div class="swiper-slide" data-value="'+index+'">' + dish.name + '<img src="' + dish.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div>');
         this.menuSwiper.appendSlide('<div class="swiper-slide dish-slide" data-value="'+index +'">' + dish.name() + ' $' + dish.price() + '</div>');
       }.bind(this));
 
@@ -553,23 +489,20 @@ ko.components.register('food-order', {
         console.log(self.menu()[$(this).data('value')]);
 
 
-        //self.order.push(self.menu()[$(this).data('value')]);
-        //self.order.unshift( new Dish(self.menu()[$(this).data('value')]));
+
         self.order.push( new SelectedDish( self.menu()[$(this).data('value')] ));
 
         console.log(self.order());
       });
-      //<img id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo">
     }.bind(this));
 
     $( window ).resize(function() {
       console.log( $(window).height());
       console.log($('.login').outerHeight(true));
 
-      //$('.spacer').css('height',  $('.login').outerHeight(true));
       $('#user-order')
       .css('margin-top', $('.login').outerHeight(true))
-      .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.login').outerHeight(true));
+      .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.login').outerHeight(true));
     }.bind(this));
 
     self.removeItem = function(item) {
@@ -611,13 +544,6 @@ ko.components.register('ingredients', {
 
 var confirmation = [
 '<div class="row pu-time menu">',
-//'    <div class="col-sm-6 col-sm-offset-3">',
-//'      <h1>Thank you for your order.</h1>',
-//'    </div>',
-//'    <div class="col-sm-6 col-sm-offset-3">',
-//'      <h2>Pick Up Phrase</h2>',
-//'      <h3 data-bind="text: $parent.puPhrase"></h3>',
-//'    </div>',
 '  <div class="col-sm-6 col-sm-offset-3">',
 '    <div class="confirmation">',
 '      <h2>Your order at <span data-bind="text: $parent.selectedTruckName">Truck</span> <span data-bind="text: puPhraseTense">Your order at Mammoth Meats will be ready in </span> <span data-bind="text: orderPuTime">X minutes</span>.</h2>',
@@ -641,23 +567,12 @@ var confirmation = [
 '    </div>',
 '    </div>',
 '</div>',
-//'<div class="row">',
-//'    <div class="col-xs-12 col-md-12">',
-//'        <button type="button" class="ttg-button btn btn-primary btn-lg" data-bind="click: $parent.toArrived">Done</button>',
-//'    </div>',
-//'</div>',
 ].join("\n");
 ko.components.register('confirmation', {
   viewModel: function(params) {
     this.puTime = params.puTime;
     this.orderPuTime = ko.observable(this.puTime().fromNow());
     this.puPhraseTense = ko.observable('will be ready');
-
-    this.resize = function() {
-      $('#user-confirmation')
-      .css('margin-top', $('.pu-time').outerHeight(true))
-      .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.pu-time').outerHeight(true));
-    }.bind(this);
 
     this.orderPuTime.subscribe(function(time){
       console.log(this.puTime().format('x'));
@@ -673,8 +588,6 @@ ko.components.register('confirmation', {
       console.log( $(window).height());
       console.log($('.pu-time').outerHeight(true));
       console.log($('.pu-time').offset().top);
-
-    //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('.login').outerHeight(true));
 
     $( window ).resize(function() {
       console.log( $(window).height());
@@ -712,11 +625,6 @@ var arrived = [
 ].join("\n");
 ko.components.register('arrived', {
   viewModel: function(formData) {
-
-    this.submit = function(formElement){
-      console.log(formElement);
-    };
-
   },
   template: arrived
 });
