@@ -5,12 +5,11 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 html,
 body {
-  height: 100%;
+    height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   border: 0;
-  overflow: hidden;
 }
 
 .sign-in-buttons {
@@ -121,11 +120,11 @@ footer {
 
 
 .main-title-overlay {
+  position: relative;
 }
 
 .main-title-overlay {
   z-index:2;
-  //position: relative;
 }
 
 .map-invisable {
@@ -528,25 +527,6 @@ footer {
 
 #main-form.half {
     height: auto;
-}
-
-#hide-overflow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-#scroll-overflow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  padding-right: 20px;
-  overflow: scroll;
 }
 
 #main-form {
