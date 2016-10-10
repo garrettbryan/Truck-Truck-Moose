@@ -1,4 +1,0 @@
-/* Modernizr (Custom Build) | MIT & BSD
- * Build: http://modernizr.com/download/#-shiv-load-cssclasses-svg-geolocation-canvastext-csstransforms3d-flexbox-cssgradients-opacity-indexedDB-backgroundsize-borderimage-borderradius-boxshadow-cssanimations-csscolumns-cssreflections-csstransitions-flexboxlegacy-prefixed-csstransforms-mq-hashchange-draganddrop-generatedcontent-inlinesvg-smil-svgclippaths-input-inputtypes-touch-fontface-websockets-cors-json-applicationcache-audio-canvas-history-hsla-localstorage-multiplebgs-postmessage-sessionstorage-textshadow-rgba-video-webgl-websqldatabase-webworkers
- */
-;Modernizr.addTest("cors",!!(window.XMLHttpRequest&&"withCredentials"in new XMLHttpRequest)),Modernizr.addTest("json",!!window.JSON&&!!JSON.parse);
