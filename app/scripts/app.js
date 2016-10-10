@@ -90,16 +90,18 @@ var ViewModel = function() {
           console.log('login');
           this.preventMapExposure(true);
           this.showSettings(false);
+          this.configureMainForm('full');
           this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
+          resizeMainForm();
           this.getCurrentPosition();
             break;
         case 'signup':
           console.log('signup');
           this.preventMapExposure(true);
           this.showSettings(false);
-          //this.configureMainForm('50%', '45px');
+          this.configureMainForm('full');
           this.user.localSave();
           this.turnOffScreens();
           this.signUpScreen(true);
@@ -109,7 +111,7 @@ var ViewModel = function() {
           this.preventMapExposure(true);
           this.exposeMap(true);
           //this.showSettings(true);
-          //this.configureMainForm('100%', '0');
+          this.configureMainForm('full');
           this.user.localSave();
           this.turnOffScreens();
           this.settingsScreen(true);
@@ -266,7 +268,9 @@ var ViewModel = function() {
   this.configureMainForm = function (size) {
     if (size === 'responsive'){
       $('#main-form').addClass('half');
+      removeMainFormSizing();
     } else if (size === 'full'){
+      createViewWithoutScrollbar();
       if($('#main-form.half').hasClass('half')){
         console.log('hasClass');
         $('#main-form.half').removeClass('half');
@@ -597,5 +601,4 @@ $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
   viewModel.changeScreen('login');
-
 });

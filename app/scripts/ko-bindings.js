@@ -405,6 +405,45 @@ ko.bindingHandlers.destinationDropdown = {
     }
 };
 
+ko.bindingHandlers.initializeScreen = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        console.log(element);
+        //valueAccessor(20);
+        console.log(valueAccessor());
+        //console.log(allbindings);
+        console.log(data);
+        console.log(context);
+        //ko.bindingHandlers.text.init(valueAccessor())
+        createViewWithoutScrollbar();
+        extendContributorList();
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
+ko.bindingHandlers.order = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        console.log(element);
+        //valueAccessor(20);
+        //console.log(valueAccessor());
+        //console.log(allbindings);
+        //console.log(data);
+        console.log(context);
+        //ko.bindingHandlers.text.init(valueAccessor())
+        $(element)
+          .css('margin-top', $('.confirm').outerHeight(true))
+          .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.confirm').outerHeight(true));
+
+        $( window ).resize( function() {
+            $(element)
+              .css('margin-top', $('.confirm').outerHeight(true))
+              .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.confirm').outerHeight(true));
+        });
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
 
 ko.bindingHandlers.confirm = {
     init: function(element, valueAccessor, allBindings, data, context) {
@@ -416,8 +455,14 @@ ko.bindingHandlers.confirm = {
         console.log(context);
         //ko.bindingHandlers.text.init(valueAccessor())
         $(element)
-          .css('margin-top', $('.pu-time').outerHeight(true))
-          .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.pu-time').outerHeight(true));
+          .css('margin-top', $('.confirm').outerHeight(true))
+          .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.confirm').outerHeight(true));
+
+        $( window ).resize( function() {
+            $(element)
+              .css('margin-top', $('.confirm').outerHeight(true))
+              .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.confirm').outerHeight(true));
+        });
     },
     update: function(element, valueAccessor, allBindings, data, context) {
     }
