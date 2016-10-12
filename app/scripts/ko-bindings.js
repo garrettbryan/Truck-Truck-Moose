@@ -405,6 +405,16 @@ ko.bindingHandlers.destinationDropdown = {
     }
 };
 
+ko.bindingHandlers.addThanks = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        //var newHeight = $('#main-form').outerHeight(true) + $('#special-thanks-footer').outerHeight(true);
+        //$('#main-form').height(newHeight);
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
+
 ko.bindingHandlers.initializeScreen = {
     init: function(element, valueAccessor, allBindings, data, context) {
         console.log(element);
@@ -415,7 +425,7 @@ ko.bindingHandlers.initializeScreen = {
         console.log(context);
         //ko.bindingHandlers.text.init(valueAccessor())
         createViewWithoutScrollbar();
-        extendContributorList();
+//        extendContributorList();
     },
     update: function(element, valueAccessor, allBindings, data, context) {
     }
@@ -430,6 +440,7 @@ ko.bindingHandlers.order = {
         //console.log(data);
         console.log(context);
         //ko.bindingHandlers.text.init(valueAccessor())
+/*
         $(element)
           .css('margin-top', $('.confirm').outerHeight(true))
           .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.confirm').outerHeight(true));
@@ -439,6 +450,7 @@ ko.bindingHandlers.order = {
               .css('margin-top', $('.confirm').outerHeight(true))
               .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.confirm').outerHeight(true));
         });
+*/
     },
     update: function(element, valueAccessor, allBindings, data, context) {
     }
@@ -454,6 +466,7 @@ ko.bindingHandlers.confirm = {
         //console.log(data);
         console.log(context);
         //ko.bindingHandlers.text.init(valueAccessor())
+/*
         $(element)
           .css('margin-top', $('.confirm').outerHeight(true))
           .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.confirm').outerHeight(true));
@@ -463,6 +476,7 @@ ko.bindingHandlers.confirm = {
               .css('margin-top', $('.confirm').outerHeight(true))
               .css('height', $(window).height() - $('.global-title').outerHeight(true) - $('.confirm').outerHeight(true));
         });
+*/
     },
     update: function(element, valueAccessor, allBindings, data, context) {
     }

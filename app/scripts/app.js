@@ -94,7 +94,6 @@ var ViewModel = function() {
           this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
-          resizeMainForm();
           this.getCurrentPosition();
             break;
         case 'signup':
@@ -268,9 +267,9 @@ var ViewModel = function() {
   this.configureMainForm = function (size) {
     if (size === 'responsive'){
       $('#main-form').addClass('half');
-      removeMainFormSizing();
+      //removeMainFormSizing();
     } else if (size === 'full'){
-      createViewWithoutScrollbar();
+      //createViewWithoutScrollbar();
       if($('#main-form.half').hasClass('half')){
         console.log('hasClass');
         $('#main-form.half').removeClass('half');

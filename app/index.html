@@ -59,42 +59,45 @@
     <global-header params="exposeMap: exposeMap, preventMapExposure: preventMapExposure"></global-header>
     <div id="scrollbar-remover-container">
         <div id="main-form" class="main-title-overlay">
-          <div id="login-screen" data-bind="if: loginScreen">
-              <intro ></intro>
-              <login-form></login-form>
+          <div id="whole-screen">
+            <div id="login-screen" data-bind="if: loginScreen">
+                <intro ></intro>
+                <login-form></login-form>
+            </div>
+            <div id="signUpScreen"  data-bind="if: signUpScreen">
+                <sign-up-form></sign-up-form>
+            </div>
+            <div class="common-overlay" data-bind="if: settingsScreen">
+                <settings></settings>
+            </div>
+            <div class="common-overlay" data-bind="if: destinationSelectionScreen">
+                <destination-selection></destination-selection>
+            </div>
+            <div class="common-overlay" data-bind="if: foodTruckScreen">
+                <food-truck-selection params="prunedPossibleFoodTrucks: prunedPossibleFoodTrucks(), selectedTruck: selectedTruck, selectedTruckName: selectedTruckName"></food-truck-selection>
+            </div>
+            <div data-bind="if: orderScreen">
+                <food-order params="menu: menu, order: order, orderTotal, orderTotal"></food-order>
+            </div>
+            <div  data-bind="if: confirmationScreen">
+                <confirmation params="puTime: puTime"></confirmation>
+            </div>
+            <div  data-bind="if: arrivedScreen">
+                <arrived></arrived>
+            </div>
+            <div  data-bind="if: thankYouScreen">
+                <thank-you></thank-you>
+            </div>
           </div>
-          <div id="signUpScreen"  data-bind="if: signUpScreen">
-              <sign-up-form></sign-up-form>
-          </div>
-          <div class="common-overlay" data-bind="if: settingsScreen">
-              <settings></settings>
-          </div>
-          <div class="common-overlay" data-bind="if: destinationSelectionScreen">
-              <destination-selection></destination-selection>
-          </div>
-          <div class="common-overlay" data-bind="if: foodTruckScreen">
-              <food-truck-selection params="prunedPossibleFoodTrucks: prunedPossibleFoodTrucks(), selectedTruck: selectedTruck, selectedTruckName: selectedTruckName"></food-truck-selection>
-          </div>
-          <div data-bind="if: orderScreen">
-              <food-order params="menu: menu, order: order, orderTotal, orderTotal"></food-order>
-          </div>
-          <div  data-bind="if: confirmationScreen">
-              <confirmation params="puTime: puTime"></confirmation>
-          </div>
-          <div  data-bind="if: arrivedScreen">
-              <arrived></arrived>
-          </div>
-          <div  data-bind="if: thankYouScreen">
-              <thank-you></thank-you>
+          <div data-bind="if: loginScreen">
+            <special-thanks></special-thanks>
           </div>
         </div>
+        <div class="container-map">
+          <div id="map-canvas"></div>
+        </div>
+        <descriptor params="description: description"></descriptor>
     </div>
-
-    <div class="container-map">
-        <div id="map-canvas"></div>
-    </div>
-
-    <descriptor params="description: description"></descriptor>
 
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>

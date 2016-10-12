@@ -2,16 +2,20 @@
 
 $( window ).resize( function() {
   createViewWithoutScrollbar();
-  extendContributorList();
+  //extendContributorList();
 });
 
 function createViewWithoutScrollbar(){
   $('#scrollbar-remover-container')
     .height($(window).height() - $('.global-header').outerHeight(true))
     .width($(window).width());
-  $('#main-form')
-    .width($(window).width() + 16)
-    .css('padding-right', '25px');
+  console.log($('#main-form').innerWidth());
+  console.log($('#main-form').width());
+  console.log($('#main-form').outerWidth(true));
+  console.log($('#main-form')[0].clientWidth);
+  console.log($('#main-form')[0]);
+    $('#main-form').outerWidth($('#scrollbar-remover-container').width() + ($('#main-form').outerWidth() - $('#main-form')[0].clientWidth));
+    //.css('padding-right', '25px');
 }
 
 function resizeMainForm(){
