@@ -5,16 +5,25 @@ $( window ).resize( function() {
   //extendContributorList();
 });
 
+
+
+
 function createViewWithoutScrollbar(){
+  console.log($('#login-screen').outerHeight(true) + ' > ' + $(window).height());
+
+  var height = $('#login-screen').outerHeight(true) > $(window).height() ? $('#login-screen').outerHeight(true) : $(window).height() - $('.global-header').outerHeight(true);
+
+  console.log(height);
+
   $('#scrollbar-remover-container')
-    .height($(window).height() - $('.global-header').outerHeight(true))
-    .width($(window).width());
-  console.log($('#main-form').innerWidth());
-  console.log($('#main-form').width());
-  console.log($('#main-form').outerWidth(true));
-  console.log($('#main-form')[0].clientWidth);
-  console.log($('#main-form')[0]);
-    $('#main-form').outerWidth($('#scrollbar-remover-container').width() + ($('#main-form').outerWidth() - $('#main-form')[0].clientWidth));
+  .height($(window).height() - $('.global-header').outerHeight(true))
+  .width($(window).width());
+
+  $('#spacer')
+  .height(height);
+
+  $('#main-form')
+  .outerWidth($('#scrollbar-remover-container').width() + ($('#main-form').outerWidth() - $('#main-form')[0].clientWidth));
     //.css('padding-right', '25px');
 }
 

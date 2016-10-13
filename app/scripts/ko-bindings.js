@@ -405,16 +405,6 @@ ko.bindingHandlers.destinationDropdown = {
     }
 };
 
-ko.bindingHandlers.addThanks = {
-    init: function(element, valueAccessor, allBindings, data, context) {
-        //var newHeight = $('#main-form').outerHeight(true) + $('#special-thanks-footer').outerHeight(true);
-        //$('#main-form').height(newHeight);
-    },
-    update: function(element, valueAccessor, allBindings, data, context) {
-    }
-};
-
-
 ko.bindingHandlers.initializeScreen = {
     init: function(element, valueAccessor, allBindings, data, context) {
         console.log(element);

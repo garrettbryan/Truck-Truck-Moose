@@ -81,7 +81,7 @@ ko.components.register('global-header', {
 
 
 var specialThanks = [
-'<div id="special-thanks-footer" class="container-fluid" data-bind="addThanks">',
+'<div id="special-thanks-footer" class="container-fluid">',
 '  <div class="row">',
 '    <div class="col-sm-6 col-sm-offset-3">',
 '      <div id="special-thanks-title" class="h3">Contributors',
@@ -91,10 +91,10 @@ var specialThanks = [
 '  <div class="row">',
 '  <div id="special-thanks-list" class="col-sm-6 col-sm-offset-3">',
 '    <div class="contributor">',
-'      <a target="_blank" href="http://google.com">person A</a>',
+'      <a target="_blank" href="https://thenounproject.com/search/?q=moose&i=251377">Moose Head - Created By Hayley Parke</a>',
 '    </div>',
 '    <div class="contributor">',
-'      <a target="_blank" href="http://google.com">person B</a>',
+'      <a target="_blank" href="https://www.vecteezy.com/members/ministock">Food Trucks - Created By MiniStock</a>',
 '    </div>',
 '  </div>',
 '</div>'
@@ -110,8 +110,8 @@ ko.components.register('special-thanks', {
 
 
 var loginForm = [
-'<div class="container-fluid" data-bind="initializeScreen: ">',
-'<div class="row login">',
+'<div class="container-fluid" data-bind="initializeScreen">',
+'<div id="login" class="row login">',
 '  <form class="form-horizontal">',
 '    <div class="side-margin-zero form-group">',
 '      <label for="email" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',

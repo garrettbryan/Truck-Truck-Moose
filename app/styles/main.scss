@@ -1,6 +1,6 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
 html,
@@ -691,7 +691,7 @@ svg#background {
 .login,
 .pu-time {
   background-color: #F8DAA6;
-  padding-top: 2%;
+  padding: 2% 0;
   margin-top: 2%;
 //  margin-bottom: 20px;
   box-shadow: 0 1px 5px 0 #444;
@@ -710,9 +710,7 @@ svg#background {
 }
 
 #login {
-  position: absolute;
-  top: 45%;
-  width: 100%;
+  margin-bottom: 5%;
 }
 
 .no-meetups {
