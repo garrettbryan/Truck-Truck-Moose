@@ -5,7 +5,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 html,
 body {
-    height: 100%;
+  height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -111,20 +111,6 @@ footer {
 .main-title-row {
   background-color: white;
   margin-bottom: 5%;
-}
-
-#main-title {
-  text-align: center;
-  opacity: 1;
-}
-
-
-.main-title-overlay {
-  position: relative;
-}
-
-.main-title-overlay {
-  z-index:2;
 }
 
 .map-invisable {
@@ -247,7 +233,7 @@ footer {
 }
 
 .menu {
-  position: fixed;
+  position: absolute;
   height: auto;
   width: 100%;
   z-index: 2;
@@ -357,6 +343,13 @@ footer {
     padding: 15px;
 }
 
+.confirm {
+  position: absolute;
+  height: auto;
+  width: 100%;
+  z-index: 2;
+}
+
 .swiper-pagination-bullet-active {
   background: #97E080;
 }
@@ -454,6 +447,7 @@ footer {
   background-color: #F8DAA6;
   box-shadow: 0 0 10px 0 #555;
   transition: height 0.2s ease 0s;
+  z-index: 3;
 }
 
 .swiper-slide-active {
@@ -476,6 +470,7 @@ footer {
   display: block;
 }
 
+/*
 .global-header-container {
   height: 7%;
   width: 100%;
@@ -485,19 +480,22 @@ footer {
   padding: 0;
   background-color: #F8DAA6;
 }
+*/
 
 .global-header {
-  transition: top 0.1s ease;
-  height: 50px;
-  width: 100%;
-  background-color: #F8DAA6;
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  box-shadow: 0 3px 15px 0px #555;
   display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 48px;
+  width: 100%;
+
   margin: 0;
-  z-index:5;
+  z-index: 5;
+
+  background-color: #F8DAA6;
+  box-shadow: 0 3px 15px 0px #555;
+  transition: top 0.1s ease;
 }
 
 .global-header-logo {
@@ -512,7 +510,7 @@ footer {
 
 .global-logo-section-logo-image {
   padding: 5px;
-  height: 100%;
+  height: 90%;
   width: auto;
 }
 
@@ -520,7 +518,7 @@ footer {
   top: -40px;
 }
 
-.form-horizontal > .side-padding-zero {
+.form-horizontal > .side-margin-zero {
   margin-left: 0;
   margin-right: 0;
 }
@@ -529,28 +527,56 @@ footer {
     height: auto;
 }
 
-#main-form {
-  position: fixed;
-  margin-top: 50px;
-  padding-bottom: 2%;
-  top: 0;
-  z-index: 2;
-  background-color: #F0B54D;
+#spacer {
+  //overflow: hidden;
+}
+
+#spacer.half {
+  height: auto !important;
+}
+
+#scrollbar-remover-container {
   height: 100%;
   width: 100%;
+  margin-top: 48px;
+  overflow: hidden;
+}
+
+#whole-screen {
+  width: 100%;
+  height: 100%;
+}
+
+#main-form {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: #F0B54D;
   box-shadow: 0 5px 10px 0 #555;
   transition: top 0.2s ease-out;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.main-title-overlay {
+  position: relative;
+  z-index:2;
 }
 
 .show-destination-container{
   height: 119px !important;
+  visibility: visible !important;
 }
 
 .destination-container{
-  position: absolute;
+  position: fixed;
   z-index: 5;
   width: 100%;
   height: 0;
+  visibility: hidden;
   //overflow-y: hidden;
 }
 
@@ -662,7 +688,9 @@ svg#background {
 
 }
 
-#loginScreen {
+#login-screen {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 #signUpScreen {
@@ -671,7 +699,7 @@ svg#background {
 .login,
 .pu-time {
   background-color: #F8DAA6;
-  padding-top: 2%;
+  padding: 2% 0;
   margin-top: 2%;
 //  margin-bottom: 20px;
   box-shadow: 0 1px 5px 0 #444;
@@ -690,9 +718,7 @@ svg#background {
 }
 
 #login {
-  position: absolute;
-  top: 45%;
-  width: 100%;
+  margin-bottom: 5%;
 }
 
 .no-meetups {
@@ -746,6 +772,11 @@ svg#background {
     max-width: 730px;
   }
 
+.destination-container{
+  width: 50%;
+  //overflow-y: hidden;
+}
+
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -765,3 +796,41 @@ svg#background {
   }
 }
 
+#special-thanks-footer {
+  margin: 32px 0 0;
+  border-top: 5px solid #7D5E31;
+  padding-bottom: 32px;
+  color: #555;
+  background: #272822;
+  z-index: 6;
+}
+
+#special-thanks-title {
+text-align: center;
+}
+
+#special-thanks-list {
+
+}
+
+#order-screen {
+  height: 100%;
+}
+
+.contributor {
+  font-size: 1.5em;
+}
+
+.contributor > a:hover,
+.contributor > a:focus {
+    color: #97E080;
+    text-decoration: underline;
+}
+.contributor > a:active,
+.contributor > a:hover {
+    outline: 0;
+}
+.contributor > a {
+    color: #555;
+    text-decoration: none;
+}

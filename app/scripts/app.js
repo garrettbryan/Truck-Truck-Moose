@@ -90,6 +90,7 @@ var ViewModel = function() {
           console.log('login');
           this.preventMapExposure(true);
           this.showSettings(false);
+          this.configureMainForm('full');
           this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
@@ -99,7 +100,7 @@ var ViewModel = function() {
           console.log('signup');
           this.preventMapExposure(true);
           this.showSettings(false);
-          //this.configureMainForm('50%', '45px');
+          this.configureMainForm('full');
           this.user.localSave();
           this.turnOffScreens();
           this.signUpScreen(true);
@@ -109,7 +110,7 @@ var ViewModel = function() {
           this.preventMapExposure(true);
           this.exposeMap(true);
           //this.showSettings(true);
-          //this.configureMainForm('100%', '0');
+          this.configureMainForm('full');
           this.user.localSave();
           this.turnOffScreens();
           this.settingsScreen(true);
@@ -121,6 +122,8 @@ var ViewModel = function() {
           this.configureMainForm('responsive');
           if(this.meetups() && !this.meetupsAdded){
             this.addMeetupsToMap();
+            this.renderMeetups();
+          } else if (this.meetups()){
             this.renderMeetups();
           }
           this.turnOffScreens();
@@ -187,7 +190,7 @@ var ViewModel = function() {
           this.thankYouScreen(true);
             break;
         default:
-
+          console.log(new Error('invalid screen'));
     }
   }.bind(this));
 
@@ -264,10 +267,17 @@ var ViewModel = function() {
   this.configureMainForm = function (size) {
     if (size === 'responsive'){
       $('#main-form').addClass('half');
+      $('#spacer').addClass('half');
+      //removeMainFormSizing();
     } else if (size === 'full'){
+      //createViewWithoutScrollbar();
       if($('#main-form.half').hasClass('half')){
         console.log('hasClass');
         $('#main-form.half').removeClass('half');
+      }
+      if($('#spacer.half').hasClass('half')){
+        console.log('hasClass');
+        $('#spacer.half').removeClass('half');
       }
     }
   }.bind(this);
@@ -293,7 +303,12 @@ var ViewModel = function() {
 };
 
 
+ViewModel.prototype.goBack = function() {
+  this.currentScreen(this.screenHistory.pop());
+};
+
 ViewModel.prototype.changeScreen = function(newScreen) {
+  console.log(newScreen);
   var screen;
   if (newScreen === 'last') {
     console.log('last');
@@ -591,5 +606,4 @@ $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
   viewModel.changeScreen('login');
-
 });

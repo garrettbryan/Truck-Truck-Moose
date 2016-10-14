@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>Neighborhood Map</title>
+    <title>Truck Truck Moose</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -30,6 +30,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss">
     <!-- bower:css -->
     <!-- endbower -->
     <!-- endbuild -->
@@ -55,11 +56,11 @@
     <div data-bind="if: warning">
         <ui-warning params="warningMessages: warningMessages"></ui-warning>
     </div>
-    <div class="main-title-overlay">
-        <div class="container-fluid" id="button-navi">
-        </div>
-        <div id="main-form" class="container-fluid">
-            <div id="loginScreen" data-bind="if: loginScreen">
+    <global-header params="exposeMap: exposeMap, preventMapExposure: preventMapExposure"></global-header>
+    <div id="scrollbar-remover-container">
+        <div id="main-form" class="main-title-overlay">
+          <div id="spacer">
+            <div id="login-screen" data-bind="if: loginScreen">
                 <intro ></intro>
                 <login-form></login-form>
             </div>
@@ -87,17 +88,16 @@
             <div  data-bind="if: thankYouScreen">
                 <thank-you></thank-you>
             </div>
+          </div>
+          <div data-bind="if: loginScreen">
+            <special-thanks></special-thanks>
+          </div>
         </div>
-        <div class="container-fluid">
-            <global-header params="exposeMap: exposeMap, preventMapExposure: preventMapExposure"></global-header>
+        <div class="container-map">
+          <div id="map-canvas"></div>
         </div>
         <descriptor params="description: description"></descriptor>
     </div>
-
-    <div class="container-map">
-        <div id="map-canvas"></div>
-    </div>
-
 
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -136,6 +136,7 @@
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/ko-bindings.js"></script>
+        <script src="scripts/generic.js"></script>
         <script src="scripts/models/tm.js"></script>
         <script src="scripts/models/model.js"></script>
         <script src="scripts/models/menu_item_model.js"></script>

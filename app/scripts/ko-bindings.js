@@ -405,19 +405,34 @@ ko.bindingHandlers.destinationDropdown = {
     }
 };
 
+ko.bindingHandlers.initializeScreen = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        createViewWithoutScrollbar();
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
+ko.bindingHandlers.resize = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        $( window ).resize( function() {
+          resize(element);
+          //extendContributorList();
+        });
+        resize(element);
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
 
 ko.bindingHandlers.confirm = {
     init: function(element, valueAccessor, allBindings, data, context) {
-        console.log(element);
-        //valueAccessor(20);
-        //console.log(valueAccessor());
-        //console.log(allbindings);
-        //console.log(data);
-        console.log(context);
-        //ko.bindingHandlers.text.init(valueAccessor())
-        $(element)
-          .css('margin-top', $('.pu-time').outerHeight(true))
-          .css('height', $(window).height() - $('.globalHeader').outerHeight(true) - $('.pu-time').outerHeight(true));
+        $( window ).resize( function() {
+          resize(element);
+          //extendContributorList();
+        });
+        resize(element);
     },
     update: function(element, valueAccessor, allBindings, data, context) {
     }
