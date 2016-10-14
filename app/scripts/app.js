@@ -190,7 +190,7 @@ var ViewModel = function() {
           this.thankYouScreen(true);
             break;
         default:
-
+          console.log(new Error('invalid screen'));
     }
   }.bind(this));
 
@@ -267,12 +267,17 @@ var ViewModel = function() {
   this.configureMainForm = function (size) {
     if (size === 'responsive'){
       $('#main-form').addClass('half');
+      $('#spacer').addClass('half');
       //removeMainFormSizing();
     } else if (size === 'full'){
       //createViewWithoutScrollbar();
       if($('#main-form.half').hasClass('half')){
         console.log('hasClass');
         $('#main-form.half').removeClass('half');
+      }
+      if($('#spacer.half').hasClass('half')){
+        console.log('hasClass');
+        $('#spacer.half').removeClass('half');
       }
     }
   }.bind(this);
@@ -303,6 +308,7 @@ ViewModel.prototype.goBack = function() {
 };
 
 ViewModel.prototype.changeScreen = function(newScreen) {
+  console.log(newScreen);
   var screen;
   if (newScreen === 'last') {
     console.log('last');

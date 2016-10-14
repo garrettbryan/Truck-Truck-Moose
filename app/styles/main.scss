@@ -344,7 +344,7 @@ footer {
 }
 
 .confirm {
-  position: fixed;
+  position: absolute;
   height: auto;
   width: 100%;
   z-index: 2;
@@ -525,6 +525,14 @@ footer {
 
 #main-form.half {
     height: auto;
+}
+
+#spacer {
+  //overflow: hidden;
+}
+
+#spacer.half {
+  height: auto !important;
 }
 
 #scrollbar-remover-container {

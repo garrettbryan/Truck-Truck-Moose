@@ -27,6 +27,12 @@ function createViewWithoutScrollbar(){
     //.css('padding-right', '25px');
 }
 
+function resize(element){
+      $(element)
+      .css('margin-top', $('.login').outerHeight(true))
+      .css('height', $(window).height() - $('.login').outerHeight(true)-$('.global-header').outerHeight(true));
+}
+
 function resizeMainForm(){
   $('#scrollbar-remover-container').height($(window).height() - $('.global-header').outerHeight(true));
 }

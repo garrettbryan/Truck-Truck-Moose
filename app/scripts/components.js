@@ -128,7 +128,7 @@ var loginForm = [
 '    <div class="side-margin-zero form-group">',
 '      <div class="col-sm-6 col-sm-offset-3">',
 '        <button type="submit" class="ttg-button btn btn-default" id="sign-in-btn" data-bind="click: $parent.changeScreen.bind($parent, \'destination\')">Sign in</button>',
-'        <button class="ttg-button btn btn-default" id="sign-up-btn" data-bind="click: $parent.changeScreen.bind($parent, \'signup\')">Sign up</button>',
+'        <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'signup\')">Sign up</button>',
 '      </div>',
 '    </div>',
 '  </form>',
@@ -146,49 +146,38 @@ ko.components.register('login-form', {
 
 var signupForm = [
 '<div class="container-fluid">',
-'<div class="row login first-row">',
-'<form class="form-horizontal">',
-'  <div class="side-margin-zero form-group">',
-'    <label for="name" class="col-sm-2 col-sm-offset-1 control-label">Name</label>',
-'    <div class="col-sm-6">',
-'      <input type="text" data-bind="value: $parent.user.name" class="form-control" id="name" placeholder="Name">',
-'    </div>',
-'  </div>',
-'  <div class="side-margin-zero form-group">',
-'    <label for="id="inputEmail" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
-'    <div class="col-sm-6">',
-'      <input type="text" data-bind="value: $parent.user.email" class="form-control" id="inputEmail" placeholder="Email">',
-'    </div>',
-'  </div>',
-'  <div class="side-margin-zero form-group">',
-'    <label for="createPassword" class="col-sm-2 col-sm-offset-1 control-label">Password</label>',
-'    <div class="col-sm-6">',
-'      <input type="password" data-bind="value: $parent.user.password" class="form-control" id="createPassword" placeholder="Password">',
-'    </div>',
-'  </div>',
-'  <div class="side-margin-zero form-group">',
-'    <div class="col-sm-6 col-sm-offset-3">',
-'      <button class="ttg-button btn btn-default" id="sign-up-btn" data-bind="click: $parent.changeScreen.bind($parent, \'settings\')">Sign up</button>',
-'    </div>',
-'  </div>',
-'</form>',
-'</div>',
+'  <div class="row login first-row">',
+'    <form class="form-horizontal">',
+'      <div class="side-margin-zero form-group">',
+'        <label for="name" class="col-sm-2 col-sm-offset-1 control-label">Name</label>',
+'        <div class="col-sm-6">',
+'          <input type="text" data-bind="value: $parent.user.name" class="form-control" id="name" placeholder="Name">',
+    '    </div>',
+    '  </div>',
+    '  <div class="side-margin-zero form-group">',
+    '    <label for="id="inputEmail" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
+    '    <div class="col-sm-6">',
+    '      <input type="text" data-bind="value: $parent.user.email" class="form-control" id="inputEmail" placeholder="Email">',
+    '    </div>',
+    '  </div>',
+    '  <div class="side-margin-zero form-group">',
+    '    <label for="createPassword" class="col-sm-2 col-sm-offset-1 control-label">Password</label>',
+    '    <div class="col-sm-6">',
+    '      <input type="password" data-bind="value: $parent.user.password" class="form-control" id="createPassword" placeholder="Password">',
+    '    </div>',
+    '  </div>',
+    '  <div class="side-margin-zero form-group">',
+    '    <div class="col-sm-6 col-sm-offset-3">',
+    '      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'settings\')">Sign up</button>',
+    '    </div>',
+    '  </div>',
+    '</form>',
+  '</div>',
 '</div>'
 
 ].join("\n");
 ko.components.register('sign-up-form', {
   viewModel: function(formData) {
-
-        this.exposeMap.subscribe(function(value){
-        if (!value){
-            $("#main-form").addClass('main-form-close');
-        }
-        else {
-            $("#main-form").removeClass('main-form-close');
-        }
-
-    }.bind(this));
-
   },
   template: signupForm
 });
@@ -466,7 +455,7 @@ var menuItem = [
 ' </div>',
 ' <div class="row">',
 ' <div class="col-sm-6 col-sm-offset-3">',
-'  <div id="user-order" class="user-order-container" data-bind="order: ">',
+'  <div id="user-order" class="user-order-container" data-bind="resize">',
 '    <ol class="order-item" data-bind="foreach: order">',
 '      <li class="name">',
 '          <a href="#" data-bind="click: $component.removeItem">X</a>',
@@ -558,8 +547,8 @@ ko.components.register('food-order', {
       console.log($('.login').outerHeight(true));
 
       $('#user-order')
-      .css('margin-top', $('.login').outerHeight(true));
-//      .css('height', $(window).height() - $('.login').outerHeight(true));
+      .css('margin-top', $('.login').outerHeight(true))
+      .css('height', $(window).height() - $('.login').outerHeight(true));
     }.bind(this));
 
     self.removeItem = function(item) {
@@ -601,7 +590,7 @@ ko.components.register('ingredients', {
 
 var confirmation = [
 '<div class="container-fluid">',
-'<div class="row pu-time confirm">',
+'<div class="row pu-time login confirm">',
 '  <div class="col-sm-6 col-sm-offset-3">',
 '    <div class="confirmation">',
 '      <h2>Your order at <span data-bind="text: $parent.selectedTruckName">Truck</span> <span data-bind="text: puPhraseTense">Your order at Mammoth Meats will be ready in </span> <span data-bind="text: orderPuTime">X minutes</span>.</h2>',
@@ -610,7 +599,7 @@ var confirmation = [
 '</div>',
 '<div class="row">',
 '    <div class="col-sm-6 col-sm-offset-3">',
-'    <div id="user-confirmation" data-bind="confirm: ">',
+'    <div id="user-confirmation" data-bind="resize">',
 '      <ol class="order-item" data-bind="foreach: $parent.order">',
 '        <li class="name">',
 '          <p>',
