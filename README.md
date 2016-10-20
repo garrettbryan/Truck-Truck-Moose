@@ -1,35 +1,25 @@
 ##Truck Truck Moose
 
-This is a web app to enhance your meetups with a food truck experience and weather alerts.
+This is a web app to enhance your meetups with a food truck experience and weather alerts. This web app is a side project to experiment with KnockoutJS, NodeJS, and Various 3rd Party APIs.
 
-## Synopsis
+Prerequisites to running the app:
+you will need npm to manage the various grunt dependencies
 
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
+How to run the web app via a terminal:
+1. Create a project folder
+2. cd into it
+3. Clone the repository
+    git clone https://github.com/garrettbryan/udacity-project-5.git
+4. Install the npm dependencies
+    npm install
+5. Install the bower dependencies
+    bower install
+6. Serve the app for local development
+    grunt serve
+7. Build the app for deployment (optional)
+    grunt build
+8. Copy the food truck images to the dist folder
+    cp app/images/*.png dist/images/
 
-## Code Example
-
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
-
-## Motivation
-
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
-
-## Installation
-
-Provide code examples and explanations of how to get the project.
-
-## API Reference
-
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
-
-## Tests
-
-Describe and show how to run the tests with code examples.
-
-## Contributors
-
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
-
-## License
-
-A short snippet describing the license (MIT, Apache, etc.)
+Test the deployed site. Static files are served via github. Async request to simple NodeJS backend on Heroku.
+http://garrettbryan.github.io/udacity-project-5/dist/
