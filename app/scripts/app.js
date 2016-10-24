@@ -230,26 +230,6 @@ var ViewModel = function() {
     });
   }.bind(this));
 
-
-  this.continue = function() {
-    this.warningMessages.shift();
-    console.log(this.warningMessages());
-    if (this.warningMessages().length === 0){
-      $('#myModal').modal('hide');
-      $("#myModal").on("hidden.bs.modal", function () {
-        this.warning(false);
-        console.log(this.warning());
-      }.bind(this));
-    }
-  }.bind(this);
-
-  this.init = function() {
-    //meetups
-    //google maps
-    //weather
-  };
-
-
   this.initMeetups = function(){
     console.log(this.meetups());
   }.bind(this);

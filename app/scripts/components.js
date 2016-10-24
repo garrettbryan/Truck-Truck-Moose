@@ -4,14 +4,14 @@ var uiWarning = [
 '      <div class="modal-dialog" role="document">',
 '        <div class="modal-content">',
 '          <div class="modal-header">',
-'            <button type="button" class="close" data-bind="click: $parent.continue" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
+'            <button type="button" class="close" data-bind="click: ignore" aria-label="Close"><span aria-hidden="true">&times;</span></button>',
 '            <h4 class="modal-title" id="myModalLabel">Truck Truck Moose Error</h4>',
 '          </div>',
 '          <div class="modal-body">',
 '            <p data-bind="text: currentMessage">there\'s an error</p>',
 '          </div>',
 '          <div class="modal-footer">',
-'            <button type="button" class="btn btn-default" data-bind="click: $parent.continue">Close</button>',
+'            <button type="button" class="btn btn-default" data-bind="click: ignore">Close</button>',
 '          </div>',
 '        </div>',
 '      </div>',
@@ -30,6 +30,19 @@ ko.components.register('ui-warning', {
       console.log(messages);
       this.currentMessage(messages[0]);
     }.bind(this));
+
+    this.ignore = function() {
+      this.warningMessages.shift();
+      console.log(this.warningMessages());
+      if (this.warningMessages().length === 0){
+        $('#myModal').modal('hide');
+        $("#myModal").on("hidden.bs.modal", function () {
+          this.warning(false);
+          console.log(this.warning());
+        }.bind(this));
+      }
+    }.bind(self);
+
   },
   template: uiWarning
 });
