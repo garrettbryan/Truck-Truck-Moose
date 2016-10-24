@@ -1,4 +1,6 @@
-// get trucks https://fast-basin-67072.herokuapp.com/trucks
+/*
+This is the main file of Truck Truck Moose. You will find the app's main viewmodel and many of the functions used to manipulate the date within the viewmodel. Many of the interactions with various parts of the
+*/
 var ViewModel = function() {
   this.map = {};
 
@@ -265,6 +267,7 @@ var ViewModel = function() {
   }.bind(this);
 
   this.configureMainForm = function (size) {
+    /*
     if (size === 'responsive'){
       $('#main-form').addClass('half');
       $('#spacer').addClass('half');
@@ -280,6 +283,7 @@ var ViewModel = function() {
         $('#spacer.half').removeClass('half');
       }
     }
+    */
   }.bind(this);
 
   this.init = function() {
@@ -544,9 +548,10 @@ ViewModel.prototype.getCurrentPosition = function() {
   }
 };
 
-
+/*
+initialze the map and it's various listeners and subscriptions. Call the meetup and the google maps api.
+*/
 ViewModel.prototype.mapInit = function() {
-
   console.log(this);
 
   this.meetupRequest.CORopenEvents.call(this,this.user.position);
@@ -567,6 +572,9 @@ ViewModel.prototype.mapInit = function() {
   google.maps.event.addListenerOnce(this.map, 'bounds_changed', function(){
   });
 
+/*
+Add a Bounds Change listener to the map. adjust all the necessary map related items.
+*/
   google.maps.event.addListener(this.map, 'bounds_changed', function(){
     if (this.weatherCallReducer){
       clearTimeout(this.weatherCallReducer);
@@ -585,7 +593,9 @@ ViewModel.prototype.mapInit = function() {
     }
   }.bind(this));
 
-
+  /*
+Subscribe to the weatherDisplay toggle. If the toggle is active then render the waeather overlay.
+  */
   this.user.weatherDisplay.subscribe(function(value){
     if (value) {
       this.radarMap.removeRadar();
@@ -601,7 +611,9 @@ ViewModel.prototype.mapInit = function() {
   this.user.render(this.map);
 };
 
-
+/*
+When the document is ready show the login screen.
+*/
 $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);

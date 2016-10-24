@@ -1,12 +1,16 @@
+/*
+model.js file contains the various types of objects used through out Truck Truck Moose.
+*/
+
 var PhysicalLocation = function(locationData) {
-  console.log("make location");
+  //console.log("make location");
   this.position = ko.observable('');
   this.startTime = ko.observable('');
   this.endTime = ko.observable('');
 };
 
 var Entity = function(entityData) {
-  console.log("make entity");
+  //console.log("make entity");
   this.name = ko.observable('');
   this.email = ko.observable('');
   PhysicalLocation.call(this);
@@ -14,7 +18,8 @@ var Entity = function(entityData) {
 Entity.prototype = Object.create(PhysicalLocation.prototype);
 Entity.prototype.constructor = Entity;
 
-var User = function(userData) { //populate from the local storage first.
+var User = function(userData) {
+  //populate from the local storage first.
   console.log("make user");
   this.handle = ko.observable('');
   this.password = ko.observable('');
