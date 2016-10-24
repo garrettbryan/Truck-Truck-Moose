@@ -37,7 +37,7 @@ ko.components.register('ui-warning', {
 var globalHeader = [
 '<div class="container-fluid">',
 '<div class="row global-header">',
-'  <div class="global-header-logo col-sm-1" data-bind="click: toggle">',
+'  <div class="global-header-logo col-sm-1" data-bind="toggleMap">',
 '      <img class="global-logo-section-logo-image" src="images/svg/moose-logo.min.svg">',
 '    <span class="global-title ">Truck Truck Moose</span>',
 '  </div>',
@@ -50,30 +50,7 @@ var globalHeader = [
 ko.components.register('global-header', {
   viewModel: function(params) {
     var self = this;
-    this.exposeMap = params.exposeMap;
-    this.preventMapExposure = params.preventMapExposure;
     this.close = ko.observable(false);
-
-
-    this.exposeMap.subscribe(function(value){
-        if (!value){
-            $("#main-form").addClass('main-form-close');
-        }
-        else {
-            $("#main-form").removeClass('main-form-close');
-        }
-
-    }.bind(this));
-
-
-    this.toggle = function() {
-      if(!this.preventMapExposure()){
-        console.log(this.exposeMap());
-        console.log('click');
-        this.exposeMap(!this.exposeMap());
-      }
-    }.bind(this);
-
   },
   template: globalHeader
 });
@@ -145,7 +122,7 @@ ko.components.register('login-form', {
 
 
 var signupForm = [
-'<div class="container-fluid">',
+'<div class="container-fluid" data-bind="textScreen">',
 '  <div class="row login first-row">',
 '    <form class="form-horizontal">',
 '      <div class="side-margin-zero form-group">',
@@ -184,7 +161,7 @@ ko.components.register('sign-up-form', {
 
 
 var settings = [
-'<div class="container-fluid">',
+'<div class="container-fluid" data-bind="textScreen">',
 '<div class="row login first-row">',
 '<form class="form-horizontal">',
 '  <div class="side-margin-zero form-group">',
@@ -287,7 +264,7 @@ ko.components.register('descriptor', {
 
 
 var destinationSelection = [
-'<div class="container-fluid">',
+'<div class="container-fluid" data-bind="mapScreen">',
 '<div class="row login first-row">',
 '  <form class="form-horizontal">',
 '  <div class="side-margin-zero form-group">',
@@ -324,7 +301,7 @@ ko.components.register('destination-selection', {
 
 
 var foodTruckSelection = [
-'<div class="container-fluid">',
+'<div class="container-fluid" data-bind="mapScreen">',
 '<div class="row login first-row">',
 '<form class="hide-swiper-overflow-x form-horizontal">',
 '    <div class="side-margin-zero form-group">',

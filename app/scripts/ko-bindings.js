@@ -405,9 +405,46 @@ ko.bindingHandlers.destinationDropdown = {
     }
 };
 
+ko.bindingHandlers.toggleMap = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        $(element).click( function(){
+            if ($("#main-form").hasClass('main-form-close')){
+                $("#main-form").removeClass('main-form-close');
+            }
+            else {
+                $("#main-form").addClass('main-form-close');
+            }
+        });
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
 ko.bindingHandlers.initializeScreen = {
     init: function(element, valueAccessor, allBindings, data, context) {
         createViewWithoutScrollbar();
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
+ko.bindingHandlers.mapScreen = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        $('#main-form').addClass('half');
+        $('#spacer').addClass('half');
+    },
+    update: function(element, valueAccessor, allBindings, data, context) {
+    }
+};
+
+ko.bindingHandlers.textScreen = {
+    init: function(element, valueAccessor, allBindings, data, context) {
+        if($('#main-form.half').hasClass('half')){
+          $('#main-form.half').removeClass('half');
+        }
+        if($('#spacer.half').hasClass('half')){
+          $('#spacer.half').removeClass('half');
+        }
     },
     update: function(element, valueAccessor, allBindings, data, context) {
     }

@@ -26,8 +26,6 @@ var ViewModel = function() {
   //this.user.init(this.now());
   this.showSettings = ko.observable(false);
 
-  this.preventMapExposure = ko.observable(true);
-  this.exposeMap = ko.observable(true);
   this.filter = ko.observable('');
   this.description = ko.observable('');
 
@@ -77,12 +75,6 @@ var ViewModel = function() {
   this.radarMap = new WeatherUnderground();
 
 
-  this.exposeMap.subscribe(function(expose){
-    console.log(expose);
-    if (expose === true) {
-    }
-
-  }.bind(this));
 
 
   this.currentScreen.subscribe(function(screen){
@@ -90,9 +82,7 @@ var ViewModel = function() {
     switch(screen) {
         case 'login':
           console.log('login');
-          this.preventMapExposure(true);
           this.showSettings(false);
-          this.configureMainForm('full');
           this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
@@ -100,28 +90,21 @@ var ViewModel = function() {
             break;
         case 'signup':
           console.log('signup');
-          this.preventMapExposure(true);
           this.showSettings(false);
-          this.configureMainForm('full');
           this.user.localSave();
           this.turnOffScreens();
           this.signUpScreen(true);
             break;
         case 'settings':
           console.log('settings');
-          this.preventMapExposure(true);
-          this.exposeMap(true);
           //this.showSettings(true);
-          this.configureMainForm('full');
           this.user.localSave();
           this.turnOffScreens();
           this.settingsScreen(true);
             break;
         case 'destination':
           console.log('destination');
-          this.preventMapExposure(false);
           this.showSettings(true);
-          this.configureMainForm('responsive');
           if(this.meetups() && !this.meetupsAdded){
             this.addMeetupsToMap();
             this.renderMeetups();
@@ -133,11 +116,9 @@ var ViewModel = function() {
             break;
         case 'foodtruck':
           console.log('foodtruck');
-          this.preventMapExposure(false);
           this.showSettings(true);
           if(this.selectedDestination && this.user.begin() && this.user.end()){
             this.description('');
-            //this.configureMainForm('45%', '0');
             try {
               this.selectedDestination.keepChosen(this.map, this);
             }
@@ -155,12 +136,10 @@ var ViewModel = function() {
         case 'order':
           console.log('order');
           console.log(this.selectedTruckName());
-          this.preventMapExposure(false);
           this.showSettings(true);
           if(this.selectedTruckName()){
             this.description('');
             console.log(this.selectedTruck);
-            this.configureMainForm('full');
             this.menu(this.selectedTruck.dailyMenu);
             console.log(this.menu());
             console.log(this.selectedTruck);
@@ -172,10 +151,8 @@ var ViewModel = function() {
         case 'confirmation':
           console.log('confirmation');
           console.log(this.order().length>0);
-          this.preventMapExposure(false);
           this.showSettings(true);
           if(this.order().length>0){
-            this.configureMainForm();
             this.puPhrase(makePUPhrase());
             this.turnOffScreens();
             this.confirmationScreen(true);
@@ -264,26 +241,6 @@ var ViewModel = function() {
         console.log(this.warning());
       }.bind(this));
     }
-  }.bind(this);
-
-  this.configureMainForm = function (size) {
-    /*
-    if (size === 'responsive'){
-      $('#main-form').addClass('half');
-      $('#spacer').addClass('half');
-      //removeMainFormSizing();
-    } else if (size === 'full'){
-      //createViewWithoutScrollbar();
-      if($('#main-form.half').hasClass('half')){
-        console.log('hasClass');
-        $('#main-form.half').removeClass('half');
-      }
-      if($('#spacer.half').hasClass('half')){
-        console.log('hasClass');
-        $('#spacer.half').removeClass('half');
-      }
-    }
-    */
   }.bind(this);
 
   this.init = function() {
