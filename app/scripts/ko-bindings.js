@@ -34,21 +34,21 @@ ko.bindingHandlers.yourBindingName = {
 };
 
 ko.bindingHandlers.closeModal = {
-    init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+    init: function(element, valueAccessor, allBindings, viewModel, context) {
         $(element).click(function(){
             console.log(this);
-          this.warningMessages.shift();
-          console.log(this.warningMessages());
-          if (this.warningMessages().length === 0){
+          context.$root.warningMessages.shift();
+          console.log(context.$root.warningMessages());
+          if (context.$root.warningMessages().length === 0){
             $('#myModal').modal('hide');
             $("#myModal").on("hidden.bs.modal", function () {
-              this.warning(false);
-              console.log(this.warning());
+              context.$root.warning(false);
+              console.log(context.$root.warning());
             });
         }
-      }.bind(viewModel));
+      });
     },
-    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+    update: function(element, valueAccessor, allBindings, viewModel, context) {
 
     }
 };
@@ -97,46 +97,33 @@ ko.bindingHandlers.displayWeather = {
 ko.bindingHandlers.geoToAddress = {
     init: function(element, valueAccessor, allbindings, data, context) {
         var observable = valueAccessor();
-        //console.log(element);
-        //valueAccessor(20);
-        //console.log(valueAccessor());
-        //console.log(allbindings);
-        //console.log(data);
-        //console.log(context);
-
-        //observable(context.$root.)
 
         var geocoder = new google.maps.Geocoder();
-        //var address = geocodeLatLng(geocoder, context.$root.map,valueAccessor());
             geocoder.geocode({'location': context.$root.user.position()}, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
+                if (status === 'OK') {
                   if (results[1]) {
-                    //context.$root.map.setZoom(11);
                     var marker = new google.maps.Marker({
                       position: context.$root.user.position(),
                       map: context.$root.map
                     });
                     console.log(results[1].formatted_address);
                     observable(results[1].formatted_address);
-                    //console.log(observable());
-                    //ko.bindingHandlers.value.update(element,valueAccessor);
+
                   } else {
-                    window.alert('No results found');
+                    context.$root.warningMessages.unshift('Google did not return a geocoder result');
+                    context.$root.warning(true);
                   }
                 } else {
-                  window.alert('Geocoder failed due to: ' + status);
+                 context.$root.warningMessages.unshift('Unable to access Google\'s Geocoder Service\n' + status);
+                 context.$root.warning(true);
                 }
             });
 
         ko.bindingHandlers.textInput.init(element,valueAccessor);
 
-        //console.log(address);
-
-        //ko.bindingHandlers.value.update(element,valueAccessor);
     },
     update: function(element, valueAccessor) {
-        //console.log(valueAccessor()());
-        //console.log(ko.bindingHandlers.textInput);
+
     }
 };
 

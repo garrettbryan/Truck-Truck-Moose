@@ -244,7 +244,7 @@ Meetup.prototype.drawRoute = function(map, viewmodel){
         this.flightPath.setMap(map);
         console.log(this);
       } else {
-        window.alert('Directions request failed due to ' + status);
+        this.warningMessages.unshift('Unable to access Google\'s Direction Service\n' + status);
       }
     }.bind(this)
   );
