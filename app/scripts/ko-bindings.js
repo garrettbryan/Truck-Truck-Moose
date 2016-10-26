@@ -33,6 +33,27 @@ ko.bindingHandlers.yourBindingName = {
     }
 };
 
+ko.bindingHandlers.closeModal = {
+    init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        $(element).click(function(){
+            console.log(this);
+          this.warningMessages.shift();
+          console.log(this.warningMessages());
+          if (this.warningMessages().length === 0){
+            $('#myModal').modal('hide');
+            $("#myModal").on("hidden.bs.modal", function () {
+              this.warning(false);
+              console.log(this.warning());
+            });
+        }
+      }.bind(viewModel));
+    },
+    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+
+    }
+};
+
+
 ko.bindingHandlers.displayWeather = {
     init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
           var WeatherUnderground = function(){

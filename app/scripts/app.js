@@ -240,7 +240,7 @@ var ViewModel = function() {
 
   this.goBack = function() {
     this.currentScreen(this.screenHistory.pop());
-  }.bind(this);;
+  }.bind(this);
 
   this.changeScreen = function(newScreen) {
     console.log(newScreen);
@@ -271,7 +271,7 @@ var ViewModel = function() {
       console.log(this.screenHistory());
       this.currentScreen(screen);
     }
-  }.bind(this);;
+  }.bind(this);
 
 
   this.turnOffScreens = function(){
@@ -284,7 +284,7 @@ var ViewModel = function() {
     this.confirmationScreen(false);
     this.arrivedScreen(false);
     this.thankYouScreen(false);
-  }.bind(this);;
+  }.bind(this);
 
 
 
@@ -299,7 +299,7 @@ var ViewModel = function() {
       this.prunedPossibleFoodTrucks(this.foodTrucks());
       cb(err);
     }.bind(this));
-  }.bind(this);;
+  }.bind(this);
 
 
   this.renderMeetups = function() {
@@ -309,7 +309,7 @@ var ViewModel = function() {
       meetup.render(this.map, this);
     }.bind(this));
     this.meetupsAdded = true;
-  }.bind(this);;
+  }.bind(this);
 
 
   this.addMeetupsToMap = function() {
@@ -399,11 +399,11 @@ var ViewModel = function() {
       console.log(err);
     }
 
-  }.bind(this);;
+  }.bind(this);
 
 
   this.meetUpInit = function() {
-  }.bind(this);;
+  }.bind(this);
 
 
   this.useGoogleGeoLocate = function(){
@@ -438,7 +438,7 @@ var ViewModel = function() {
           console.log(this.warningMessages());
         }.bind(this)
     });
-  }.bind(this);;
+  }.bind(this);
 
   this.getCurrentPosition = function() {
     if (Modernizr.geolocation) {
@@ -470,7 +470,7 @@ var ViewModel = function() {
       this.useGoogleGeoLocate();
       //this.noGeo(true);
     }
-  }.bind(this);;
+  }.bind(this);
 
   /*
   initialze the map and it's various listeners and subscriptions. Call the meetup and the google maps api.
@@ -541,7 +541,7 @@ var ViewModel = function() {
 
     console.log(this.user);
     this.user.render(this.map);
-  }.bind(this);;
+  }.bind(this);
 
 };
 
