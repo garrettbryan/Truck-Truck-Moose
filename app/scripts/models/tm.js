@@ -18,11 +18,11 @@ tm is a library to ease the random scheduling of foodtrucks. Values are constrai
       var value = -1;
       if( seconds >= (24 * 60 * 60)) {
         console.log('seconds to high ' + seconds);
-        value = undefined;
+        value = +seconds;
       }
       if ( seconds < 0) {
         console.log('seconds too low ' + seconds);
-        value = undefined;
+        value = +seconds;
       }
       if (value !== undefined){
         value = +seconds;
