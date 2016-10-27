@@ -105,15 +105,42 @@ randomizeStopPoint takes the users postion and the google map(needs the bounds o
 */
 FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
   console.log(dest.marker.position);
-  var dayOver = 22 * 3600; //the food trucks last stop begins at 22 hours
+  var dayOver = 24 * 60 * 60; //the food trucks last stop begins at 24 hours
+
+  var bounds = map.getBounds();
+
+  var randomRadius = 3000 * Math.random();
+  var randomHeading = 360 * Math.random();
+  var randomPt = google.maps.geometry.spherical.computeOffset(dest.marker.position, randomRadius, randomHeading);
+
+//Gives at least a 30minute buffer till the next stop.
+  var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+1800 : 0;
+
+//Determines when the next stop occurs
+  var time = initialTime + Math.random()*(dayOver-initialTime);
+
+  //console.log(time);s
+  var stime = new TimeHelper();
+  stime.initSecs(time);
+  var etime = new TimeHelper();
+  etime.initSecs(time + 3600);
+
+  this.schedule.push({
+    lat: randomPt.lat(),
+    lng: randomPt.lng(),
+    starttime: stime,
+    endtime: etime
+  });
+};
+
+/*
+FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
+  console.log(dest.marker.position);
+  var dayOver = 28 * 3600; //the food trucks last stop begins at 22 hours
   var bounds = map.getBounds();
   var randomRadius = 3000 * Math.random();
   var randomHeading = 360 * Math.random();
   var randomPt = google.maps.geometry.spherical.computeOffset(dest.marker.position, randomRadius, randomHeading);
-  /*
-  computeOffset(from:LatLng, distance:number, heading:number, radius?:number)
-  */
-
   var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+1800 : 0; //Gives at least a 30minute buffer till the next stop.
   if (initialTime < dayOver){
     var time = initialTime + Math.random()*(dayOver-initialTime); //Determines when the next stop occurs
