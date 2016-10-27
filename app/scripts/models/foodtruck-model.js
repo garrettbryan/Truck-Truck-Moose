@@ -204,32 +204,32 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
 };
 
 
-FoodTruck.prototype.styleFoodTruckPath = function(icopy,directionsService,directionsDisplay){
+FoodTruck.prototype.styleFoodTruckPath = function(index,directionsService,directionsDisplay){
   var that = this;
-  console.log(icopy);
+  console.log(index);
   directionsService.route(
     {
-      origin: new google.maps.LatLng(that.schedule[icopy-1].lat, that.schedule[icopy-1].lng),
-      destination: new google.maps.LatLng(that.schedule[icopy].lat, that.schedule[icopy].lng),
+      origin: new google.maps.LatLng(that.schedule[index-1].lat, that.schedule[index-1].lng),
+      destination: new google.maps.LatLng(that.schedule[index].lat, that.schedule[index].lng),
       //waypoints: waypoints,
       travelMode: google.maps.TravelMode.DRIVING
     },
     function(response, status) {
 
       if (status === google.maps.DirectionsStatus.OK) {
-        that.setResponses(icopy - 1, response);
+        that.setResponses(index - 1, response);
 
         var flightPath = new google.maps.Polyline({
           path: response.routes[0].overview_path,
           geodesic: true,
-          strokeColor: getColor(),
-          strokeOpacity: 0.5,
-          strokeWeight: (that.schedule.length - icopy) * 3
+          strokeColor: '#E52020',
+          strokeOpacity: that.strokeOpacity(),
+          strokeWeight: (that.schedule.length - index) * 3
         });
         //flightPath.setMap(that.map);
         that.flightPaths.push(flightPath);
       } else {
-        window.alert('Directions request failed due to ' + status);
+        //this.warningMessages.unshift('Unable to access Google\'s Direction Service\n' + status);
       }
       --that.pathsRemaining;
       if (that.pathsRemaining <= 0){
@@ -240,33 +240,16 @@ FoodTruck.prototype.styleFoodTruckPath = function(icopy,directionsService,direct
 };
 
 
+FoodTruck.prototype.strokeOpacity = function(){
+  return (this.pathsRemaining/(this.schedule.length-1));
+};
 
 
-function differentWidth(value){
-    return function(){
-      console.log(value * 5);
-      return (value * 5);
-    };
-}
-
-function getColor(){
+FoodTruck.prototype.colorPath = function(){
+  //#E52020 redcolor
     return '#'+Math.floor(Math.random() * 16777215).toString(16);
-}
+};
 
-function vectorize(overview_path) {
-  var vectors = [];
-  vectors.push({
-    lat: 0,
-    lng: 0
-  });
-  for (var i = 1; i < overview_path.length; i++) {
-    vectors.push({
-      lat: overview_path[i].lat() - overview_path[i-1].lat(),
-      lng: overview_path[i].lng() - overview_path[i-1].lng()
-    });
-  }
-  return vectors;
-}
 
 FoodTruck.prototype.setResponses = function(index, directionResponse){
   this.responses[index] = directionResponse;
