@@ -129,9 +129,10 @@ FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
       starttime: stime,
       endtime: etime
     });
-    //console.log(this);
   }
 };
+*/
+
 
 /*
 Foodtrucks have 3  randomized 1 hour stops unless the end of day is reached. The function takes the initial time and adds a random fraction of the difference between initial and final times.
@@ -183,9 +184,6 @@ FoodTruck.prototype.create3SpecificStopPoints = function(pos, map) {
 
 FoodTruck.prototype.getDirections = function(){
   this.directionsService = new google.maps.DirectionsService();
-  //this.directionsDisplay = new google.maps.DirectionsRenderer;
-  //this.directionsDisplay.setMap(map);
-  //console.log(this)
 };
 
 
@@ -277,7 +275,7 @@ FoodTruck.prototype.setResponses = function(index, directionResponse){
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
   this.pinPoint(nowSecs);
-    console.log(this);
+  console.log(this);
 
   if (this.responses.length > 0 && this.traveling && this.currentEvent > 0 && this.currentEvent < this.schedule.length) {
     var direction = this.currentEvent - 1;
