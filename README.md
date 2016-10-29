@@ -42,7 +42,10 @@ http://garrettbryan.github.io/udacity-project-5/dist/
     *Find ingredients that you do not want and remove them by selecting the x
     *Remove whole plates by selecting the x next to the name of the dish
 10. The order list automatically scrolls to the bottom for each new plate and updates the total
-11. The list is formated to stay within the single page.
+11. The order element is formated to stay within the single page
+12. update flight path to include a detour to the food truck.
+13. change the foodtruck meetup visit order.
+14. Navigate forward and backward through the screens
 
 ###Future features
 1. Integrate logins
