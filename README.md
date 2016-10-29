@@ -53,7 +53,10 @@ http://garrettbryan.github.io/udacity-project-5/dist/
 6. Integrate payment or a cms system
 7. Add system to track availability of your order
 8. Add system for food truck to see customers location.
-9. Allow customer to request car service turning the Food Truck into a drive thru.
+9. Allow customer to request car service turning the Food Truck into a drive thru
+10. Users should be able to favorite dishes, trucks, meetups
+11. Use google to add destinations besides meetups
+12. Users' data should persist locally and also be saved in a database.
 
 ###Contributors
 1. [Moose Head - Created By Hayley Parke](https://thenounproject.com/search/?q=moose&i=251377)
