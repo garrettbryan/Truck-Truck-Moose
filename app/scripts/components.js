@@ -74,6 +74,12 @@ var specialThanks = [
 '    <div class="contributor">',
 '      <a target="_blank" href="https://www.vecteezy.com/members/ministock">Food Trucks - Created By MiniStock</a>',
 '    </div>',
+'    <div class="contributor">',
+'      <a target="_blank" href="https://www.meetup.com/">Open Meetups - Meetup Organizers</a>',
+'    </div>',
+'    <div class="contributor">',
+'      <a target="_blank" href="https://www.wunderground.com/">Weather Overlays - Weather Underground</a>',
+'    </div>',
 '  </div>',
 '</div>'
 ].join("\n");
