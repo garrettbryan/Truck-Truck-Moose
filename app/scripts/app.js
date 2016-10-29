@@ -53,7 +53,6 @@ var ViewModel = function() {
     return Number(subtotal.toFixed(2));
   }, this);
 
-  //console.log(Date.now());
   this.puTime = ko.observable(moment(new Date(Date.now()+1000*60*15)));
   this.puPhrase = ko.observable('');
 
@@ -72,6 +71,9 @@ var ViewModel = function() {
   this.radarMap = new WeatherUnderground();
 
 
+  /*
+  This is the major part of the app that controls the displayed screen.
+  */
   this.currentScreen.subscribe(function(screen){
     console.log(screen);
     switch(screen) {
@@ -168,7 +170,9 @@ var ViewModel = function() {
     }
   }.bind(this));
 
-
+  /*
+  The food truck swiper view changes based on the filter. when a food truck is selected only the filtered foodtruck array is searched.
+  */
   this.selectedTruckName.subscribe(function(name){
     this.prunedPossibleFoodTrucks().forEach(function(truck, index) {
       if (name === truck.name) {
@@ -177,7 +181,9 @@ var ViewModel = function() {
     }.bind(this));
   }.bind(this));
 
-
+  /*
+  This is part of the meetup/final destination selection process. The filter updates the possible destinations, this subscription causes the map markers to update.
+  */
   this.prunedPossibleDestinations.subscribe(function(destinations) {
     var self = this;
 
@@ -202,7 +208,9 @@ var ViewModel = function() {
 
   }.bind(this));
 
-
+  /*
+  This is part of the Foodtruck selection process. The filter updates the possible foodtrucks, this subscription causes the map markers to update.
+  */
   this.prunedPossibleFoodTrucks.subscribe(function(foodTrucks) {
     var self = this;
 
@@ -229,7 +237,9 @@ var ViewModel = function() {
 
   }.bind(this));
 
-
+  /*
+  used for testing the local save function. allows reseting of the local data.
+  */
   this.resetUser = function() {
     //localStorage.setItem('MeetUpTruck', {});
     this.user.init(this.now());
@@ -237,11 +247,16 @@ var ViewModel = function() {
     //this.savelocally();
   }.bind(this);
 
-
+  /* TODO
+  update this so that users and easily navigate forward and backward through all the screens.
+  */
   this.goBack = function() {
     this.currentScreen(this.screenHistory.pop());
   }.bind(this);
 
+  /*
+  special function to allow user to jump to the settings screen and come back to their last screen position in the app.
+  */
   this.changeScreen = function(newScreen) {
     console.log(newScreen);
     var screen;
@@ -273,7 +288,9 @@ var ViewModel = function() {
     }
   }.bind(this);
 
-
+  /*
+  clears all screens before turning on the next one.
+  */
   this.turnOffScreens = function(){
     this.loginScreen(false);
     this.signUpScreen(false);
@@ -287,15 +304,20 @@ var ViewModel = function() {
   }.bind(this);
 
 
-
+  /*TODO refactor to clarify move some code to the TTM Heroku API
+    This function uses the function this.foodTruckRequest.getFoodTrucks which goes to the file ./models/foodtruck-model.js. The TTM api is called to get the 10 foodtruck objects. Then the local code generates the random variables such as stops, times, menus.
+  */
   this.addFoodTrucksToMap = function(cb) {
     var err = null;
+
+    //call foodtrucks that are around the selected destination
     this.foodTruckRequest.getFoodTrucks.call(this, function(err){
       this.map.fitBounds(new google.maps.LatLngBounds(google.maps.geometry.spherical.computeOffset(this.selectedDestination.marker.position, 5000, 225),google.maps.geometry.spherical.computeOffset(this.selectedDestination.marker.position, 5000, 45)));
       //fitBounds(bounds:LatLngBounds|LatLngBoundsLiteral)
       //LatLngBounds(sw?:LatLng|LatLngLiteral, ne?:LatLng|LatLngLiteral)
 
       console.log(this.foodTrucks);
+      //initailly add all foodtrucks to the list of pruned foodtrucks
       this.prunedPossibleFoodTrucks(this.foodTrucks());
       cb(err);
     }.bind(this));
