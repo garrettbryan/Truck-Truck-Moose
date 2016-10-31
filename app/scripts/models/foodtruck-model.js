@@ -29,18 +29,13 @@ FoodTruckRequest.prototype.getFoodTrucks = function(cb){
       dataType: 'jsonp',
       success: function(data) {
         clearTimeout(foodTruckTimeout);
-        console.log(data);
-        //console.log(this);
         if (data.length === 0) {
           this.warningMessages.unshift("heard from Truck Truck Moose, there are no more local trucks today");
           this.warning(true);
         } else {
           data.forEach(function(truckData){
-            console.log(truckData);
             var truck = new FoodTruck();
             truck.initNoSchedule(truckData,this.map);
-            console.log(this.user);
-            console.log(this.selectedDestination);
             truck.create3RandomStopPoints(this.selectedDestination, this.map);
             truck.getDirections();
             truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
@@ -54,10 +49,8 @@ FoodTruckRequest.prototype.getFoodTrucks = function(cb){
       }.bind(this),
       error: function(data) {
         clearTimeout(foodTruckTimeout);
-        console.log(data);
         this.warningMessages.unshift("There's been an error contacting the Truck Truck Moose Server.\nPlease try again later");
         this.warning(true);
-        console.log(this.warningMessages());
         cb(err);
       }.bind(this)
   });
@@ -91,7 +84,6 @@ FoodTruck.prototype.initRandomMenu = function(){
 randomizeStopPoint takes the users postion and the google map(needs the bounds of the map) to randomly distribute the foodtrucks around the user within the bounds of the map. The radius of the circular distribution area is constrained by the smallest dimension of the map - 1/2 height of the custom markers.
 */
 FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
-  console.log(dest.marker.position);
   var dayOver = 24 * 60 * 60; //the food trucks last stop begins at 24 hours
 
   var bounds = map.getBounds();
@@ -106,7 +98,6 @@ FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
 //Determines when the next stop occurs
   var time = initialTime + Math.random()*(dayOver-initialTime);
 
-  //console.log(time);s
   var stime = new TimeHelper();
   stime.initSecs(time);
   var etime = new TimeHelper();
@@ -146,7 +137,6 @@ FoodTruck.prototype.specificStopPoint = function(pos, map, now) {
   var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+3600 : 28800; //Gives at least a 30minute buffer till the next stop.
   if (initialTime < dayOver){
     var time = initialTime; //Determines when the next stop occurs
-    //console.log(time);s
     var stime = new TimeHelper();
     stime.initSecs(time);
     var etime = new TimeHelper();
@@ -157,9 +147,9 @@ FoodTruck.prototype.specificStopPoint = function(pos, map, now) {
       starttime: stime,
       endtime: etime
     });
-    //console.log(this);
   }
 };
+
 
 FoodTruck.prototype.create3SpecificStopPoints = function(pos, map) {
   for (var i = 0; i < 3; i++){
@@ -195,7 +185,6 @@ Style the foodtrucck's flight path when selected
 */
 FoodTruck.prototype.styleFoodTruckPath = function(index,directionsService,directionsDisplay){
   var that = this;
-  console.log(index);
   directionsService.route(
     {
       origin: new google.maps.LatLng(that.schedule[index-1].lat, that.schedule[index-1].lng),
@@ -245,13 +234,12 @@ FoodTruck.prototype.setResponses = function(index, directionResponse){
 };
 
 /*
-determinePosition will calculate the intermediate point for the food truch as it travelsto it's next stop.
+determinePosition will calculate the intermediate point for the food truch as it travels to it's next stop.
 TODO finish this
 */
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
-  this.pinPoint(nowSecs);
-  console.log(this);
+  this.isTruckTraveling(nowSecs);
 
   if (this.responses.length > 0 && this.traveling && this.currentEvent > 0 && this.currentEvent < this.schedule.length) {
     var direction = this.currentEvent - 1;
@@ -269,12 +257,12 @@ FoodTruck.prototype.determinePosition = function(now) {
     this.position.lat = this.schedule[this.currentEvent].lat;
     this.position.lng = this.schedule[this.currentEvent].lng;
   }
-
-  //this.render();
-
 };
 
-FoodTruck.prototype.pinPoint = function(nowSecs) {
+/*
+isTruckTraveling determines if the truck is currently traveling
+*/
+FoodTruck.prototype.isTruckTraveling = function(nowSecs) {
   var that = this;
   this.traveling = true;
   for (var i = 0; i < that.schedule.length; i++) {
@@ -295,21 +283,31 @@ FoodTruck.prototype.pinPoint = function(nowSecs) {
 FoodTruck.prototype.getSchedule = function() {
   return this.schedule;
 };
+
+
 FoodTruck.prototype.addToSchedule = function(data) {
   this.schedule.push(data);
 };
+
+
 FoodTruck.prototype.removeFromSchedule = function(index) {
   this.schedule.splice(index,1);
 };
+
+
 FoodTruck.prototype.updateSchedule = function(index,data) {
   this.schedule.splice(index,1,data);
 };
+
+
 FoodTruck.prototype.clearSchedule = function(){
   this.scedule = [];
 };
+
+/*
+render renders the foodtruck icon to the map and wires up the event listeners
+*/
 FoodTruck.prototype.render = function(viewModel, map) {
-//  console.log(this);
-//  console.log(this.currentEvent);
   var icon = this.img;
   if (this.traveling){
     icon = this.tImg;
@@ -341,7 +339,6 @@ FoodTruck.prototype.render = function(viewModel, map) {
 
 
   this.marker.addListener('click', function() {
-    console.log(this);
     viewModel.foodTrucks().forEach( function(foodTruck){
       if(foodTruck.infowindow){
         foodTruck.infowindow.close();
@@ -359,15 +356,16 @@ FoodTruck.prototype.render = function(viewModel, map) {
     if(this.description){
       viewModel.description(viewModel.description() + this.description);
     }
-//    this.infowindow.open(map, this.marker);
     this.flightPaths.forEach( function (path){
       path.setMap(map);
     });
     viewModel.selectedTruckName(this.name);
   }.bind(this));
-
 };
 
+/*
+keepChosen remove all other foodtrucks from map and activate the marker and flightpath of selected foodtruck
+*/
 FoodTruck.prototype.keepChosen = function(map, viewModel){
   viewModel.foodTrucks().forEach( function(foodTruck){
     if(foodTruck.infowindow){
@@ -377,134 +375,11 @@ FoodTruck.prototype.keepChosen = function(map, viewModel){
       foodTruck.flightPaths.forEach( function (path){
         path.setMap(null);
       });
-      console.log(foodTruck);
     }
     if (foodTruck.marker){
       foodTruck.marker.setMap(null);
     }
-    //console.log(meetup.marker)
   });
   this.marker.setMap(map);
   this.flightPath.setMap(map);
-  //this.marker.setMap(map);
 };
-
-
-/*
-this is an approximation of the actual position of the food truck. The calculation is the number of seconds traveling over the number of seconds between stops. This obviously doesnt give the real life position, It is mainly used to link a route to a food truck and give a visual countdown.
-*/
-
-
-FoodTruck.prototype.getGeoCodeer = function() {
-/*
-          function geocodeLatLng(geocoder, map, lata, lnga) {
-          var latlng = {lat: lata, lng: lnga};
-          geocoder.geocode({'location': latlng}, function(results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-              if (results[1]) {
-               // var marker = new google.maps.Marker({
-               //   position: latlng,
-               //   map: map
-               // });
-                console.log(results[1].formatted_address);
-              } else {
-                window.alert('No results found');
-              }
-            } else {
-              window.alert('Geocoder failed due to: ' + status);
-            }
-          });
-        }
-*/
-};
-
-
-/*
-https://developers.google.com/maps/documentation/javascript/shapes
-This is an example to replace default route styling with custom food truck
-styling
-
-// This example creates a 2-pixel-wide red polyline showing the path of William
-// Kingsford Smith's first trans-Pacific flight between Oakland, CA, and
-// Brisbane, Australia.
-
-function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 3,
-    center: {lat: 0, lng: -180},
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  });
-
-  var flightPlanCoordinates = [
-    {lat: 37.772, lng: -122.214},
-    {lat: 21.291, lng: -157.821},
-    {lat: -18.142, lng: 178.431},
-    {lat: -27.467, lng: 153.027}
-  ];
-  var flightPath = new google.maps.Polyline({
-    path: flightPlanCoordinates,
-    geodesic: true,
-    strokeColor: '#FF0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 2
-  });
-
-  flightPath.setMap(map);
-};
-
-
-
-
-*/
-/*
-{
-  origin: "Chicago, IL",
-  destination: "Los Angeles, CA",
-  waypoints: [
-    {
-      location:"Joplin, MO",
-      stopover:false
-    },{
-      location:"Oklahoma City, OK",
-      stopover:true
-    }],
-  provideRouteAlternatives: false,
-  travelMode: google.maps.TravelMode.DRIVING,
-  drivingOptions: {
-    departureTime: new Date(now, or future date ),
-    trafficModel: google.maps.TrafficModel.PESSIMISTIC
-  }
-  unitSystem: UnitSystem.IMPERIAL
-};
-
-
-
-function initMap() {
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 7,
-    center: {lat: 41.85, lng: -87.65}
-  });
-  directionsDisplay.setMap(map);
-
-  var onChangeHandler = function() {
-    calculateAndDisplayRoute(directionsService, directionsDisplay);
-  };
-  document.getElementById('start').addEventListener('change', onChangeHandler);
-  document.getElementById('end').addEventListener('change', onChangeHandler);
-};
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-  directionsService.route({
-    origin: document.getElementById('start').value,
-    destination: document.getElementById('end').value,
-    travelMode: google.maps.TravelMode.DRIVING
-  }, function(response, status) {
-    if (status === google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    } else {
-      window.alert('Directions request failed due to ' + status);
-    }
-  });
-};*/
-
