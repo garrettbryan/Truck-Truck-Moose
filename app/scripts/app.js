@@ -243,7 +243,12 @@ var ViewModel = function() {
   this.resetUser = function() {
     //localStorage.setItem('MeetUpTruck', {});
     this.user.init(this.now());
+    try{
     this.user.getLocalData();
+    }
+    catch(err){
+      console.log(err);
+    }
     //this.savelocally();
   }.bind(this);
 
@@ -485,13 +490,10 @@ var ViewModel = function() {
       }
       else {
         this.useGoogleGeoLocate();
-        //this.noGoogleMaps(true);
-        //$('#myModal').modal('show');
       }
     }
     else {
       this.useGoogleGeoLocate();
-      //this.noGeo(true);
     }
   }.bind(this);
 
