@@ -1,6 +1,5 @@
  /*
-FoodTruck
-schedule is an array of objects of stoptimes in 24hour timestamps and stoppoints given in latitude and longitude. The stop times should not overlap. The Foodtrucks will be indicated on the map at various times. Having a future postion data will allow users to plan a rendezvous
+foodtruck-model.js contains all the code related to the foodtrucks. The schedule is an array of objects of stoptimes in 24hour timestamps and stoppoints given in latitude and longitude. The stop times should not overlap. The Foodtrucks will be indicated on the map at various times. Having a future postion will allow users to plan a rendezvous
 {
   lat: x,
   lng: y,
@@ -9,29 +8,17 @@ schedule is an array of objects of stoptimes in 24hour timestamps and stoppoints
 };
 */
 
-//var FoodTruck = function(){
-//  this.traveling = false;
-//  this.active = false;
-//  this.position = {};
-//  this.name = '';
-//  this.description = '';
-//  this.tags = [];
-//  this.menuOfferings = [];
-//  this.dailyMenu = [];
-//  this.img = '';
-//  this.tImg = 'images/resize_Food_Truck.png';
-//  this.schedule = [];
-//  this.comments = [];
-//  this.currentEvent = 0;
-//  this.responses = [];
-//  this.mapPath = [];
-//  this.menu = {};
-//};
 
+/*
+FoodTruckRequest is the class of object that makes requests to the TTM server.
+*/
 FoodTruckRequest = function() {
   this.data = {};
 };
 
+/*
+The server request from getFoodTrucks first initializes the foodtruck and then builds out many of its attributes from the returned JSON.
+*/
 FoodTruckRequest.prototype.getFoodTrucks = function(cb){
   var err = null;
   var foodTruckTimeout = setTimeout(function(){
@@ -69,19 +56,17 @@ FoodTruckRequest.prototype.getFoodTrucks = function(cb){
       error: function(data) {
         clearTimeout(foodTruckTimeout);
         console.log(data);
-        //this.warning(true);
         this.warningMessages.unshift("There's been an error contacting the Truck Truck Moose Server.\nPlease try again later");
         this.warning(true);
         console.log(this.warningMessages());
         cb(err);
       }.bind(this)
   });
-
 };
 
-
-
-
+/*
+Initialize a foodTruck without a schedule
+*/
 FoodTruck.prototype.initNoSchedule = function(truckData, map){
   this.name = truckData.name;
   this.map = map;
@@ -93,6 +78,9 @@ FoodTruck.prototype.initNoSchedule = function(truckData, map){
   this.flightPaths = [];
 };
 
+/*
+Create a random menu with varioius dishes
+*/
 FoodTruck.prototype.initRandomMenu = function(){
   this.menuOfferings.forEach(function(offering){
     this.dailyMenu.push(new Dish(makeRandomMenuItem(offering)));
@@ -231,6 +219,9 @@ FoodTruck.prototype.calculateAndDisplayRoute = function(directionsService, direc
 };
 
 
+/*
+Style the foodtrucck's flight path when selected
+*/
 FoodTruck.prototype.styleFoodTruckPath = function(index,directionsService,directionsDisplay){
   var that = this;
   console.log(index);
@@ -282,6 +273,10 @@ FoodTruck.prototype.setResponses = function(index, directionResponse){
   this.responses[index] = directionResponse;
 };
 
+/*
+determinePosition will calculate the intermediate point for the food truch as it travelsto it's next stop.
+TODO finish this
+*/
 FoodTruck.prototype.determinePosition = function(now) {
   var nowSecs = now.getHours()*3600 + now.getMinutes()*60;
   this.pinPoint(nowSecs);

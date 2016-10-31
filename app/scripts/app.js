@@ -305,7 +305,7 @@ var ViewModel = function() {
 
 
   /*TODO refactor to clarify move some code to the TTM Heroku API
-    This function uses the function this.foodTruckRequest.getFoodTrucks which goes to the file ./models/foodtruck-model.js. The TTM api is called to get the 10 foodtruck objects. Then the local code generates the random variables such as stops, times, menus.
+    This function uses the function this.foodTruckRequest.getFoodTrucks which goes to the file ./models/foodtruck-model.js. The TTM api is called to get the 10 foodtruck objects. Then the local code generates the random variables such as stops, times, menus. Also Opportunity to merge similar functions regarding foodtrucks and meeup icons.
   */
   this.addFoodTrucksToMap = function(cb) {
     var err = null;
@@ -364,6 +364,7 @@ var ViewModel = function() {
         lng: 360
       };
 
+      // determine if each meetup icon fits within the current map. If not then extend the boundaries
       this.meetups().forEach(function(meetup){
         if (typeof meetup.venue !== 'undefined'){
           var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
@@ -394,6 +395,8 @@ var ViewModel = function() {
     console.log($('#main-form').outerHeight(true));
 
     console.log(this.meetupMapBounds);
+
+    //create a mapbounds object and apply it to the map.
     try {
       this.mapBounds = {
         north: this.meetupMapBounds.max.lat,
@@ -402,32 +405,20 @@ var ViewModel = function() {
         west: this.meetupMapBounds.min.lng
       };
 
-    }
-    catch(err) {
-      console.log("dang no meetups");
-      console.log(err);
-      //this.noMeetups(true);
-      //console.log(this.noMeetups());
-    }
-
-    try {
       this.map.fitBounds(this.mapBounds);
-      console.log(this.map.getCenter());
-      //new google.maps.LatLng({lat: -34, lng: 151});
 
-      //this.map.panTo(new this.map.LatLng({lat: this.map.getCenter().lat() - latDiff, lng: this.map.getCenter().lng()}));
+      console.log(this.map.getCenter());
     }
-    catch (err){
+    catch(err){
       console.log(err);
     }
 
   }.bind(this);
 
 
-  this.meetUpInit = function() {
-  }.bind(this);
-
-
+  /*
+  useGoogleGeoLocate is a fallback if the geolocation is not available.
+  */
   this.useGoogleGeoLocate = function(){
       var googleTimeout = setTimeout(function(){
         this.warningMessages.unshift("Looks like the Google server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
@@ -462,6 +453,10 @@ var ViewModel = function() {
     });
   }.bind(this);
 
+
+  /*
+  getCurrentPosition uses geolocation first with useGoogleGeoLocate as a backup to get the users current position.
+  */
   this.getCurrentPosition = function() {
     if (Modernizr.geolocation) {
       console.log("geolocation available");

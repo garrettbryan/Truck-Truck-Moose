@@ -1,7 +1,12 @@
 /*
-model.js file contains the various types of objects used through out Truck Truck Moose.
+model.js file contains the various types of objects used through out Truck Truck Moose. Many of the objects in TTM have prototype chains.
+User < Entity < PhysicalLocation
+FoodTruck < Institution < Entity < Physical Location
+NavPoint < PhysicalLocation
+Menu < FoodList
+FoodOrder < FoodList
+Offering < item
 */
-
 var PhysicalLocation = function(locationData) {
   //console.log("make location");
   this.position = ko.observable('');
