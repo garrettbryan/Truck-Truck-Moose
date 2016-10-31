@@ -42,7 +42,6 @@ FoodTruckRequest.prototype.getFoodTrucks = function(cb){
             console.log(this.user);
             console.log(this.selectedDestination);
             truck.create3RandomStopPoints(this.selectedDestination, this.map);
-          //      truck.create3SpecificStopPoints(aboutMy.position, map, aboutMy.now);
             truck.getDirections();
             truck.calculateAndDisplayRoute(truck.directionsService, truck.directionsDisplay);
             truck.render(this, this.map);
@@ -120,34 +119,6 @@ FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
     endtime: etime
   });
 };
-
-/*
-FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
-  console.log(dest.marker.position);
-  var dayOver = 28 * 3600; //the food trucks last stop begins at 22 hours
-  var bounds = map.getBounds();
-  var randomRadius = 3000 * Math.random();
-  var randomHeading = 360 * Math.random();
-  var randomPt = google.maps.geometry.spherical.computeOffset(dest.marker.position, randomRadius, randomHeading);
-  var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+1800 : 0; //Gives at least a 30minute buffer till the next stop.
-  if (initialTime < dayOver){
-    var time = initialTime + Math.random()*(dayOver-initialTime); //Determines when the next stop occurs
-    //console.log(time);s
-    var stime = new TimeHelper();
-    stime.initSecs(time);
-    var etime = new TimeHelper();
-    etime.initSecs(time + 3600);
-
-    this.schedule.push({
-      lat: randomPt.lat(),
-      lng: randomPt.lng(),
-      starttime: stime,
-      endtime: etime
-    });
-  }
-};
-*/
-
 
 /*
 Foodtrucks have 3  randomized 1 hour stops unless the end of day is reached. The function takes the initial time and adds a random fraction of the difference between initial and final times.
@@ -290,17 +261,7 @@ FoodTruck.prototype.determinePosition = function(now) {
     var currentDriveTime = nowSecs-beginDrive;
     var directionLength = this.responses[direction].routes[0].overview_path.length;
     var directionPosition = Math.floor(currentDriveTime/totalDriveTime*directionLength);
-/*
-    console.log('current event ' + this.currentEvent)
-    console.log('direction ' + direction);
-    console.log(this);
-    console.log(this.responses);
-    console.log(beginDrive);
-    console.log(finishDrive);
-    console.log(totalDriveTime);
-    console.log(currentDriveTime);
-    console.log(directionPosition);
-*/
+
     this.position.lat = (this.responses[direction].routes[0].overview_path[directionPosition].lat());
     this.position.lng = (this.responses[direction].routes[0].overview_path[directionPosition].lng());
 
@@ -330,22 +291,6 @@ FoodTruck.prototype.pinPoint = function(nowSecs) {
   }
 };
 
-/*
-  var geocoder = new google.maps.Geocoder;
-
-  aboutMy.foodTrucks.forEach(function(truck){
-
-        truck.marker = new google.maps.Marker({
-      position: new google.maps.LatLng(truck.locTime[0].randomLat, truck.locTime[0].randomLng),
-      map: map,
-      title: truck.name,
-      icon: truck.img,
-      draggable:true
-    });
-  }
-  geocodeLatLng(geocoder, map, truck.locTime[0].randomLat, truck.locTime[0].randomLng);
-  });
-*/
 
 FoodTruck.prototype.getSchedule = function() {
   return this.schedule;
