@@ -333,19 +333,25 @@ var ViewModel = function() {
     this.meetupsAdded = true;
   }.bind(this);
 
-
+  /*
+  addMeetupsToMap adjusts the bounds of the map so that all local meetups are displayed.
+  */
   this.addMeetupsToMap = function() {
-    console.log(JSON.stringify(this.map.getBounds().getNorthEast()));
-    console.log($('#main-form').outerHeight(true));
-
+    //TODO adjust map boundaries so that all icons are within the viable portion of the map. with restpect to the swiper bar.
     var ne = this.map.getBounds().getNorthEast();
     var sw = this.map.getBounds().getSouthWest();
-    var scale = 1 << this.map.getZoom();
+
+    var mainFormWidth = $('#main-form').outerWidth(true);
+    var mainFormHeight = $('#main-form').outerHeight(true);
+    var scale = 1 ;//<< this.map.getZoom();
     var projection = this.map.getProjection();
     var topRight = projection.fromLatLngToPoint(ne);
     var bottomLeft = projection.fromLatLngToPoint(sw);
-    var newLatlng = projection.fromPointToLatLng(new google.maps.Point($('#main-form').outerWidth(true)/scale + bottomLeft.x, $('#main-form').outerHeight(true)/scale + topRight.y));
+    var newLatlng = projection.fromPointToLatLng(new google.maps.Point(
+      mainFormWidth/scale + bottomLeft.x,
+      mainFormHeight/scale + topRight.y));
 
+    console.log(this.map.getBounds());
     console.log(JSON.stringify(newLatlng));
 
     var latDiff = Math.abs(newLatlng.lat()-this.map.getBounds().getNorthEast().lat());
