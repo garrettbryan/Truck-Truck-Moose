@@ -1,8 +1,6 @@
 /*
 tm is a library to ease the random scheduling of foodtrucks. Values are constrained to the seconds within a day. It accepts input in HH:MM and output in seconds from midnight or HH:MM
 */
-
-
   var TimeHelper = function() {
     this.seconds = 0;
 
@@ -17,11 +15,9 @@ tm is a library to ease the random scheduling of foodtrucks. Values are constrai
     this.verifySeconds = function(seconds) {
       var value = -1;
       if( seconds >= (24 * 60 * 60)) {
-        console.log('seconds to high ' + seconds);
         value = +seconds;
       }
       if ( seconds < 0) {
-        console.log('seconds too low ' + seconds);
         value = +seconds;
       }
       if (value !== undefined){

@@ -8,14 +8,13 @@ FoodOrder < FoodList
 Offering < item
 */
 var PhysicalLocation = function(locationData) {
-  //console.log("make location");
   this.position = ko.observable('');
   this.startTime = ko.observable('');
   this.endTime = ko.observable('');
 };
 
+
 var Entity = function(entityData) {
-  //console.log("make entity");
   this.name = ko.observable('');
   this.email = ko.observable('');
   PhysicalLocation.call(this);
@@ -23,9 +22,9 @@ var Entity = function(entityData) {
 Entity.prototype = Object.create(PhysicalLocation.prototype);
 Entity.prototype.constructor = Entity;
 
+
 var User = function(userData) {
   //populate from the local storage first.
-  console.log("make user");
   this.handle = ko.observable('');
   this.password = ko.observable('');
   this.ccNumber = ko.observable('');
@@ -43,6 +42,7 @@ var User = function(userData) {
 User.prototype = Object.create(Entity.prototype);
 User.prototype.constructor = User;
 
+
 var Institution = function(institutionData){
   this.description = ko.observable('');
   Entity.call(this);
@@ -50,12 +50,14 @@ var Institution = function(institutionData){
 Institution.prototype = Object.create(Entity.prototype);
 Institution.prototype.constructor = Institution;
 
+
 var Meetup = function(meetupData) {//populate via Meetup.com ajax call.
   this.rsvp = ko.observable(meetupData);
   Institution.call(this);
 };
 Meetup.prototype = Object.create(Institution.prototype);
 Meetup.prototype.constructor = Meetup;
+
 
 var FoodTruck = function(truckData) {
   this.menu = ko.observableArray();
@@ -81,24 +83,25 @@ var FoodTruck = function(truckData) {
 FoodTruck.prototype = Object.create(Institution.prototype);
 FoodTruck.prototype.constructor = FoodTruck;
 
+
 var NavPoint = function(navData) {
   PhysicalLocation.call(this);
 };
 NavPoint.prototype = Object.create(PhysicalLocation.prototype);
 NavPoint.prototype.constructor = NavPoint;
 
-/*
-FoodLists
-*/
+
 var FoodList = function(listData) {//populate via random generator or server
   this.foodlist = ko.observableArray();
 };
+
 
 var Menu = function(menuData){
   FoodList.call(this);
 };
 Menu.prototype = Object.create(FoodList.prototype);
 Menu.prototype.constructor = Menu;
+
 
 var FoodOrder = function() {//populate based on user input.
   this.orderNumber = Math.random()*1000000; //pseudo po number
@@ -117,6 +120,7 @@ var Item = function(itemData){
   this.name = ko.observable(itemData.name || '');
   this.price = ko.observable(itemData.price || '');
 };
+
 
 var Offering = function(offeringData){
   this.ingredients = ko.observableArray(offeringData.ingredients);

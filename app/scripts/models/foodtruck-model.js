@@ -136,7 +136,7 @@ FoodTruck.prototype.specificStopPoint = function(pos, map, now) {
 
   var initialTime = this.schedule.length > 0 ? this.schedule[this.schedule.length-1].endtime.getSecs()+3600 : 28800; //Gives at least a 30minute buffer till the next stop.
   if (initialTime < dayOver){
-    var time = initialTime; //Determines when the next stop occurs
+    var time = initialTime;
     var stime = new TimeHelper();
     stime.initSecs(time);
     var etime = new TimeHelper();

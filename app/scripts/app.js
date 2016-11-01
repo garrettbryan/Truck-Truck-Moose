@@ -47,7 +47,6 @@ var ViewModel = function() {
   this.orderTotal = ko.computed(function(){
     var subtotal = 0;
     this.order().forEach( function(item){
-      console.log(item.price());
       subtotal += item.price();
     });
     return Number(subtotal.toFixed(2));
@@ -75,10 +74,8 @@ var ViewModel = function() {
   This is the major part of the app that controls the displayed screen.
   */
   this.currentScreen.subscribe(function(screen){
-    console.log(screen);
     switch(screen) {
         case 'login':
-          console.log('login');
           this.showSettings(false);
           this.resetUser();
           this.turnOffScreens();
@@ -86,21 +83,18 @@ var ViewModel = function() {
           this.getCurrentPosition();
             break;
         case 'signup':
-          console.log('signup');
           this.showSettings(false);
           this.user.localSave();
           this.turnOffScreens();
           this.signUpScreen(true);
             break;
         case 'settings':
-          console.log('settings');
           //this.showSettings(true);
           this.user.localSave();
           this.turnOffScreens();
           this.settingsScreen(true);
             break;
         case 'destination':
-          console.log('destination');
           this.showSettings(true);
           if(this.meetups() && !this.meetupsAdded){
             this.addMeetupsToMap();
@@ -112,7 +106,6 @@ var ViewModel = function() {
           this.destinationSelectionScreen(true);
             break;
         case 'foodtruck':
-          console.log('foodtruck');
           if(this.selectedDestination && this.user.begin() && this.user.end()){
             this.showSettings(true);
             this.description('');
@@ -120,7 +113,6 @@ var ViewModel = function() {
               this.selectedDestination.keepChosen(this.map, this);
             }
             catch (err) {
-              console.log(err);
             }
             if (!this.foodTrucksAdded){
               this.addFoodTrucksToMap(function(err){
@@ -131,23 +123,16 @@ var ViewModel = function() {
           }
             break;
         case 'order':
-          console.log('order');
-          console.log(this.selectedTruckName());
           if(this.selectedTruckName()){
             this.showSettings(true);
             this.description('');
-            console.log(this.selectedTruck);
             this.menu(this.selectedTruck.dailyMenu);
-            console.log(this.menu());
-            console.log(this.selectedTruck);
             this.turnOffScreens();
             this.orderScreen(true);
             this.selectedTruck.keepChosen(this.map, this);
           }
             break;
         case 'confirmation':
-          console.log('confirmation');
-          console.log(this.order().length>0);
           if(this.order().length>0){
             this.showSettings(true);
             this.puPhrase(makePUPhrase());
@@ -156,17 +141,14 @@ var ViewModel = function() {
           }
             break;
         case 'arrived':
-          console.log('arrived');
           this.turnOffScreens();
           this.arrivedScreen(true);
             break;
         case 'thankyou':
-          console.log('thankyou');
           this.turnOffScreens();
           this.thankYouScreen(true);
             break;
         default:
-          console.log(new Error('invalid screen'));
     }
   }.bind(this));
 
@@ -197,7 +179,6 @@ var ViewModel = function() {
     });
 
     destinations.forEach(function(meetup, index){
-      console.log(meetup);
       if (meetup.marker) {
         meetup.marker.setVisible(true);
       }
@@ -247,7 +228,6 @@ var ViewModel = function() {
     this.user.getLocalData();
     }
     catch(err){
-      console.log(err);
     }
     //this.savelocally();
   }.bind(this);
@@ -263,20 +243,14 @@ var ViewModel = function() {
   special function to allow user to jump to the settings screen and come back to their last screen position in the app.
   */
   this.changeScreen = function(newScreen) {
-    console.log(newScreen);
     var screen;
     if (newScreen === 'last') {
-      console.log('last');
       if (this.screenHistory()[this.screenHistory().length - 2] === 'signup'){
-        console.log('signup');
         screen = 'destination';
       } else {
         if(this.screenHistory()[this.screenHistory().length -1] !== 'settings') {
-          console.log(this.screenHistory()[this.screenHistory().length -1]);
-          console.log('settings');
           screen = 'settings';
         } else {
-          console.log(this.screenHistory()[this.screenHistory().length - 2]);
           screen = this.screenHistory()[this.screenHistory().length - 2];
         }
       }
@@ -288,7 +262,6 @@ var ViewModel = function() {
 
     if (screen) {
       this.screenHistory.push(screen);
-      console.log(this.screenHistory());
       this.currentScreen(screen);
     }
   }.bind(this);
@@ -321,7 +294,6 @@ var ViewModel = function() {
       //fitBounds(bounds:LatLngBounds|LatLngBoundsLiteral)
       //LatLngBounds(sw?:LatLng|LatLngLiteral, ne?:LatLng|LatLngLiteral)
 
-      console.log(this.foodTrucks);
       //initailly add all foodtrucks to the list of pruned foodtrucks
       this.prunedPossibleFoodTrucks(this.foodTrucks());
       cb(err);
@@ -330,8 +302,6 @@ var ViewModel = function() {
 
 
   this.renderMeetups = function() {
-    console.log(this);
-    console.log(this.meetups());
     this.meetups().forEach( function(meetup){
       meetup.render(this.map, this);
     }.bind(this));
@@ -356,15 +326,11 @@ var ViewModel = function() {
       mainFormWidth/scale + bottomLeft.x,
       mainFormHeight/scale + topRight.y));
 
-    console.log(this.map.getBounds());
-    console.log(JSON.stringify(newLatlng));
 
     var latDiff = Math.abs(newLatlng.lat()-this.map.getBounds().getNorthEast().lat());
 
-    console.log(latDiff);
 
     if (this.meetups().length > 0){
-      console.log(this.meetups());
 
       this.meetupMapBounds.max = {
         lat: -360,
@@ -403,9 +369,7 @@ var ViewModel = function() {
 
     }
   //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('#main-form').outerHeight(true));
-    console.log($('#main-form').outerHeight(true));
 
-    console.log(this.meetupMapBounds);
 
     //create a mapbounds object and apply it to the map.
     try {
@@ -418,10 +382,8 @@ var ViewModel = function() {
 
       this.map.fitBounds(this.mapBounds);
 
-      console.log(this.map.getCenter());
     }
     catch(err){
-      console.log(err);
     }
 
   }.bind(this);
@@ -434,7 +396,6 @@ var ViewModel = function() {
       var googleTimeout = setTimeout(function(){
         this.warningMessages.unshift("Looks like the Google server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
         this.warning(true);
-        console.log(this.warningMessages());
     }.bind(this), 8000);
     $.ajax.call(this,{
         url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCywABd4efsIAUleeL-4kdtomWr1NAjG4w',
@@ -443,10 +404,7 @@ var ViewModel = function() {
         data: {},
         success: function(position) {
           clearTimeout(googleTimeout);
-          console.log(position);
-          //console.log(this);
           this.user.position(new google.maps.LatLng(position.location.lat, position.location.lng));
-          console.log(this.user.position().toString());
           this.user.begin(this.user.position());
     //        alert(this.user.position.toString());
 
@@ -454,12 +412,10 @@ var ViewModel = function() {
         }.bind(this),
         error: function(err) {
           clearTimeout(googleTimeout);
-          console.log(JSON.stringify(err, null, 2));
           //this.warning(true);
           //$('#myModal').modal('show');
           this.warningMessages.unshift("Unable to access Google Maps.\nPlease check your internet connection.");
           this.warning(true);
-          console.log(this.warningMessages());
         }.bind(this)
     });
   }.bind(this);
@@ -470,12 +426,10 @@ var ViewModel = function() {
   */
   this.getCurrentPosition = function() {
     if (Modernizr.geolocation) {
-      console.log("geolocation available");
       if(typeof(google) !== undefined){
         navigator.geolocation.getCurrentPosition(
           function(position){
             this.user.position(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-            console.log(this.user.position().toString());
             this.user.begin(this.user.position());
     //        alert(this.user.position.toString());
 
@@ -483,7 +437,6 @@ var ViewModel = function() {
             //this.useGoogleGeoLocate();
           }.bind(this),
           function(){
-            console.log("Could not get location, possibly due to github not supporting https, trying google geolocate api");
             this.useGoogleGeoLocate();
           }.bind(this)
         );
@@ -501,7 +454,6 @@ var ViewModel = function() {
   initialze the map and it's various listeners and subscriptions. Call the meetup and the google maps api.
   */
   this.mapInit = function() {
-    console.log(this);
     var noPoi = [
       {
         featureType: "poi",
@@ -524,7 +476,6 @@ var ViewModel = function() {
         mapOptions);
     this.map.setOptions({styles: noPoi});
 
-    console.log("position" + this.user.position());
 
     google.maps.event.addListenerOnce(this.map, 'bounds_changed', function(){
     });
@@ -564,7 +515,6 @@ var ViewModel = function() {
     }.bind(this));
 
 
-    console.log(this.user);
     this.user.render(this.map);
   }.bind(this);
 

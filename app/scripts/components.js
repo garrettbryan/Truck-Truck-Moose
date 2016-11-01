@@ -1,3 +1,6 @@
+/*
+Components of different sizes defined here. Both screens and internal child components.
+*/
 var uiWarning = [
 '    <!-- Modal -->',
 '    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">',
@@ -22,18 +25,17 @@ ko.components.register('ui-warning', {
     var self = this;
     this.warningMessages = params.warningMessages;
     this.currentMessage = ko.observable(this.warningMessages()[0]);
-    console.log(this.warningMessages());
     $('#myModal').modal('show');
 
     this.warningMessages.subscribe(function(messages){
       var self = this;
-      console.log(messages);
       this.currentMessage(messages[0]);
     }.bind(this));
 
   },
   template: uiWarning
 });
+
 
 var globalHeader = [
 '<div class="container-fluid">',
@@ -55,7 +57,6 @@ ko.components.register('global-header', {
   },
   template: globalHeader
 });
-
 
 
 var specialThanks = [
@@ -85,12 +86,9 @@ var specialThanks = [
 ].join("\n");
 ko.components.register('special-thanks', {
   viewModel: function() {
-
   },
   template: specialThanks
 });
-
-
 
 
 var loginForm = [
@@ -118,8 +116,6 @@ var loginForm = [
 '  </form>',
 '</div>',
 '</div>'
-
-//'</div>'
 ].join("\n");
 ko.components.register('login-form', {
   viewModel: function(loginData) {
@@ -158,7 +154,6 @@ var signupForm = [
     '</form>',
   '</div>',
 '</div>'
-
 ].join("\n");
 ko.components.register('sign-up-form', {
   viewModel: function(formData) {
@@ -261,7 +256,6 @@ ko.components.register('descriptor', {
     }.bind(this));
 
     this.toggleDescriptor = function() {
-      console.log('click');
       this.open(this.open() + 1);
     }.bind(this);
 
@@ -344,6 +338,9 @@ ko.components.register('food-truck-selection', {
     this.selectedTruck = params.selectedTruck;
     this.selectedTruckName = params.selectedTruckName;
 
+    /*
+    Truck Swiper is initialized add event slide change function
+    */
     this.truckSwiper = new Swiper ('.truck-swiper-container', {
       // Optional parameters
       pagination: '.swiper-pagination',
@@ -354,16 +351,15 @@ ko.components.register('food-truck-selection', {
       observer: false,
       loop: false,
       onSlideChangeEnd: function (swiper) {
-        console.log('slide change end - after');
-        console.log(swiper);
-        console.log(swiper.activeIndex);
         self.selectedTruck = self.displayFoodTrucks()[swiper.activeIndex];
         self.selectedTruckName(self.selectedTruck.name);
       }
     });
 
+    /*
+    when selectedTruckName changes then the info windows are closed, then the selected foodtruck marker event click is fired.
+    */
     this.selectedTruckName.subscribe(function(name){
-
       this.previousFoodTrucks.forEach(function(foodTruck) {
         if(foodTruck.infowindow){
           foodTruck.infowindow.close();
@@ -371,8 +367,6 @@ ko.components.register('food-truck-selection', {
       }.bind(this));
 
       this.displayFoodTrucks().forEach(function(foodTruck, index){
-        console.log(name);
-        console.log(foodTruck.name);
         if(foodTruck.name === name){
           this.truckSwiper.slideTo(index);
           google.maps.event.trigger(foodTruck.marker, 'click');
@@ -380,34 +374,28 @@ ko.components.register('food-truck-selection', {
       }.bind(this));
     }.bind(this));
 
+    /*
+    displayFoodTrucks array cahnges then all slides are removed and then replaced with the new adjusted array
+    */
     this.displayFoodTrucks.subscribe(function(foodTrucks) {
       this.selectedTruckName('');
       this.selectedTruck = {};
       var self = this;
-      console.log(foodTrucks);
       this.truckSwiper.removeAllSlides();
       $('#active-slide').removeClass('active-slide');
       foodTrucks.forEach(function(foodTruck, index){
-        console.log(this.truckSwiper);
-        console.log(index);
         this.truckSwiper.appendSlide('<div class="swiper-slide truck-slide" data-value="'+index+'"><div class="slide-content">' + foodTruck.name + '<img src="' + foodTruck.img + '" id="main-logo" class="img-responsive center-block img-rounded" alt="MeeTruck Logo"></div></div>');
       }.bind(self));
 
       $('.truck-slide').click(function(){
-        console.log(self);
-        console.log($(this).data('value'));
         self.selectedTruck = self.displayFoodTrucks()[$(this).data('value')];
         self.selectedTruckName(self.selectedTruck.name);
-        console.log(self.selectedTruck);
       });
       this.previousFoodTrucks = self.displayFoodTrucks();
     }.bind(this));
 
     this.test = (function(truckNumber){
-      console.log(truckNumber);
-      console.log(this.displayFoodTrucks()[truckNumber]);
       this.selectedTruck = this.displayFoodTrucks()[truckNumber];
-      console.log(this.selectedTruck);
     }).bind(this);
 
   },
@@ -462,9 +450,7 @@ ko.components.register('food-order', {
     this.menu = params.menu;
     this.order = params.order;
     this.currentOrderLength = this.order.length;
-
     this.totalPrice = params.orderTotal;
-
 
     this.menuSwiper = new Swiper ('.menu-swiper-container', {
       // Optional parameters
@@ -477,8 +463,6 @@ ko.components.register('food-order', {
       loop: false
     });
 
-    console.log(this.menu());
-    console.log(this.order());
 
     $('#user-order')
       .css('margin-top', $('.login').outerHeight(true) );
@@ -491,9 +475,6 @@ ko.components.register('food-order', {
       if (this.newOrderLength > this.currentOrderLength){
       var updateOrderDivTimeout = setTimeout(function(){
         //var scroll
-          console.log($('#user-order')[0]);
-          console.log($('#user-order')[0].clientHeight);
-          console.log($('#user-order')[0].scrollHeight);
           var scrollHeight = Math.max($('#user-order')[0].scrollHeight, $('#user-order')[0].clientHeight);
           $('#user-order')[0].scrollTop = scrollHeight + 100 - $('#user-order')[0].clientHeight;
       }.bind(this),
@@ -506,29 +487,18 @@ ko.components.register('food-order', {
 
     this.menu.subscribe(function (dishes) {
       var self = this;
-      console.log(dishes);
       this.menuSwiper.removeAllSlides();
       dishes.forEach(function(dish, index){
-        console.log(this.menuSwiper);
-        console.log(index);
         this.menuSwiper.appendSlide('<div class="swiper-slide dish-slide" data-value="'+index +'">' + dish.name() + ' $' + dish.price() + '</div>');
       }.bind(this));
 
       $('.dish-slide').click(function(){
-        console.log(self);
-        console.log(self.menu()[$(this).data('value')]);
-
-
-
         self.order.push( new SelectedDish( self.menu()[$(this).data('value')] ));
 
-        console.log(self.order());
       });
     }.bind(this));
 
     $( window ).resize(function() {
-      console.log( $(window).height());
-      console.log($('.login').outerHeight(true));
 
       $('#user-order')
       .css('margin-top', $('.login').outerHeight(true))
@@ -536,8 +506,6 @@ ko.components.register('food-order', {
     }.bind(this));
 
     self.removeItem = function(item) {
-      console.log(self);
-      console.log(this);
       self.order.remove(item);
     };
 
@@ -563,7 +531,6 @@ ko.components.register('ingredients', {
     this.ingredients = params.ingredients;
 
     self.no = function(ingredient) {
-      console.log(self.ingredients());
       self.ingredients.remove(ingredient);
     };
 
@@ -607,8 +574,6 @@ ko.components.register('confirmation', {
     this.puPhraseTense = ko.observable('will be ready');
 
     this.orderPuTime.subscribe(function(time){
-      console.log(this.puTime().format('x'));
-      console.log(Date.now());
       if (this.puTime().format('x') - Date.now() <= 0) {
         this.puPhraseTense('was ready');
       } else {
@@ -617,22 +582,9 @@ ko.components.register('confirmation', {
       //this.resize();
     }.bind(this));
 
-      console.log( $(window).height());
-      console.log($('.pu-time').outerHeight(true));
-      console.log($('.pu-time').offset().top);
-
-/*
-    $( window ).resize(function() {
-      console.log( $(window).height());
-      console.log($('.pu-time').outerHeight(true));
-      console.log($('.pu-time').offset().top);
-      this.resize();
-    }.bind(this));
-*/
 
     var testint = setInterval(function(){
       this.orderPuTime(this.puTime().fromNow());
-
     }.bind(this), 6000);
 
   },
@@ -691,7 +643,6 @@ ko.components.register('thank-you', {
   viewModel: function(formData) {
 
     this.submit = function(formElement){
-      console.log(formElement);
     };
 
   },

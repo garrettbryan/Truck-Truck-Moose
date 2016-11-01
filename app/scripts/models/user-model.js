@@ -1,61 +1,23 @@
 /*
-MeetupRequest.prototype.CORopenEvents = function(position) {
-  var meetupRequestTimeout = setTimeout(function(){
-      console.log('Failed to get Meetups.');
-  }, 8000);
-
-  $.ajax({
-      url: 'https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=' + position.lng() + '&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=' + position.lat() + '&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d',
-      dataType: 'jsonp',
-      success: function(data) {
-        console.log(data);
-        data.results.forEach(function(result){
-          var meetup = new Meetup();
-          meetup.init(result);
-          aboutMy.meetups.push(meetup);
-//          console.log(Date(meetup.time))
-          meetup.render();
-        });
-        clearTimeout(meetupRequestTimeout);
-        aboutMy.meetups.sort(function(a,b){
-          return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
-        });
-        aboutMy.determineMeetupMapBounds();
-      },
-      error: function(data) {
-        console.log('meetup Error');
-        console.log(data);
-      }
-  });
-};
+init if existing local storage then populatefileds of current user
 */
-
 User.prototype.init = function(now){
   //var existingUser = ko.utils.parseJson(localStorage.getItem('MeetUpTruck'));
   var existingUser;
-  console.log(existingUser);
   if (!existingUser){
-    this.clearUserFields();
+
   } else {
     this.populateFields(existingUser);
     this.currentLogin = now;
-    console.log(this.currentLogin);
-  }
-  console.log(this);
-  console.log(ko.toJSON(this));
-};
-
-User.prototype.clearUserFields = function() {
-  for (var key in this){
-    console.log(key + " " + typeof this[key]);
   }
 };
 
+/*
+populateFields takes an object from local storage and builds out the current user.
+*/
 User.prototype.populateFields = function(existingUser) {
   for (var key in existingUser) {
-//    console.log(typeof this[key]);
     if (typeof this[key] === "function"){
-//    console.log(typeof this[key]);
       this[key](existingUser[key]);
     }else if (typeof this[key] === "string"){
       this[key] = existingUser[key];
@@ -63,13 +25,10 @@ User.prototype.populateFields = function(existingUser) {
   }
 };
 
-
-
+/*
+localSave a function to run user observable values through the toJSON function before trying to save.
+*/
 User.prototype.localSave = function(){
-//a function to run observable values through the toJSON function.
-//the function toJSON does not accept non ko objects.
-//must convert to string before trying to save.
-
   var savedUserData = {
 //    "handle": this.handle,
     "password": this.password,
@@ -89,18 +48,11 @@ User.prototype.localSave = function(){
     "endTime": this.endTime
   };
 
-    for (var key in savedUserData) {
-      console.log(ko.toJSON(key));
-      console.log(ko.toJSON(savedUserData[key]));
-    }
-//    console.log(ko.toJSON(this.user));
     //localStorage.setItem('MeetUpTruck', ko.toJSON.apply(this,this.user));
-    //console.log(ko.utils.parseJson(localStorage.getItem('MeetUpTruck')));
 
-  console.log(savedUserData);
   localStorage.setItem('MeetUpTruck', ko.toJSON(savedUserData));
-  //console.log(ko.utils.parseJson(localStorage.getItem('MeetUpTruck')));
 };
+
 
 User.prototype.getLocalData = function(){
   var localData = ko.utils.parseJson(localStorage.getItem('MeetUpTruck'));
@@ -125,6 +77,9 @@ User.prototype.getLocalData = function(){
   }
 };
 
+/*
+render adds any necessary event listeners
+*/
 User.prototype.render = function(map){
   this.marker = new google.maps.Marker({
     position: this.position(),
@@ -133,9 +88,6 @@ User.prototype.render = function(map){
     draggable:false
   });
 
-  /*
-  add an info window
-  */
   var contentString = '<div id="content">'+
     '<h3 id="heading" class="heading">You are here.</h3>' +
     '<div id="body-content"> Wow you are right here</div>' +
@@ -147,7 +99,5 @@ User.prototype.render = function(map){
 
   this.marker.addListener('click', function() {
     //infowindow.open(map, this.marker);
-    console.log(this);
   }.bind(this));
-
 };

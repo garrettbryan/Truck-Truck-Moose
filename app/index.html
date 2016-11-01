@@ -52,7 +52,7 @@
     -->
 
   </head>
-  <body>
+  <body data-bind="initializeScreen">
     <div data-bind="if: warning">
         <ui-warning params="warningMessages: warningMessages"></ui-warning>
     </div>
@@ -142,7 +142,6 @@
         <script src="scripts/models/menu_item_model.js"></script>
         <script src="scripts/models/weather_model.js"></script>
         <script src="scripts/models/foodtruck-model.js"></script>
-        <script src="scripts/models/map-model.js"></script>
         <script src="scripts/models/meetup-model.js"></script>
         <script src="scripts/models/user-model.js"></script>
         <script src="scripts/models/order-model.js"></script>
