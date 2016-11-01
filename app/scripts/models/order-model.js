@@ -1,4 +1,7 @@
-
+/*
+  The Dish and Selected Dish are the two objects for menu items and ordered items.
+  It might be appropriate to merge these into a single object.
+*/
 var Dish = function (menuItem) {
   this.name = ko.observable(menuItem.name);
   this.price = ko.observable(menuItem.price);

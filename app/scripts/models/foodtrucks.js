@@ -1,3 +1,6 @@
+/*
+foodtrucks.js contains the json of test foodtrucks. These foodtrucks have been uploaded to the Heroku server
+*/
 var foodTrucks10 = [
   {
     name: "Mammoth Meats",

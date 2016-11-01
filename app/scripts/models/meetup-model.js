@@ -1,18 +1,21 @@
+/*
+meetup-model.js stores the request a meetup prototype.
+*/
 var MeetupRequest = function() {
   this.data = {};
 };
 
+/*
+CORopenEvents requests open meetups from meetup.com. If fails then falls back to test data.
+*/
 MeetupRequest.prototype.CORopenEvents = function(position) {
-
   var verifyMeetupCanBeUsed = function(meetup){
     return meetup && meetup.group && meetup.description && meetup.venue && meetup.venue.lat && meetup.venue.lon;
   };
 
-
   var meetupRequestTimeout = setTimeout(function(){
       this.warningMessages.unshift("Looks like the Meetup.com server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
       this.warning(true);
-      console.log(this.warningMessages());
   }.bind(this), 8000);
 
   $.ajax.call(this,{
@@ -20,102 +23,86 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
       dataType: 'jsonp',
       success: function(data) {
         clearTimeout(meetupRequestTimeout);
-        console.log(data);
         if (data.results.length === 0) {
           this.warningMessages.unshift("Heard from Meetup.com, there are no more upcoming meetups today. Loading a test response.");
           this.warning(true);
           $.ajax.call(this,{
-            url: 'http://localhost:9000/json/open_events_meetups.js',
+            url: 'json/open_events_meetups.js',
             dataType: 'json',
             success: function(data) {
               data.results.forEach(function(result){
-      //          console.log(result);
                 if (verifyMeetupCanBeUsed(result)){
                   this.meetups.push(new Meetup(result));
-      //          console.log(Date(meetup.time));
                 }
               }.bind(this));
 
-              console.log(this.meetups());
               this.meetups().sort(function(a,b){
                 return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
               });
-              console.log(this.meetups());
             }.bind(this),
             error: function(err) {
-              console.log(err);
+              this.warningMessages.unshift("Unable to get local food trucks for testing.");
             }
           });
         }else{
           data.results.forEach(function(result){
-  //          console.log(result);
             if (verifyMeetupCanBeUsed(result)){
               this.meetups.push(new Meetup(result));
-  //          console.log(Date(meetup.time));
-            }  //          console.log(Date(meetup.time));
+            }
           }.bind(this));
 
-          console.log(this.meetups());
           this.meetups().sort(function(a,b){
             return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
           });
-          console.log(this.meetups());
         }
-        //console.log(this);
       }.bind(this),
       error: function(data) {
         clearTimeout(meetupRequestTimeout);
-        console.log(data);
         //this.warning(true);
         this.warningMessages.unshift("There's been an error contacting Meetup.com.\nPlease try again later. Loading a test response.");
         this.warning(true);
-        console.log(this.warningMessages());
         $.ajax.call(this,{
           url: 'http://localhost:9000/json/open_events_meetups.js',
           dataType: 'json',
           success: function(data) {
             data.results.forEach(function(result){
-    //          console.log(result);
               if (verifyMeetupCanBeUsed(result)){
                 this.meetups.push(new Meetup(result));
-    //          console.log(Date(meetup.time));
               }
             }.bind(this));
 
-            console.log(this.meetups());
             this.meetups().sort(function(a,b){
               return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
             });
-            console.log(this.meetups());
           }.bind(this),
           error: function(err) {
-            console.log(err);
           }
         });
       }.bind(this)
   });
 };
 
+
 var Meetup = function(data) {
   this.type = "meetup";
   for (var i in data) {
     this[i] = data[i];
   }
-//  console.log(this);
   this.img = 'images/resize_meetup.png';
 };
 Meetup.prototype.constructor = Meetup;
 
+
 Meetup.prototype.adjustDescriptionImages = function(selector) {
   var str = this.description;
   var html = $.parseHTML( str );
-  console.log(html);
   html.find('img').css('width','100%');
-  console.log(html);
 };
 
+/*
+render sets up the event listeners for the google maps.
+*/
 Meetup.prototype.render = function(map,viewModel) {
-  //console.log(this);
   if (this.venue){
     this.marker = new google.maps.Marker({
       position: new google.maps.LatLng(this.venue.lat, this.venue.lon),
@@ -125,9 +112,7 @@ Meetup.prototype.render = function(map,viewModel) {
       title: this.group.name
     });
     var contentString = '<div id="content">'+
-      '<h3 id="heading" class="heading">' + this.group.name + '</h3>' +
-      //'<div id="body-content"> ' + this.description + '</div>' +
-      '</div>';
+      '<h3 id="heading" class="heading">' + this.group.name + '</h3>' + '</div>';
 
     this.infowindow = new google.maps.InfoWindow({
       content: contentString,
@@ -149,9 +134,7 @@ Meetup.prototype.render = function(map,viewModel) {
       }
       if(this.description){
         viewModel.description(viewModel.description() + this.description);
-        //console.log(this.adjustDescriptionImages('img'));
       }
-      //this.infowindow.open(map, this.marker);
       this.marker.setOpacity(1.0);
     }.bind(this));
 
@@ -174,11 +157,7 @@ Meetup.prototype.render = function(map,viewModel) {
       }
     }.bind(this));
 
-    // assuming you also want to hide the infowindow when user mouses-out
-
     this.marker.addListener('click', function() {
-      console.log(this);
-      console.log(viewModel);
       viewModel.meetups().forEach( function(meetup){
         if(meetup.infowindow){
           meetup.infowindow.close();
@@ -193,9 +172,7 @@ Meetup.prototype.render = function(map,viewModel) {
       }
       if(this.description){
         viewModel.description(viewModel.description() + this.description);
-        //console.log(this.adjustDescriptionImages('img'));
       }
-      //this.infowindow.open(map, this.marker);
       this.marker.setVisible(true);
       this.marker.setOpacity(1.0);
       viewModel.selectedDestination = this;
@@ -215,24 +192,21 @@ Meetup.prototype.render = function(map,viewModel) {
 
     }.bind(this));
   }
-
 };
 
+/*
+drawRoute creates a new flightpath and draws it on the map.
+*/
 Meetup.prototype.drawRoute = function(map, viewmodel){
   var that = this;
-  console.log(this.marker);
-  console.log(viewmodel.user.position());
   this.directionsService.route(
     {
       origin: viewmodel.user.position(),
       destination: this.marker.position,
-      //waypoints: waypoints,
       travelMode: google.maps.TravelMode.DRIVING
     },
     function(response, status) {
       if (status === google.maps.DirectionsStatus.OK) {
-        //that.setResponses(icopy - 1, response);
-
         this.flightPath = new google.maps.Polyline({
           path: response.routes[0].overview_path,
           geodesic: true,
@@ -241,15 +215,16 @@ Meetup.prototype.drawRoute = function(map, viewmodel){
           strokeWeight: 3
         });
         this.flightPath.setMap(map);
-        console.log(this);
       } else {
-        window.alert('Directions request failed due to ' + status);
+        this.warningMessages.unshift('Unable to access Google\'s Direction Service\n' + status);
       }
     }.bind(this)
   );
 };
 
-
+/*
+closeInfoWindows close all aspects of an active window
+*/
 Meetup.prototype.closeInfoWindows = function(map, viewModel){
   viewModel.meetups().forEach( function(meetup){
     if(meetup.infowindow){
@@ -260,8 +235,11 @@ Meetup.prototype.closeInfoWindows = function(map, viewModel){
   });
 };
 
+/*
+keepChosen close all other meetups windows and remove markers.
+display seleted meetups
+*/
 Meetup.prototype.keepChosen = function(map, viewModel){
-  console.log(viewModel.meetups());
   viewModel.meetups().forEach( function(meetup){
     if(meetup.infowindow){
       meetup.infowindow.close();
@@ -269,8 +247,6 @@ Meetup.prototype.keepChosen = function(map, viewModel){
     if (meetup.marker){
       meetup.marker.setMap(null);
     }
-    //console.log(meetup.marker)
   });
   this.marker.setMap(map);
-  //this.marker.setMap(map);
 };

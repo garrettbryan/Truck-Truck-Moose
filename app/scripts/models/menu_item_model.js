@@ -267,7 +267,9 @@
   var adjectives = ['dark', 'color', 'whimsical', 'shiny', 'noise', 'apocalyptic', 'insulting', 'praise', 'scientific'];  // types of adjectives for menuItem titles
   var nouns = ['animals', 'everyday', 'fantasy', 'gross', 'horror', 'jewelry', 'places', 'scifi'];                        // types of nouns for menuItem titles
 
-
+/*
+makePUPhrase and PUPgenerator are used to generate a random phrase to verify the pickup.
+*/
   var makePUPhrase = function() {
     var randomAdjective1 = parseInt(Math.random() * adjectives.length);
     var randomAdjective2 = parseInt(Math.random() * adjectives.length);

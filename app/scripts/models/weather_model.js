@@ -1,3 +1,6 @@
+/*
+weather_model.js handles all weather overlays
+*/
 var WeatherUnderground = function(){
   //this.overlay = {};
   this.mapBounds = {};
