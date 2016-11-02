@@ -27,7 +27,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
           this.warningMessages.unshift("Heard from Meetup.com, there are no more upcoming meetups today. Loading a test response.");
           this.warning(true);
           $.ajax.call(this,{
-            url: 'json/open_events_meetups.js',
+            url: './json/open_events_meetups.js',
             dataType: 'json',
             success: function(data) {
               data.results.forEach(function(result){
