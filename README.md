@@ -6,7 +6,7 @@ This is a web app to enhance your meetups with a food truck experience and weath
 Prerequisites to running the app:
 you will need npm to manage the various grunt dependencies
 
-How to run the web app via a terminal:
+###How to run the web app via the terminal:
     1. Create a project folder
     2. cd into it
     3. Clone the repository
