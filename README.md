@@ -23,7 +23,7 @@ you will need npm to manage the various grunt dependencies
         1. cp app/images/*.png dist/images/
 
 Test the deployed site. Static files are served via github. Async request to simple NodeJS backend on Heroku.
-http://garrettbryan.github.io/udacity-project-5/dist/
+https://garrettbryan.github.io/udacity-project-5/dist/
 
 ###Features to look for
     1. Single page web app removes scroll bars for a super clean look
