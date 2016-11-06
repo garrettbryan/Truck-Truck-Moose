@@ -71,7 +71,7 @@ var ViewModel = function() {
 
 
   /*
-  This is the major part of the app that controls the displayed screen.
+  This is the part of the app that controls the displayed screen.
   */
   this.currentScreen.subscribe(function(screen){
     switch(screen) {
@@ -80,7 +80,6 @@ var ViewModel = function() {
           this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
-          this.getCurrentPosition();
             break;
         case 'signup':
           this.showSettings(false);
@@ -225,7 +224,7 @@ var ViewModel = function() {
     //localStorage.setItem('MeetUpTruck', {});
     this.user.init(this.now());
     try{
-    this.user.getLocalData();
+      //this.user.getLocalData();
     }
     catch(err){
     }
@@ -390,65 +389,140 @@ var ViewModel = function() {
 
 
   /*
+  getCurrentPosition Find user's device location.
+  If failure then use GoogleGeoLocate as backup.
+  */
+  this.getCurrentPosition = function(cb) {
+    var that = this;
+    if (Modernizr.geolocation) {
+      if(typeof(google) !== undefined){
+        console.log(that.user.position());
+        navigator.geolocation.getCurrentPosition(
+          //success
+          function(position){
+            that.user.position(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+            console.log(that.user.position());
+            cb(null);
+          },
+          //error
+          function(){
+            that.warningMessages.unshift("Can't get the device position. Attempting Google Location Services.");
+            that.warning(true);
+            cb(new Error('can\'t get position from user\'s device'));
+          }
+        );
+      } else {
+        that.warningMessages.unshift("Can't get position from Google.");
+        that.warning(true);
+        cb(new Error('google is not defined'));
+      }
+
+    } else {
+      that.warningMessages.unshift("Your browser does not support positioning. Attempting Google Location Services.");
+      that.warning(true);
+      cb(new Error('Modernizr.geolocation failure'));
+    }
+  }.bind(this);
+
+
+  /*
   useGoogleGeoLocate is a fallback if the geolocation is not available.
   */
-  this.useGoogleGeoLocate = function(){
-      var googleTimeout = setTimeout(function(){
-        this.warningMessages.unshift("Looks like the Google server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
-        this.warning(true);
-    }.bind(this), 8000);
-    $.ajax.call(this,{
+  this.useGoogleGeoLocate = function(cb){
+    console.log('google geolocate');
+    var that = this;
+    var googleTimeout = setTimeout(function(){
+      that.warningMessages.unshift("Looks like the Google server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
+      that.warning(true);
+      cb(new Error('can\'t get google location'));
+    }.bind(that), 8000);
+    $.ajax.call(that,{
         url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCywABd4efsIAUleeL-4kdtomWr1NAjG4w',
         dataType: 'json',
         type: 'POST',
         data: {},
         success: function(position) {
           clearTimeout(googleTimeout);
-          this.user.position(new google.maps.LatLng(position.location.lat, position.location.lng));
-          this.user.begin(this.user.position());
-    //        alert(this.user.position.toString());
-
-          this.mapInit.call(this);
-        }.bind(this),
+          that.user.position(new google.maps.LatLng(position.location.lat, position.location.lng));
+          that.user.begin(that.user.position());
+          cb(null);
+        },
         error: function(err) {
           clearTimeout(googleTimeout);
-          //this.warning(true);
-          //$('#myModal').modal('show');
-          this.warningMessages.unshift("Unable to access Google Maps.\nPlease check your internet connection.");
-          this.warning(true);
-        }.bind(this)
+          that.warningMessages.unshift("Unable to access Google Maps.\nPlease check your internet connection.");
+          that.warning(true);
+          cb(new Error('can\'t get google location'));
+        }
     });
   }.bind(this);
 
 
-  /*
-  getCurrentPosition uses geolocation first with useGoogleGeoLocate as a backup to get the users current position.
-  */
-  this.getCurrentPosition = function() {
-    if (Modernizr.geolocation) {
-      if(typeof(google) !== undefined){
-        navigator.geolocation.getCurrentPosition(
-          function(position){
-            this.user.position(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-            this.user.begin(this.user.position());
-    //        alert(this.user.position.toString());
-
-            this.mapInit.call(this);
-            //this.useGoogleGeoLocate();
-          }.bind(this),
-          function(){
-            this.useGoogleGeoLocate();
-          }.bind(this)
-        );
-      }
-      else {
-        this.useGoogleGeoLocate();
-      }
-    }
-    else {
-      this.useGoogleGeoLocate();
-    }
+  this.useTestLocation = function(cb) {
+    var that = this;
+    //Raleigh, NC 35.7796, 78.6382
+    //Frankfurt, Deutschland 50.1109, 8.6821
+    that.user.position(new google.maps.LatLng(50.1109, 8.6821));
+    console.log(that.user.position());
+    //this.user.render(this.map);
+    cb(null);
   }.bind(this);
+
+
+  this.getUserPosition = function(cb) {
+    var that = this;
+    that.getCurrentPosition(function(err){
+      if (err) {
+        console.log(err);
+        that.useGoogleGeoLocate(function(err){
+          if (err) {
+            console.log(err);
+            that.useTestLocation(function(err){
+              if (err) {
+                console.log(err);
+              } else {
+                cb(null);
+              }
+            });
+          } else {
+            cb(null);
+          }
+        });
+      } else {
+        cb(null);
+      }
+    });
+  }.bind(this);
+
+
+  this.getMeetups = function(cb){
+    var that = this;
+    that.meetupRequest.CORopenEvents.call(that, that.user.position, function(err){
+      if (err) {
+        console.log(err);
+        that.meetupRequest.testOpenEvents.call(that, that.user.position, function(err){
+          if (err) {
+            console.log(err);
+          } else {
+            cb(null);
+          }
+        });
+      } else {
+        cb(null);
+      }
+    });
+  };
+
+
+  this.initLocalVariables = function() {
+    var that = this;
+    that.getUserPosition(function(){
+      that.getMeetups(function(){
+        console.log('mapinit');
+        that.mapInit();
+      });
+    });
+  };
+
 
   /*
   initialze the map and it's various listeners and subscriptions. Call the meetup and the google maps api.
@@ -463,7 +537,7 @@ var ViewModel = function() {
       }
     ];
 
-    this.meetupRequest.CORopenEvents.call(this,this.user.position);
+  //this.meetupRequest.CORopenEvents.call(this,this.user.position);
 
     var mapOptions = {
       center: this.user.position(),
@@ -514,7 +588,6 @@ var ViewModel = function() {
       }
     }.bind(this));
 
-
     this.user.render(this.map);
   }.bind(this);
 
@@ -523,9 +596,11 @@ var ViewModel = function() {
 
 /*
 When the document is ready show the login screen.
+Then initialize the map.
 */
 $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
   viewModel.changeScreen('login');
+  viewModel.initLocalVariables();
 });

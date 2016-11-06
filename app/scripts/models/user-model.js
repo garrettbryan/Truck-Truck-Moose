@@ -81,6 +81,7 @@ User.prototype.getLocalData = function(){
 render adds any necessary event listeners
 */
 User.prototype.render = function(map){
+  //this.marker.setMap(null);
   this.marker = new google.maps.Marker({
     position: this.position(),
     map: map,
@@ -89,8 +90,8 @@ User.prototype.render = function(map){
   });
 
   var contentString = '<div id="content">'+
-    '<h3 id="heading" class="heading">You are here.</h3>' +
-    '<div id="body-content"> Wow you are right here</div>' +
+    '<h6 id="heading" class="heading">You are here.</h3>' +
+    //'<div id="body-content">you are here</div>' +
     '</div>';
 
   var infowindow = new google.maps.InfoWindow({
@@ -98,6 +99,6 @@ User.prototype.render = function(map){
   });
 
   this.marker.addListener('click', function() {
-    //infowindow.open(map, this.marker);
+    infowindow.open(map, this.marker);
   }.bind(this));
 };

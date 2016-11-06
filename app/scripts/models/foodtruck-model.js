@@ -90,6 +90,7 @@ FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
 
   var randomRadius = 3000 * Math.random();
   var randomHeading = 360 * Math.random();
+  console.log(dest.marker.position);
   var randomPt = google.maps.geometry.spherical.computeOffset(dest.marker.position, randomRadius, randomHeading);
 
 //Gives at least a 30minute buffer till the next stop.
