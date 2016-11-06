@@ -6,9 +6,11 @@ var MeetupRequest = function() {
 };
 
 /*
-CORopenEvents requests open meetups from meetup.com. If fails then falls back to test data.
+CORopenEvents requests open meetups from meetup.com.
+callback called with error or
+viewModels.meetups array is populated
 */
-MeetupRequest.prototype.CORopenEvents = function(position) {
+MeetupRequest.prototype.CORopenEvents = function(position, cb) {
   var verifyMeetupCanBeUsed = function(meetup){
     return meetup && meetup.group && meetup.description && meetup.venue && meetup.venue.lat && meetup.venue.lon;
   };
@@ -16,6 +18,7 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
   var meetupRequestTimeout = setTimeout(function(){
       this.warningMessages.unshift("Looks like the Meetup.com server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
       this.warning(true);
+      cb(new Error('timeout please load a test response'));
   }.bind(this), 8000);
 
   $.ajax.call(this,{
@@ -23,62 +26,73 @@ MeetupRequest.prototype.CORopenEvents = function(position) {
       dataType: 'jsonp',
       success: function(data) {
         clearTimeout(meetupRequestTimeout);
-        if (data.results.length === 0) {
-          this.warningMessages.unshift("Heard from Meetup.com, there are no more upcoming meetups today. Loading a test response.");
+        if (data.results.length < 5) {
+          this.warningMessages.unshift("Heard from Meetup.com, there are less than 5 meetups today. Loading a test response");
           this.warning(true);
-          $.ajax.call(this,{
-            url: './json/open_events_meetups.js',
-            dataType: 'json',
-            success: function(data) {
-              data.results.forEach(function(result){
-                if (verifyMeetupCanBeUsed(result)){
-                  this.meetups.push(new Meetup(result));
-                }
-              }.bind(this));
-
-              this.meetups().sort(function(a,b){
-                return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
-              });
-            }.bind(this),
-            error: function(err) {
-              this.warningMessages.unshift("Unable to get local food trucks for testing.");
-            }
-          });
+          cb(new Error('less than 5 local meetups'));
         }else{
           data.results.forEach(function(result){
             if (verifyMeetupCanBeUsed(result)){
               this.meetups.push(new Meetup(result));
             }
           }.bind(this));
-
           this.meetups().sort(function(a,b){
             return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
           });
+          cb(null);
         }
       }.bind(this),
       error: function(data) {
         clearTimeout(meetupRequestTimeout);
         //this.warning(true);
-        this.warningMessages.unshift("There's been an error contacting Meetup.com.\nPlease try again later. Loading a test response.");
+        this.warningMessages.unshift("There's been an error contacting Meetup.com.\nLoading a test response.");
         this.warning(true);
-        $.ajax.call(this,{
-          url: 'http://localhost:9000/json/open_events_meetups.js',
-          dataType: 'json',
-          success: function(data) {
-            data.results.forEach(function(result){
-              if (verifyMeetupCanBeUsed(result)){
-                this.meetups.push(new Meetup(result));
-              }
-            }.bind(this));
-
-            this.meetups().sort(function(a,b){
-              return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
-            });
-          }.bind(this),
-          error: function(err) {
-          }
-        });
+        cb(new Error('meetup returned an error, please load a test response'));
       }.bind(this)
+  });
+};
+
+
+/*
+testOpenEvents requests local meetup test data.
+callback called with error or
+viewModels.meetups array is populated
+*/
+MeetupRequest.prototype.testOpenEvents = function(position, cb) {
+  var verifyMeetupCanBeUsed = function(meetup){
+    return meetup && meetup.group && meetup.description && meetup.venue && meetup.venue.lat && meetup.venue.lon;
+  };
+
+  var meetupRequestTimeout = setTimeout(function(){
+      this.warningMessages.unshift("Looks like the local test responses are failing.");
+      this.warning(true);
+      cb(new Error('timeout test response failed'));
+  }.bind(this), 8000);
+
+  $.ajax.call(this,{
+    url: 'json/open_events_meetups.js',
+    dataType: 'json',
+    success: function(data) {
+      clearTimeout(meetupRequestTimeout);
+      data.results.forEach(function(result){
+        if (verifyMeetupCanBeUsed(result)){
+          var meetup = new Meetup(result);
+          console.log(meetup);
+          meetup.randomizeStopPoint(this.user.position(), this.map);
+          this.meetups.push(meetup);
+        }
+      }.bind(this));
+      this.meetups().sort(function(a,b){
+        return parseFloat(b.yes_rsvp_count) - parseFloat(a.yes_rsvp_count);
+      });
+      cb(null);
+    }.bind(this),
+    error: function(err) {
+      clearTimeout(meetupRequestTimeout);
+      this.warningMessages.unshift("Unable to get meetup test data.");
+      this.warning(true);
+      cb(new Error('Unable to get meetup test data'));
+    }
   });
 };
 
@@ -178,6 +192,7 @@ Meetup.prototype.render = function(map,viewModel) {
       viewModel.selectedDestination = this;
       viewModel.user.end(this.group.name);
       $('#end').val(viewModel.user.end());
+      console.log($('.destination'));
 
       this.directionsService = new google.maps.DirectionsService();
       this.drawRoute(map, viewModel);
@@ -193,6 +208,21 @@ Meetup.prototype.render = function(map,viewModel) {
     }.bind(this));
   }
 };
+
+/*
+used for testing.
+*/
+Meetup.prototype.randomizeStopPoint = function(position) {
+  //this.venue.lat, this.venue.lon
+
+  var randomRadius = 5000 * Math.random();
+  var randomHeading = 360 * Math.random();
+  var randomPt = google.maps.geometry.spherical.computeOffset(position, randomRadius, randomHeading);
+
+  this.venue.lat = randomPt.lat();
+  this.venue.lon = randomPt.lng();
+};
+
 
 /*
 drawRoute creates a new flightpath and draws it on the map.

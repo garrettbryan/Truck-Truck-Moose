@@ -2,74 +2,50 @@
 
 This is a web app to enhance your meetups with a food truck experience and weather alerts. This web app is a side project to experiment with KnockoutJS, NodeJS, and Various 3rd Party APIs.
 
-Prerequisites to running the app:
-you will need npm to manage the various grunt dependencies
-
-How to run the web app via a terminal:
-1. Create a project folder
-2. cd into it
-3. Clone the repository
-    git clone https://github.com/garrettbryan/udacity-project-5.git
-4. Install the npm dependencies
-    npm install
-5. Install the bower dependencies
-    bower install
-6. Serve the app for local development
-    grunt serve
-7. Build the app for deployment (optional)
-    grunt build
-8. Copy the food truck images to the dist folder
-    cp app/images/*.png dist/images/
-
-Test the deployed site. Static files are served via github. Async request to simple NodeJS backend on Heroku.
-http://garrettbryan.github.io/udacity-project-5/dist/
-
-This is a web app to enhance your meetups with a food truck experience and weather alerts. This web app is a side project to experiment with KnockoutJS, NodeJS, and Various 3rd Party APIs.
-
 ###Run the app
 Prerequisites to running the app:
 you will need npm to manage the various grunt dependencies
 
-How to run the web app via a terminal:
-1. Create a project folder
-2. cd into it
-3. Clone the repository
-    *git clone https://github.com/garrettbryan/udacity-project-5.git
-4. Install the npm dependencies
-    *npm install
-5. Install the bower dependencies
-    *bower install
-6. Serve the app for local development
-    *grunt serve
-7. Build the app for deployment (optional)
-    *grunt build
-8. Copy the food truck images to the dist folder
-    *cp app/images/*.png dist/images/
+###How to run the web app via the terminal:
+    1. Create a project folder
+    2. cd into it
+    3. Clone the repository
+        1. git clone https://github.com/garrettbryan/udacity-project-5.git
+    4. Install the npm dependencies
+        1. npm install
+    5. Install the bower dependencies
+        1. bower install
+    6. Serve the app for local development
+        1. grunt serve
+    7. Build the app for deployment (optional)
+        1. grunt build
+    8. Copy the food truck images to the dist folder
+        1. cp app/images/*.png dist/images/
 
 Test the deployed site. Static files are served via github. Async request to simple NodeJS backend on Heroku.
-http://garrettbryan.github.io/udacity-project-5/dist/
+https://garrettbryan.github.io/udacity-project-5/dist/
 
 ###Features to look for
-1. Single page web app removes scroll bars for a super clean look
-2. Main elment and contributor element interaction
-3. Meetup Search bar includes a dropdown as the user begins to type.
-    *The input will filter both the dropdown and the map icons
-4. Clicking on the Header will roll up the Main element to show the map
-5. Weather overlays update when the map changes boundaries
-6. When a Meetup or Food Truck is selected, notice the description element that appears at the bottom of the screen.
-    *Click on the decription element to interact with it
-7. The Food Truck Search bar searches the name, description and plates offered
-    *The input will filter both the Swiper List and the Map icons.
-8. Food Trucks that are traveling or not open will show a plain food truck.
-    *Code needs to be updated to hit the Truck Truck Moose API
-9. Swipe through the various plates offered and make your selction
-    *Find ingredients that you do not want and remove them by selecting the x
-    *Remove whole plates by selecting the x next to the name of the dish
-10. The order list automatically scrolls to the bottom for each new plate and updates the total
-11. The order element is formated to stay within the single page
-12. update flight path to include a detour to the food truck.
-13. change the foodtruck meetup visit order.
-14. Navigate forward and backward through the screens
+    1. Single page web app removes scroll bars for a super clean look
+    2. Main elment and contributor element interaction
+    3. Meetup Search bar includes a dropdown as the user begins to type.
+        1. The input will filter both the dropdown and the map icons
+    4. Clicking on the Header will roll up the Main element to show the map
+    5. Weather overlays update when the map changes boundaries
+    6. When a Meetup or Food Truck is selected, notice the description element that appears at the bottom of the screen.
+        1. Click on the decription element to interact with it
+    7. The Food Truck Search bar searches the name, description and plates offered
+        1. The input will filter both the Swiper List and the Map icons.
+    8. Food Trucks that are traveling or not open will show a plain food truck.
+        1. Code needs to be updated to hit the Truck Truck Moose API
+    9. Swipe through the various plates offered and make your selction
+        1. Find ingredients that you do not want and remove them by selecting the x
+        1. Remove whole plates by selecting the x next to the name of the dish
+    10. The order list automatically scrolls to the bottom for each new plate and updates the total
+    11. The order element is formated to stay within the single page
+    12. update flight path to include a detour to the food truck.
+    13. change the foodtruck meetup visit order.
+    14. Navigate forward and backward through the screens
 
 ###Future features
 1. Integrate logins

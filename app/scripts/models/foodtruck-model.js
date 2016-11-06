@@ -381,5 +381,8 @@ FoodTruck.prototype.keepChosen = function(map, viewModel){
     }
   });
   this.marker.setMap(map);
-  this.flightPath.setMap(map);
+  console.log(this);
+  this.flightPaths.forEach( function (path){
+    path.setMap(map);
+  });
 };
