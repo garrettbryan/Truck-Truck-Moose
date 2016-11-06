@@ -101,6 +101,8 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
     var places, infoWindow;
     var markers = [];
     var countryRestrict = {'country': 'us'};
+    var pressedKeys;
+    var lastArray;
 
     var autocompleteCallback = function(predictions, status){
       var autocompletePredictions = "";
@@ -143,6 +145,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
 
     var autocomplete = new google.maps.places.AutocompleteService();
     $(element).keyup( function(){
+      pressedKeys = $(element).val();
       //clearTimeout(finishDestination);
       context.$root.prunedPossibleDestinations([]);
       var observable = valueAccessor();
@@ -184,16 +187,23 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
 
     $(element).focusin( function(){
       console.log( $(element));
-      var valLength = $(element).val().length;
-      console.log(valLength);
+      console.log( $(element).val().length);
+      //var valLength = pressedKeys.length;
+      //console.log(valLength);
 
-      //element.setSelectionRange(0, valLength);
+      element.setSelectionRange(0, $(element).val().length);
       //if (context.$root.prunedPossibleDestinations().length > 1){
-        $(element).val('');
-        context.$data.showDropdown(true);
-        context.$root.prunedPossibleDestinations(context.$root.meetups());
+      // $(element).val(pressedKeys);
+      element.setSelectionRange(0, valLength);
+      context.$data.showDropdown(true);
+      context.$root.prunedPossibleDestinations(context.$root.meetups());
       //}
     });
+
+    $(element).on("tap", function(){
+      $(element).trigger("focus");
+    });
+
   },
   update: function(element, valueAccessor, allBindings, data, context) {
     var value = valueAccessor();
