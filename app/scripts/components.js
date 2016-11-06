@@ -296,6 +296,8 @@ ko.components.register('destination-selection', {
   viewModel: function() {
     var self = this;
     self.showDropdown = ko.observable(false);
+
+
   },
   template: destinationSelection
 });

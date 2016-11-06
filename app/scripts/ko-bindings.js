@@ -101,6 +101,10 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
     var places, infoWindow;
     var markers = [];
     var countryRestrict = {'country': 'us'};
+    var pressedKeys;
+    var lastArray;
+
+    context.$root.prunedPossibleDestinations(context.$root.meetups());
 
     var autocompleteCallback = function(predictions, status){
       var autocompletePredictions = "";
@@ -142,7 +146,10 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
     };
 
     var autocomplete = new google.maps.places.AutocompleteService();
+
+
     $(element).keyup( function(){
+      pressedKeys = $(element).val();
       //clearTimeout(finishDestination);
       context.$root.prunedPossibleDestinations([]);
       var observable = valueAccessor();
@@ -154,8 +161,9 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         radius: '500',
          // type: ['store']
       }, autocompleteCallback);*/
-      if($(element).val()){
-        searchMeetups($(element).val());
+
+      if($(element).val().length > 0){
+        searchMeetups(pressedKeys);
         if (context.$root.prunedPossibleDestinations().length > 1){
           context.$data.showDropdown(true);
         }
@@ -171,6 +179,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         }
         */
       } else {
+        searchMeetups('.');
         context.$data.showDropdown(true);
         context.$root.prunedPossibleDestinations(context.$root.meetups());
       }
@@ -178,22 +187,23 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
 
     $(element).focusout( function(){
       if (!($('.destination').is('.highlight-destination'))){
-        context.$data.showDropdown(false);
+        //context.$data.showDropdown(false);
       }
     });
 
     $(element).focusin( function(){
-      console.log( $(element));
-      var valLength = $(element).val().length;
-      console.log(valLength);
-
-      //element.setSelectionRange(0, valLength);
-      //if (context.$root.prunedPossibleDestinations().length > 1){
-        $(element).val('');
-        context.$data.showDropdown(true);
-        context.$root.prunedPossibleDestinations(context.$root.meetups());
-      //}
+      element.setSelectionRange(0, $(element).val().length);
+      context.$data.showDropdown(true);
+      context.$root.prunedPossibleDestinations(context.$root.meetups());
     });
+
+    $(element).on("tap", function(){
+      element.setSelectionRange(0, $(element).val().length);
+      observable($(element).val());
+      context.$root.prunedPossibleDestinations(context.$root.meetups());
+      context.$data.showDropdown(true);
+    });
+
   },
   update: function(element, valueAccessor, allBindings, data, context) {
     var value = valueAccessor();
@@ -223,10 +233,10 @@ ko.bindingHandlers.destinationDropdown = {
     });
 
     $(element).click(function(){
-      context.$component.showDropdown(false);
+      //context.$component.showDropdown(false);
       context.$root.user.end(valueAccessor());
       $('#end').val(context.$root.user.end());
-      context.$root.prunedPossibleDestinations([]);
+      //context.$root.prunedPossibleDestinations([]);
       //valueAccessor(20);
       context.$root.user.end(valueAccessor());
       $(element).siblings().removeClass('highlight-destination');
@@ -236,6 +246,10 @@ ko.bindingHandlers.destinationDropdown = {
         this.selectedDestination = data;
         google.maps.event.trigger(data.marker, 'click');
       }
+    });
+
+    $(element).on("tap", function(){
+      context.$data.showDropdown(true);
     });
   },
   update: function(element, valueAccessor, allBindings, data, context) {
