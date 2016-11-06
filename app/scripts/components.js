@@ -125,7 +125,7 @@ ko.components.register('login-form', {
 
 
 var signupForm = [
-'<div class="container-fluid" data-bind="textScreen">',
+'<div class="container-fluid" data-bind="initializeScreen">',
 '  <div class="row login first-row">',
 '    <form class="form-horizontal">',
 '      <div class="side-margin-zero form-group">',
@@ -163,7 +163,7 @@ ko.components.register('sign-up-form', {
 
 
 var settings = [
-'<div class="container-fluid" data-bind="textScreen">',
+'<div class="container-fluid" data-bind="initializeScreen">',
 '<div class="row login first-row">',
 '<form class="form-horizontal">',
 '  <div class="side-margin-zero form-group">',
