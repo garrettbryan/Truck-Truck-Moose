@@ -22,14 +22,14 @@ MeetupRequest.prototype.CORopenEvents = function(position, cb) {
   }.bind(this), 8000);
 
   $.ajax.call(this,{
-      url: 'https://api.eetup.com/2/open_events?and_text=False&offset=0&format=json&lon=' + position().lng() + '&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=' + position().lat() + '&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d',
+      url: 'https://api.meetup.com/2/open_events?and_text=False&offset=0&format=json&lon=' + position().lng() + '&limited_events=False&photo-host=public&page=20&time=%2C1d&radius=25.0&lat=' + position().lat() + '&desc=False&status=upcoming&sig_id=130469302&sig=6ebd2b264bedf38cb1e1af50ef292c0e2eeda64d',
       dataType: 'jsonp',
       success: function(data) {
         clearTimeout(meetupRequestTimeout);
-        if (data.results.length === 0) {
-          this.warningMessages.unshift("Heard from Meetup.com, there are no more upcoming meetups today. Please load a test response.");
+        if (data.results.length < 5) {
+          this.warningMessages.unshift("Heard from Meetup.com, there are less than 5 meetups today. Loading a test response");
           this.warning(true);
-          cb(new Error('0 local meetups'));
+          cb(new Error('less than 5 local meetups'));
         }else{
           data.results.forEach(function(result){
             if (verifyMeetupCanBeUsed(result)){
@@ -45,7 +45,7 @@ MeetupRequest.prototype.CORopenEvents = function(position, cb) {
       error: function(data) {
         clearTimeout(meetupRequestTimeout);
         //this.warning(true);
-        this.warningMessages.unshift("There's been an error contacting Meetup.com.\nPlease try again later. Loading a test response.");
+        this.warningMessages.unshift("There's been an error contacting Meetup.com.\nLoading a test response.");
         this.warning(true);
         cb(new Error('meetup returned an error, please load a test response'));
       }.bind(this)

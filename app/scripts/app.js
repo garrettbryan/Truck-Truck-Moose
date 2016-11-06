@@ -394,6 +394,8 @@ var ViewModel = function() {
   */
   this.getCurrentPosition = function(cb) {
     var that = this;
+    console.log(Modernizr.geolocation);
+
     if (Modernizr.geolocation) {
       if(typeof(google) !== undefined){
         console.log(that.user.position());
@@ -461,7 +463,9 @@ var ViewModel = function() {
     var that = this;
     //Raleigh, NC 35.7796, 78.6382
     //Frankfurt, Deutschland 50.1109, 8.6821
-    that.user.position(new google.maps.LatLng(50.1109, 8.6821));
+    //Timbuktu 16.7666, 3.0026
+
+    that.user.position(new google.maps.LatLng(35.7796, 78.6382));
     console.log(that.user.position());
     //this.user.render(this.map);
     cb(null);
