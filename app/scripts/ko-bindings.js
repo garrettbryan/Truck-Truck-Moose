@@ -171,7 +171,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         }
         */
       } else {
-        context.$data.showDropdown(false);
+        context.$data.showDropdown(true);
         context.$root.prunedPossibleDestinations(context.$root.meetups());
       }
     });
@@ -183,9 +183,16 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
     });
 
     $(element).focusin( function(){
-      if (context.$root.prunedPossibleDestinations().length > 1){
+      console.log( $(element));
+      var valLength = $(element).val().length;
+      console.log(valLength);
+
+      //element.setSelectionRange(0, valLength);
+      //if (context.$root.prunedPossibleDestinations().length > 1){
+        $(element).val('');
         context.$data.showDropdown(true);
-      }
+        context.$root.prunedPossibleDestinations(context.$root.meetups());
+      //}
     });
   },
   update: function(element, valueAccessor, allBindings, data, context) {
