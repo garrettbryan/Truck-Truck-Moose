@@ -192,13 +192,11 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
       if (!($('.destination').is('.highlight-destination'))){
         context.$data.showDropdown(false);
       }
-      console.log(pressedKeys);
     });
 
     $(element).focusin( function(){
       $(element).val(pressedKeys);
       context.$root.prunedPossibleDestinations([]);
-      console.log(pressedKeys);
       searchMeetups(pressedKeys);
       element.setSelectionRange(0, $(element).val().length);
       context.$data.showDropdown(true);
@@ -286,6 +284,12 @@ ko.bindingHandlers.toggleMap = {
 
 ko.bindingHandlers.initializeScreen = {
   init: function(element, valueAccessor, allBindings, data, context) {
+    if($('#main-form.half').hasClass('half')){
+      $('#main-form.half').removeClass('half');
+    }
+    if($('#spacer.half').hasClass('half')){
+      $('#spacer.half').removeClass('half');
+    }
     createViewWithoutScrollbar();
     $( window ).resize( function() {
     createViewWithoutScrollbar();

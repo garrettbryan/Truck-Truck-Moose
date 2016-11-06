@@ -77,7 +77,6 @@ MeetupRequest.prototype.testOpenEvents = function(position, cb) {
       data.results.forEach(function(result){
         if (verifyMeetupCanBeUsed(result)){
           var meetup = new Meetup(result);
-          console.log(meetup);
           meetup.randomizeStopPoint(this.user.position(), this.map);
           this.meetups.push(meetup);
         }
@@ -192,7 +191,6 @@ Meetup.prototype.render = function(map,viewModel) {
       viewModel.selectedDestination = this;
       viewModel.user.end(this.group.name);
       $('#end').val(viewModel.user.end());
-      console.log($('.destination'));
 
       this.directionsService = new google.maps.DirectionsService();
       this.drawRoute(map, viewModel);
