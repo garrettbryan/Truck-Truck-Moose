@@ -104,6 +104,9 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
     var pressedKeys;
     var lastArray;
 
+    //var longTouch = 0;
+
+
     context.$root.prunedPossibleDestinations(context.$root.meetups());
 
     var autocompleteCallback = function(predictions, status){
@@ -187,23 +190,30 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
 
     $(element).focusout( function(){
       if (!($('.destination').is('.highlight-destination'))){
-        //context.$data.showDropdown(false);
+        context.$data.showDropdown(false);
       }
+      console.log(pressedKeys);
     });
 
     $(element).focusin( function(){
+      $(element).val(pressedKeys);
+      context.$root.prunedPossibleDestinations([]);
+      console.log(pressedKeys);
+      searchMeetups(pressedKeys);
       element.setSelectionRange(0, $(element).val().length);
       context.$data.showDropdown(true);
-      context.$root.prunedPossibleDestinations(context.$root.meetups());
+      //context.$root.prunedPossibleDestinations(context.$root.meetups());
     });
 
-    $(element).on("tap", function(){
-      element.setSelectionRange(0, $(element).val().length);
-      observable($(element).val());
-      context.$root.prunedPossibleDestinations(context.$root.meetups());
-      context.$data.showDropdown(true);
+/*
+    $(element).touchstart(function() {
+        timeoutId = setTimeout(function(){
+          $(element).focus();
+        }, 250);
+    }).bind('touchend', function() {
+        clearTimeout(longTouch);
     });
-
+*/
   },
   update: function(element, valueAccessor, allBindings, data, context) {
     var value = valueAccessor();
@@ -246,11 +256,9 @@ ko.bindingHandlers.destinationDropdown = {
         this.selectedDestination = data;
         google.maps.event.trigger(data.marker, 'click');
       }
+      context.$component.showDropdown(false);
     });
 
-    $(element).on("tap", function(){
-      context.$data.showDropdown(true);
-    });
   },
   update: function(element, valueAccessor, allBindings, data, context) {
     var value = valueAccessor();

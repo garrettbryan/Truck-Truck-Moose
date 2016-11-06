@@ -394,16 +394,13 @@ var ViewModel = function() {
   */
   this.getCurrentPosition = function(cb) {
     var that = this;
-    console.log(Modernizr.geolocation);
 
     if (Modernizr.geolocation) {
       if(typeof(google) !== undefined){
-        console.log(that.user.position());
         navigator.geolocation.getCurrentPosition(
           //success
           function(position){
             that.user.position(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-            console.log(that.user.position());
             cb(null);
           },
           //error
@@ -431,7 +428,6 @@ var ViewModel = function() {
   useGoogleGeoLocate is a fallback if the geolocation is not available.
   */
   this.useGoogleGeoLocate = function(cb){
-    console.log('google geolocate');
     var that = this;
     var googleTimeout = setTimeout(function(){
       that.warningMessages.unshift("Looks like the Google server is taking too long to respond, this can be caused by either poor connectivity or an error with our servers. Please try again in a while.");
@@ -466,7 +462,6 @@ var ViewModel = function() {
     //Timbuktu 16.7666, 3.0026
 
     that.user.position(new google.maps.LatLng(35.7796, 78.6382));
-    console.log(that.user.position());
     //this.user.render(this.map);
     cb(null);
   }.bind(this);
@@ -521,7 +516,6 @@ var ViewModel = function() {
     var that = this;
     that.getUserPosition(function(){
       that.getMeetups(function(){
-        console.log('mapinit');
         that.mapInit();
       });
     });

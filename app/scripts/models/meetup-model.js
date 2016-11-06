@@ -193,15 +193,6 @@ Meetup.prototype.render = function(map,viewModel) {
       viewModel.user.end(this.group.name);
       $('#end').val(viewModel.user.end());
       console.log($('.destination'));
-      $('.destination').each(function(){
-        console.log(viewModel.user.end());
-        console.log($(this).text());
-        if(viewModel.user.end() === $(this).text() ) {
-          $(this).addClass('highlight-destination');
-        } else {
-          $(element).removeClass('highlight-destination');
-        }
-      });
 
       this.directionsService = new google.maps.DirectionsService();
       this.drawRoute(map, viewModel);

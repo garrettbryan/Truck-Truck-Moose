@@ -90,7 +90,6 @@ FoodTruck.prototype.randomizeStopPoint = function(dest, map) {
 
   var randomRadius = 3000 * Math.random();
   var randomHeading = 360 * Math.random();
-  console.log(dest.marker.position);
   var randomPt = google.maps.geometry.spherical.computeOffset(dest.marker.position, randomRadius, randomHeading);
 
 //Gives at least a 30minute buffer till the next stop.
@@ -382,5 +381,8 @@ FoodTruck.prototype.keepChosen = function(map, viewModel){
     }
   });
   this.marker.setMap(map);
-  this.flightPath.setMap(map);
+  console.log(this);
+  this.flightPaths.forEach( function (path){
+    path.setMap(map);
+  });
 };
