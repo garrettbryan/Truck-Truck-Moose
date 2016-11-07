@@ -171,7 +171,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
           context.$data.showDropdown(true);
         }
         else {
-          context.$data.showDropdown(false);
+          context.$data.showDropdown(true);
         }
         /*
         if (context.$root.prunedPossibleDestinations().length === 1){
