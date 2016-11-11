@@ -45,7 +45,7 @@ var globalHeader = [
 '    <span class="global-title ">Truck Truck Moose</span>',
 '  </div>',
 '  <div id="settings" class="col-sm-1">',
-'<a id="cog-setting" data-bind="visible: $parent.showSettings(), click: $parent.changeScreen.bind($parent, \'last\')"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a>',
+'<a id="cog-setting" data-bind="visible: $parent.showSettings(), click: $parent.changeScreen.bind($parent, \'last\'), openMainFormIfClosed"><i class="fa fa-bars fa-fw fa-2x" aria-hidden="true"></i></a>',
 '  </div>',
 '</div>',
 '</div>'
