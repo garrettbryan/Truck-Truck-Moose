@@ -5,12 +5,13 @@ tm is a library to ease the random scheduling of foodtrucks. Values are constrai
     this.seconds = 0;
 
     this.convertToTime = function(seconds) {
+      var seconds = seconds || this.seconds;
       var hour = Math.floor(seconds/3600);
       var minute = Math.floor((seconds/3600 - hour) * 60);
       hour = hour < 10 ? '0' + hour : hour;
       minute = minute < 10 ? '0' + minute : minute;
       return hour + ':' + minute;
-    };
+    }.bind(this);
 
     this.verifySeconds = function(seconds) {
       var value = -1;
