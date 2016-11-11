@@ -310,7 +310,7 @@ render renders the foodtruck icon to the map and wires up the event listeners
 FoodTruck.prototype.render = function(viewModel, map) {
   var icon = this.img;
   if (this.traveling){
-    icon = this.tImg;
+    //icon = this.tImg;
   }
 
   this.marker = new google.maps.Marker({
@@ -342,7 +342,7 @@ FoodTruck.prototype.render = function(viewModel, map) {
     viewModel.foodTrucks().forEach( function(foodTruck){
       if(foodTruck.infowindow){
         foodTruck.infowindow.close();
-        //foodTruck.marker.setOpacity(0.5);
+        foodTruck.marker.setOpacity(0.5);
       }
       if (foodTruck.flightPaths.length > 0){
         foodTruck.flightPaths.forEach( function (path){
