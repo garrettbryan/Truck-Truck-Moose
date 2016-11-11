@@ -11,6 +11,7 @@ var ViewModel = function() {
   this.currentScreen = ko.observable('');
   this.screenHistory = ko.observableArray();
 
+  this.readyForNextScreen = ko.observable(false);
   this.loginScreen = ko.observable(false); // Start empty
   this.signUpScreen = ko.observable(false);
   this.settingsScreen = ko.observable(false);
@@ -242,26 +243,31 @@ var ViewModel = function() {
   special function to allow user to jump to the settings screen and come back to their last screen position in the app.
   */
   this.changeScreen = function(newScreen) {
-    var screen;
-    if (newScreen === 'last') {
-      if (this.screenHistory()[this.screenHistory().length - 2] === 'signup'){
-        screen = 'destination';
-      } else {
-        if(this.screenHistory()[this.screenHistory().length -1] !== 'settings') {
-          screen = 'settings';
+    if (this.readyForNextScreen()){
+      this.readyForNextScreen(false);
+      var screen;
+      if (newScreen === 'last') {
+        if (this.screenHistory()[this.screenHistory().length - 2] === 'signup'){
+          screen = 'destination';
         } else {
-          screen = this.screenHistory()[this.screenHistory().length - 2];
+          if(this.screenHistory()[this.screenHistory().length -1] !== 'settings') {
+            screen = 'settings';
+          } else {
+            screen = this.screenHistory()[this.screenHistory().length - 2];
+          }
         }
+      } else if(newScreen === this.screenHistory()[this.screenHistory().length - 1]) {
+        //double click
+      } else {
+        screen = newScreen;
       }
-    } else if(newScreen === this.screenHistory()[this.screenHistory().length - 1]) {
-      //double click
-    } else {
-      screen = newScreen;
-    }
 
-    if (screen) {
-      this.screenHistory.push(screen);
-      this.currentScreen(screen);
+      if (screen) {
+        this.screenHistory.push(screen);
+        this.currentScreen(screen);
+      }
+    } else {
+      console.log(new Error('Next screen not ready'));
     }
   }.bind(this);
 
@@ -512,11 +518,16 @@ var ViewModel = function() {
   };
 
 
-  this.initLocalVariables = function() {
+  this.initLocalVariables = function(cb) {
     var that = this;
-    that.getUserPosition(function(){
-      that.getMeetups(function(){
-        that.mapInit();
+    that.getUserPosition( function(){
+      that.getMeetups( function(){
+        that.mapInit( function(){
+          that.user.render(that.map, function(){
+            that.readyForNextScreen(true);
+            cb();
+          });
+        });
       });
     });
   };
@@ -525,7 +536,7 @@ var ViewModel = function() {
   /*
   initialze the map and it's various listeners and subscriptions. Call the meetup and the google maps api.
   */
-  this.mapInit = function() {
+  this.mapInit = function(cb) {
     var noPoi = [
       {
         featureType: "poi",
@@ -586,7 +597,7 @@ var ViewModel = function() {
       }
     }.bind(this));
 
-    this.user.render(this.map);
+    cb(this.map);
   }.bind(this);
 
 };
@@ -599,6 +610,8 @@ Then initialize the map.
 $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
-  viewModel.changeScreen('login');
-  viewModel.initLocalVariables();
+  viewModel.initLocalVariables( function(){
+    viewModel.changeScreen('login');
+    viewModel.readyForNextScreen(true);
+  });
 });
