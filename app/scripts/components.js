@@ -238,7 +238,10 @@ ko.components.register('settings', {
 
 
 var descriptor = [
-'<div class="descriptor container-fluid" data-bind="click: toggleDescriptor, visible: $parent.description, descriptorSlide: open">',
+'<div class="container-fluid descriptor" data-bind="visible: $parent.description, descriptorSlide: open">',
+'  <div id="drawer-pull-container" data-bind="click: toggleDescriptor">',
+'    <div id="drawer-pull" class="fa fa-chevron-circle-up fa-2x" aria-hidden="true"></div>',
+'  </div>',
 '  <div class="descriptor-content" data-bind="html: $parent.description">',
 '  </div>',
 '</div>'

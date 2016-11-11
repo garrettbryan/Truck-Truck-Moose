@@ -451,13 +451,19 @@ ko.bindingHandlers.descriptorSlide = {
     var valueUnwrapped = ko.unwrap(value);
 
     if (valueUnwrapped === 1){
+      $('#drawer-pull').removeClass();
+      $('#drawer-pull').addClass('fa fa-chevron-circle-up fa-2x');
       $(element).addClass('descriptor-open');
     }
     else if(valueUnwrapped === 2){
+      $('#drawer-pull').removeClass();
+      $('#drawer-pull').addClass('fa fa-chevron-circle-down fa-2x');
       $(element).removeClass('descriptor-open');
       $(element).addClass('descriptor-open-more');
     }
     else{
+      $('#drawer-pull').removeClass();
+      $('#drawer-pull').addClass('fa fa-chevron-circle-up fa-2x');
       $(element).removeClass('descriptor-open-more');
       value(0);
     }
