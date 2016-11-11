@@ -223,7 +223,7 @@ var settings = [
 '    <div class="col-xs-3 col-md-3">',
 '    </div>',
 '    <div class="col-xs-3 col-md-3">',
-'      <button class="ttg-button btn btn-default" id="save-settings-btn" data-bind="click: $parent.changeScreen.bind($parent, \'last\')">Done</button>',
+'      <button class="ttg-button btn btn-default" id="save-settings-btn" data-bind="click: $parent.changeScreen.bind($parent, \'last\'), openMainFormIfClosed">Done</button>',
 '    </div>',
 '  </div>',
 '</form>',

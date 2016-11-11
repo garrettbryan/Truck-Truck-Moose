@@ -265,6 +265,17 @@ ko.bindingHandlers.destinationDropdown = {
   }
 };
 
+ko.bindingHandlers.openMainFormIfClosed = {
+  init: function(element, valueAccessor, allBindings, data, context) {
+    $(element).click( function(){
+      if ($("#main-form").hasClass('main-form-close')){
+        $("#main-form").removeClass('main-form-close');
+      }
+    });
+  },
+  update: function(element, valueAccessor, allBindings, data, context) {
+  }
+};
 
 ko.bindingHandlers.toggleMap = {
   init: function(element, valueAccessor, allBindings, data, context) {
