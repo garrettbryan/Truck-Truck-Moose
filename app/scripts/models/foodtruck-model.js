@@ -368,6 +368,7 @@ FoodTruck.prototype.render = function(viewModel, map) {
       path.setMap(map);
     });
     viewModel.selectedTruckName(this.name);
+    viewModel.readyForNextScreen(true);
   }.bind(this));
 };
 

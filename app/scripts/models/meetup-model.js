@@ -115,95 +115,99 @@ Meetup.prototype.adjustDescriptionImages = function(selector) {
 /*
 render sets up the event listeners for the google maps.
 */
-Meetup.prototype.render = function(map,viewModel) {
+Meetup.prototype.render = function(map, viewModel) {
   if (this.venue){
-    this.marker = new google.maps.Marker({
-      position: new google.maps.LatLng(this.venue.lat, this.venue.lon),
-      map: map,
-      opacity: 0.5,
-      icon: this.img,
-      title: this.group.name
-    });
-    var contentString = '<div id="content">'+
-      '<h3 id="heading" class="heading">' + this.group.name + '</h3>' + '</div>';
-
-    this.infowindow = new google.maps.InfoWindow({
-      content: contentString,
-      position: this.marker.position
-    });
-
-    this.marker.addListener('highlight', function() {
-      viewModel.meetups().forEach( function(meetup){
-        if(meetup.infowindow){
-          meetup.infowindow.close();
-          meetup.marker.setOpacity(0.5);
-        }
-        if (meetup.flightPath){
-          meetup.flightPath.setMap(null);
-        }
+    if (this.marker) {
+      this.marker.setMap(map);
+    } else {
+      this.marker = new google.maps.Marker({
+        position: new google.maps.LatLng(this.venue.lat, this.venue.lon),
+        map: map,
+        opacity: 0.5,
+        icon: this.img,
+        title: this.group.name
       });
-      if (this.group.name) {
-        viewModel.description('<h4 id="heading" class="heading">' + this.group.name + '</h4>');
-      }
-      if(this.description){
-        viewModel.description(viewModel.description() + this.description);
-      }
-      this.marker.setOpacity(1.0);
-    }.bind(this));
+      var contentString = '<div id="content">'+
+        '<h3 id="heading" class="heading">' + this.group.name + '</h3>' + '</div>';
 
-
-    this.infowindow.addListener('closeclick', function () {
-      this.marker.setOpacity(0.5);
-      this.flightPath.setMap(null);
-      viewModel.selectedDestination = {};
-    }.bind(this));
-
-    this.marker.addListener('mouseover', function() {
-      if( !viewModel.selectedDestination ) {
-        $('#end').val(this.group.name);
-      }
-    }.bind(this));
-
-    this.marker.addListener('mouseout', function() {
-      if( !viewModel.selectedDestination ) {
-        $('#end').val('');
-      }
-    }.bind(this));
-
-    this.marker.addListener('click', function() {
-      viewModel.meetups().forEach( function(meetup){
-        if(meetup.infowindow){
-          meetup.infowindow.close();
-          meetup.marker.setOpacity(0.5);
-        }
-        if (meetup.flightPath){
-          meetup.flightPath.setMap(null);
-        }
+      this.infowindow = new google.maps.InfoWindow({
+        content: contentString,
+        position: this.marker.position
       });
-      if (this.group.name) {
-        viewModel.description('<h4 id="heading" class="heading">' + this.group.name + '</h4>');
-      }
-      if(this.description){
-        viewModel.description(viewModel.description() + this.description);
-      }
-      this.marker.setVisible(true);
-      this.marker.setOpacity(1.0);
-      viewModel.selectedDestination = this;
-      viewModel.user.end(this.group.name);
-      $('#end').val(viewModel.user.end());
 
-      this.directionsService = new google.maps.DirectionsService();
-      this.drawRoute(map, viewModel);
-
-      google.maps.event.addListener(map, 'click', function(){
-        viewModel.selectedDestination = {};
-        this.marker.setOpacity(0.5);
-        this.flightPath.setMap(null);
-        viewModel.user.end('');
-        $('#end').val('');
+      this.marker.addListener('highlight', function() {
+        viewModel.meetups().forEach( function(meetup){
+          if(meetup.infowindow){
+            meetup.infowindow.close();
+            meetup.marker.setOpacity(0.5);
+          }
+          if (meetup.flightPath){
+            meetup.flightPath.setMap(null);
+          }
+        });
+        if (this.group.name) {
+          viewModel.description('<h4 id="heading" class="heading">' + this.group.name + '</h4>');
+        }
+        if(this.description){
+          viewModel.description(viewModel.description() + this.description);
+        }
+        this.marker.setOpacity(1.0);
       }.bind(this));
 
-    }.bind(this));
+
+      this.infowindow.addListener('closeclick', function () {
+        this.marker.setOpacity(0.5);
+        this.flightPath.setMap(null);
+        viewModel.selectedDestination = {};
+      }.bind(this));
+
+      this.marker.addListener('mouseover', function() {
+        if( !viewModel.selectedDestination ) {
+          $('#end').val(this.group.name);
+        }
+      }.bind(this));
+
+      this.marker.addListener('mouseout', function() {
+        if( !viewModel.selectedDestination ) {
+          $('#end').val('');
+        }
+      }.bind(this));
+
+      this.marker.addListener('click', function() {
+        viewModel.meetups().forEach( function(meetup){
+          if(meetup.infowindow){
+            meetup.infowindow.close();
+            meetup.marker.setOpacity(0.5);
+          }
+          if (meetup.flightPath){
+            meetup.flightPath.setMap(null);
+          }
+        });
+        if (this.group.name) {
+          viewModel.description('<h4 id="heading" class="heading">' + this.group.name + '</h4>');
+        }
+        if(this.description){
+          viewModel.description(viewModel.description() + this.description);
+        }
+        this.marker.setVisible(true);
+        this.marker.setOpacity(1.0);
+        viewModel.selectedDestination = this;
+        viewModel.user.end(this.group.name);
+        $('#end').val(viewModel.user.end());
+
+        this.directionsService = new google.maps.DirectionsService();
+        this.drawRoute(map, viewModel);
+
+        google.maps.event.addListener(map, 'click', function(){
+          viewModel.selectedDestination = {};
+          this.marker.setOpacity(0.5);
+          this.flightPath.setMap(null);
+          viewModel.user.end('');
+          $('#end').val('');
+        }.bind(this));
+        viewModel.readyForNextScreen(true);
+      }.bind(this));
+    }
   }
 };
 
