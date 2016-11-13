@@ -395,3 +395,22 @@ FoodTruck.prototype.keepChosen = function(map, viewModel){
     path.setMap(map);
   });
 };
+
+/*
+keepChosen remove all other foodtrucks from map and activate the marker and flightpath of selected foodtruck
+*/
+FoodTruck.prototype.removeMapMarks = function(map, viewModel){
+  viewModel.foodTrucks().forEach( function(foodTruck){
+    if(foodTruck.infowindow){
+      foodTruck.infowindow.close();
+    }
+    if (foodTruck.flightPaths && foodTruck.flightPaths.length > 0){
+      foodTruck.flightPaths.forEach( function (path){
+        path.setMap(null);
+      });
+    }
+    if (foodTruck.marker){
+      foodTruck.marker.setMap(map);
+    }
+  });
+};

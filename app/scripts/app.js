@@ -31,6 +31,7 @@ var ViewModel = function() {
   this.prunedPossibleDestinations = ko.observableArray();
   this.prunedPossibleNames = ko.observableArray();
   this.selectedDestination = {};
+  this.previousSelectedDestination = {};
   this.meetupMapBounds = {};
   this.meetupsAdded = false;
 
@@ -39,6 +40,7 @@ var ViewModel = function() {
   this.prunedPossibleFoodTrucks = ko.observableArray();
   this.prunedPossibleFoodTruckNames = ko.observableArray();
   this.selectedTruck = {};
+  this.previousSelectedTruck = {};
   this.selectedTruckName = ko.observable('');
   this.foodTrucksAdded = false;
 
@@ -101,6 +103,13 @@ var ViewModel = function() {
           this.settingsScreen(true);
             break;
         case 'backToMeetups':
+          this.previousSelectedTruck = this.selectedTruck;
+          this.selectedDestination = {};
+          this.foodTrucks(this.removeMapMarks(this.foodTrucks()));
+          this.foodTrucks([]);
+          this.prunedPossibleFoodTrucks([]);
+          this.prunedPossibleFoodTruckNames([]);
+          this.foodTrucksAdded = false;
         case 'destination':
           this.showSettingsButton(true);
           if((this.meetups()) && !(this.meetupsAdded)){
@@ -113,9 +122,14 @@ var ViewModel = function() {
           this.destinationSelectionScreen(true);
             break;
         case 'backToFoodtrucks':
+          this.selectedTruck.removeMapMarks(this.map, this);
+          this.order([]);
         case 'foodtruck':
           this.showSettingsButton(true);
           if(this.selectedDestination && this.user.begin() && this.user.end()){
+            if (this.previousSelectedDestination !== this.selectedDestination) {
+              console.log('remove trucks');
+            }
             this.description('');
             this.selectedDestination.keepChosen(this.map, this);
             if (!this.foodTrucksAdded){
@@ -201,7 +215,7 @@ var ViewModel = function() {
   */
   this.prunedPossibleFoodTrucks.subscribe(function(foodTrucks) {
     var self = this;
-
+    console.log(this);
     this.foodTrucks().forEach(function(foodTruck){
       foodTruck.marker.setVisible(false);
       foodTruck.flightPaths.forEach( function (path){
@@ -256,6 +270,10 @@ var ViewModel = function() {
       console.log(this.currentScreen());
       console.log(newScreen);
 
+      if ((newScreen === 'backToLogin') || (newScreen === 'backToMeetups') || (newScreen === 'backToFoodtrucks')) {
+        this.readyForNextScreen(true);
+      }
+
       if (newScreen === 'last') {
         this.readyForNextScreen(true);
         if (this.screenHistory()[this.screenHistory().length - 2] === 'signup'){
@@ -282,6 +300,10 @@ var ViewModel = function() {
       } else {
         console.log(new Error('Next screen not ready'));
       }
+      if (this.currentScreen() === 'signup' ){
+        this.readyForNextScreen(true);
+      }
+
   }.bind(this);
 
   /*
@@ -407,6 +429,22 @@ var ViewModel = function() {
 
   }.bind(this);
 
+
+  this.removeMapMarks = function(array){
+    array.forEach( function(element){
+      if(element.infowindow){
+        element.infowindow.close();
+      }
+      if (element.marker){
+        element.marker.setMap(null);
+      }
+      if (element.flightPaths && element.flightPaths.length > 0){
+        element.flightPaths.forEach( function (path){
+          path.setMap(null);
+        });
+      }
+    });
+  }.bind(this);
 
   /*
   getCurrentPosition Find user's device location.

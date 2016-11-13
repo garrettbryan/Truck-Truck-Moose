@@ -44,7 +44,7 @@ ko.bindingHandlers.geoToAddress = {
 };
 
 /*
-truckFilter does a search in fruck name, description, and menu options
+truckFilter does a search in truck name, description, and menu options
 */
 ko.bindingHandlers.truckFilter = {
   init: function(element, valueAccessor, allBindings, data, context){
