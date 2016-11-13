@@ -310,7 +310,7 @@ render renders the foodtruck icon to the map and wires up the event listeners
 FoodTruck.prototype.render = function(viewModel, map) {
   var icon = this.img;
   if (this.traveling){
-    icon = this.tImg;
+    //icon = this.tImg;
   }
 
   this.marker = new google.maps.Marker({
@@ -342,7 +342,7 @@ FoodTruck.prototype.render = function(viewModel, map) {
     viewModel.foodTrucks().forEach( function(foodTruck){
       if(foodTruck.infowindow){
         foodTruck.infowindow.close();
-        //foodTruck.marker.setOpacity(0.5);
+        foodTruck.marker.setOpacity(0.5);
       }
       if (foodTruck.flightPaths.length > 0){
         foodTruck.flightPaths.forEach( function (path){
@@ -355,11 +355,20 @@ FoodTruck.prototype.render = function(viewModel, map) {
     }
     if(this.description){
       viewModel.description(viewModel.description() + this.description);
+      console.log(this);
+      this.schedule.forEach( function(stop, i) {
+        var stopnum = i + 1;
+        viewModel.description(viewModel.description() +'<br>' + stopnum + '. Open at ' + stop.starttime.convertToTime());
+        viewModel.description(viewModel.description() + ' - Close at ' + stop.endtime.convertToTime());
+      });
+
     }
+    this.marker.setOpacity(1.0);
     this.flightPaths.forEach( function (path){
       path.setMap(map);
     });
     viewModel.selectedTruckName(this.name);
+    viewModel.readyForNextScreen(true);
   }.bind(this));
 };
 
@@ -384,5 +393,24 @@ FoodTruck.prototype.keepChosen = function(map, viewModel){
   console.log(this);
   this.flightPaths.forEach( function (path){
     path.setMap(map);
+  });
+};
+
+/*
+keepChosen remove all other foodtrucks from map and activate the marker and flightpath of selected foodtruck
+*/
+FoodTruck.prototype.removeMapMarks = function(map, viewModel){
+  viewModel.foodTrucks().forEach( function(foodTruck){
+    if(foodTruck.infowindow){
+      foodTruck.infowindow.close();
+    }
+    if (foodTruck.flightPaths && foodTruck.flightPaths.length > 0){
+      foodTruck.flightPaths.forEach( function (path){
+        path.setMap(null);
+      });
+    }
+    if (foodTruck.marker){
+      foodTruck.marker.setMap(map);
+    }
   });
 };

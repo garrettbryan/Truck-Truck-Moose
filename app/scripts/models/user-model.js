@@ -80,7 +80,7 @@ User.prototype.getLocalData = function(){
 /*
 render adds any necessary event listeners
 */
-User.prototype.render = function(map){
+User.prototype.render = function(map, cb){
   //this.marker.setMap(null);
   this.marker = new google.maps.Marker({
     position: this.position(),
@@ -101,4 +101,6 @@ User.prototype.render = function(map){
   this.marker.addListener('click', function() {
     infowindow.open(map, this.marker);
   }.bind(this));
+
+  cb();
 };

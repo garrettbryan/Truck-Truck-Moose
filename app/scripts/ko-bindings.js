@@ -44,7 +44,7 @@ ko.bindingHandlers.geoToAddress = {
 };
 
 /*
-truckFilter does a search in fruck name, description, and menu options
+truckFilter does a search in truck name, description, and menu options
 */
 ko.bindingHandlers.truckFilter = {
   init: function(element, valueAccessor, allBindings, data, context){
@@ -265,6 +265,17 @@ ko.bindingHandlers.destinationDropdown = {
   }
 };
 
+ko.bindingHandlers.openMainFormIfClosed = {
+  init: function(element, valueAccessor, allBindings, data, context) {
+    $(element).click( function(){
+      if ($("#main-form").hasClass('main-form-close')){
+        $("#main-form").removeClass('main-form-close');
+      }
+    });
+  },
+  update: function(element, valueAccessor, allBindings, data, context) {
+  }
+};
 
 ko.bindingHandlers.toggleMap = {
   init: function(element, valueAccessor, allBindings, data, context) {
@@ -440,13 +451,19 @@ ko.bindingHandlers.descriptorSlide = {
     var valueUnwrapped = ko.unwrap(value);
 
     if (valueUnwrapped === 1){
+      $('#drawer-pull').removeClass();
+      $('#drawer-pull').addClass('fa fa-chevron-circle-up fa-2x');
       $(element).addClass('descriptor-open');
     }
     else if(valueUnwrapped === 2){
+      $('#drawer-pull').removeClass();
+      $('#drawer-pull').addClass('fa fa-chevron-circle-down fa-2x');
       $(element).removeClass('descriptor-open');
       $(element).addClass('descriptor-open-more');
     }
     else{
+      $('#drawer-pull').removeClass();
+      $('#drawer-pull').addClass('fa fa-chevron-circle-up fa-2x');
       $(element).removeClass('descriptor-open-more');
       value(0);
     }

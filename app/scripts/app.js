@@ -11,6 +11,7 @@ var ViewModel = function() {
   this.currentScreen = ko.observable('');
   this.screenHistory = ko.observableArray();
 
+  this.readyForNextScreen = ko.observable(false);
   this.loginScreen = ko.observable(false); // Start empty
   this.signUpScreen = ko.observable(false);
   this.settingsScreen = ko.observable(false);
@@ -21,7 +22,7 @@ var ViewModel = function() {
   this.arrivedScreen = ko.observable(false);
   this.thankYouScreen = ko.observable(false);
 
-  this.showSettings = ko.observable(false);
+  this.showSettingsButton = ko.observable(false);
 
   this.filter = ko.observable('');
   this.description = ko.observable('');
@@ -30,6 +31,7 @@ var ViewModel = function() {
   this.prunedPossibleDestinations = ko.observableArray();
   this.prunedPossibleNames = ko.observableArray();
   this.selectedDestination = {};
+  this.previousSelectedDestination = {};
   this.meetupMapBounds = {};
   this.meetupsAdded = false;
 
@@ -38,6 +40,7 @@ var ViewModel = function() {
   this.prunedPossibleFoodTrucks = ko.observableArray();
   this.prunedPossibleFoodTruckNames = ko.observableArray();
   this.selectedTruck = {};
+  this.previousSelectedTruck = {};
   this.selectedTruckName = ko.observable('');
   this.foodTrucksAdded = false;
 
@@ -49,6 +52,11 @@ var ViewModel = function() {
     this.order().forEach( function(item){
       subtotal += item.price();
     });
+    if (subtotal > 0) {
+      this.readyForNextScreen(true);
+    } else {
+      this.readyForNextScreen(false);
+    }
     return Number(subtotal.toFixed(2));
   }, this);
 
@@ -75,27 +83,36 @@ var ViewModel = function() {
   */
   this.currentScreen.subscribe(function(screen){
     switch(screen) {
+        case 'backToLogin':
         case 'login':
-          this.showSettings(false);
+          this.showSettingsButton(false);
           this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
             break;
         case 'signup':
-          this.showSettings(false);
+          this.showSettingsButton(false);
           this.user.localSave();
           this.turnOffScreens();
           this.signUpScreen(true);
             break;
         case 'settings':
-          //this.showSettings(true);
+          //this.showSettingsButton(true);
           this.user.localSave();
           this.turnOffScreens();
           this.settingsScreen(true);
             break;
+        case 'backToMeetups':
+          this.previousSelectedTruck = this.selectedTruck;
+          this.selectedDestination = {};
+          this.foodTrucks(this.removeMapMarks(this.foodTrucks()));
+          this.foodTrucks([]);
+          this.prunedPossibleFoodTrucks([]);
+          this.prunedPossibleFoodTruckNames([]);
+          this.foodTrucksAdded = false;
         case 'destination':
-          this.showSettings(true);
-          if(this.meetups() && !this.meetupsAdded){
+          this.showSettingsButton(true);
+          if((this.meetups()) && !(this.meetupsAdded)){
             this.addMeetupsToMap();
             this.renderMeetups();
           } else if (this.meetups()){
@@ -104,26 +121,31 @@ var ViewModel = function() {
           this.turnOffScreens();
           this.destinationSelectionScreen(true);
             break;
+        case 'backToFoodtrucks':
+          this.selectedTruck.removeMapMarks(this.map, this);
+          this.order([]);
         case 'foodtruck':
+          this.showSettingsButton(true);
           if(this.selectedDestination && this.user.begin() && this.user.end()){
-            this.showSettings(true);
+            if (this.previousSelectedDestination !== this.selectedDestination) {
+              console.log('remove trucks');
+            }
             this.description('');
-            try {
-              this.selectedDestination.keepChosen(this.map, this);
-            }
-            catch (err) {
-            }
+            this.selectedDestination.keepChosen(this.map, this);
             if (!this.foodTrucksAdded){
               this.addFoodTrucksToMap(function(err){
-                this.turnOffScreens();
-                this.foodTruckScreen(true);
+              this.turnOffScreens();
+              this.foodTruckScreen(true);
               }.bind(this));
+            } else {
+              this.turnOffScreens();
+              this.foodTruckScreen(true);
             }
           }
             break;
         case 'order':
           if(this.selectedTruckName()){
-            this.showSettings(true);
+            this.showSettingsButton(true);
             this.description('');
             this.menu(this.selectedTruck.dailyMenu);
             this.turnOffScreens();
@@ -133,7 +155,7 @@ var ViewModel = function() {
             break;
         case 'confirmation':
           if(this.order().length>0){
-            this.showSettings(true);
+            this.showSettingsButton(true);
             this.puPhrase(makePUPhrase());
             this.turnOffScreens();
             this.confirmationScreen(true);
@@ -193,7 +215,7 @@ var ViewModel = function() {
   */
   this.prunedPossibleFoodTrucks.subscribe(function(foodTrucks) {
     var self = this;
-
+    console.log(this);
     this.foodTrucks().forEach(function(foodTruck){
       foodTruck.marker.setVisible(false);
       foodTruck.flightPaths.forEach( function (path){
@@ -242,27 +264,46 @@ var ViewModel = function() {
   special function to allow user to jump to the settings screen and come back to their last screen position in the app.
   */
   this.changeScreen = function(newScreen) {
-    var screen;
-    if (newScreen === 'last') {
-      if (this.screenHistory()[this.screenHistory().length - 2] === 'signup'){
-        screen = 'destination';
-      } else {
-        if(this.screenHistory()[this.screenHistory().length -1] !== 'settings') {
-          screen = 'settings';
-        } else {
-          screen = this.screenHistory()[this.screenHistory().length - 2];
-        }
-      }
-    } else if(newScreen === this.screenHistory()[this.screenHistory().length - 1]) {
-      //double click
-    } else {
-      screen = newScreen;
-    }
+      var screen;
 
-    if (screen) {
-      this.screenHistory.push(screen);
-      this.currentScreen(screen);
-    }
+      console.log(this.screenHistory());
+      console.log(this.currentScreen());
+      console.log(newScreen);
+
+      if ((newScreen === 'backToLogin') || (newScreen === 'backToMeetups') || (newScreen === 'backToFoodtrucks')) {
+        this.readyForNextScreen(true);
+      }
+
+      if (newScreen === 'last') {
+        this.readyForNextScreen(true);
+        if (this.screenHistory()[this.screenHistory().length - 2] === 'signup'){
+          screen = 'destination';
+        } else {
+          if(this.screenHistory()[this.screenHistory().length -1] !== 'settings') {
+            screen = 'settings';
+          } else {
+            screen = this.screenHistory()[this.screenHistory().length - 2];
+          }
+        }
+      } else if(newScreen === this.screenHistory()[this.screenHistory().length - 1]) {
+        //double click
+      } else {
+        screen = newScreen;
+      }
+
+      if (this.readyForNextScreen()){
+        this.readyForNextScreen(false);
+        if (screen) {
+          this.screenHistory.push(screen);
+          this.currentScreen(screen);
+        }
+      } else {
+        console.log(new Error('Next screen not ready'));
+      }
+      if (this.currentScreen() === 'signup' ){
+        this.readyForNextScreen(true);
+      }
+
   }.bind(this);
 
   /*
@@ -301,6 +342,7 @@ var ViewModel = function() {
 
 
   this.renderMeetups = function() {
+    console.log('rendermeetups');
     this.meetups().forEach( function(meetup){
       meetup.render(this.map, this);
     }.bind(this));
@@ -387,6 +429,22 @@ var ViewModel = function() {
 
   }.bind(this);
 
+
+  this.removeMapMarks = function(array){
+    array.forEach( function(element){
+      if(element.infowindow){
+        element.infowindow.close();
+      }
+      if (element.marker){
+        element.marker.setMap(null);
+      }
+      if (element.flightPaths && element.flightPaths.length > 0){
+        element.flightPaths.forEach( function (path){
+          path.setMap(null);
+        });
+      }
+    });
+  }.bind(this);
 
   /*
   getCurrentPosition Find user's device location.
@@ -512,11 +570,16 @@ var ViewModel = function() {
   };
 
 
-  this.initLocalVariables = function() {
+  this.initLocalVariables = function(cb) {
     var that = this;
-    that.getUserPosition(function(){
-      that.getMeetups(function(){
-        that.mapInit();
+    that.getUserPosition( function(){
+      that.getMeetups( function(){
+        that.mapInit( function(){
+          that.user.render(that.map, function(){
+            that.readyForNextScreen(true);
+            cb();
+          });
+        });
       });
     });
   };
@@ -525,7 +588,7 @@ var ViewModel = function() {
   /*
   initialze the map and it's various listeners and subscriptions. Call the meetup and the google maps api.
   */
-  this.mapInit = function() {
+  this.mapInit = function(cb) {
     var noPoi = [
       {
         featureType: "poi",
@@ -586,7 +649,7 @@ var ViewModel = function() {
       }
     }.bind(this));
 
-    this.user.render(this.map);
+    cb(this.map);
   }.bind(this);
 
 };
@@ -599,6 +662,8 @@ Then initialize the map.
 $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
-  viewModel.changeScreen('login');
-  viewModel.initLocalVariables();
+  viewModel.initLocalVariables( function(){
+    viewModel.changeScreen('login');
+    viewModel.readyForNextScreen(true);
+  });
 });
