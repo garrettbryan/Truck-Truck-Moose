@@ -110,6 +110,7 @@ var ViewModel = function() {
           this.prunedPossibleFoodTrucks([]);
           this.prunedPossibleFoodTruckNames([]);
           this.foodTrucksAdded = false;
+          this.extendBoundsOfMap(this.meetups());
         case 'destination':
           this.showSettingsButton(true);
           if((this.meetups()) && !(this.meetupsAdded)){
@@ -124,6 +125,7 @@ var ViewModel = function() {
         case 'backToFoodtrucks':
           this.selectedTruck.removeMapMarks(this.map, this);
           this.order([]);
+          //break fall through to foodtruck
         case 'foodtruck':
           this.showSettingsButton(true);
           if(this.selectedDestination && this.user.begin() && this.user.end()){
@@ -372,6 +374,16 @@ var ViewModel = function() {
 
 
     if (this.meetups().length > 0){
+      this.extendBoundsOfMap(this.meetups());
+
+    }
+  //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('#main-form').outerHeight(true));
+
+
+
+  }.bind(this);
+
+  this.extendBoundsOfMap = function(meetups){
 
       this.meetupMapBounds.max = {
         lat: -360,
@@ -382,52 +394,51 @@ var ViewModel = function() {
         lng: 360
       };
 
-      // determine if each meetup icon fits within the current map. If not then extend the boundaries
-      this.meetups().forEach(function(meetup){
-        if (typeof meetup.venue !== 'undefined'){
-          var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
-          //console.dir(google.maps);
-          if (meetupLatLng && ( google.maps.geometry.spherical.computeDistanceBetween(this.user.position(),meetupLatLng) < 40000)){
-            this.meetupMapBounds.max.lat =
-              this.meetupMapBounds.max.lat > meetup.venue.lat ?
-              this.meetupMapBounds.max.lat :
-              meetup.venue.lat;
-            this.meetupMapBounds.max.lng =
-              this.meetupMapBounds.max.lng > meetup.venue.lon ?
-              this.meetupMapBounds.max.lng :
-              meetup.venue.lon;
-            this.meetupMapBounds.min.lat =
-              this.meetupMapBounds.min.lat < meetup.venue.lat ?
-              this.meetupMapBounds.min.lat :
-              meetup.venue.lat;
-            this.meetupMapBounds.min.lng =
-              this.meetupMapBounds.min.lng < meetup.venue.lon ?
-              this.meetupMapBounds.min.lng :
-              meetup.venue.lon;
-          }
+
+
+          // determine if each meetup icon fits within the current map. If not then extend the boundaries
+    meetups.forEach(function(meetup){
+      if (typeof meetup.venue !== 'undefined'){
+        var meetupLatLng = new google.maps.LatLng(meetup.venue.lat,meetup.venue.lon);
+        //console.dir(google.maps);
+        if (meetupLatLng && ( google.maps.geometry.spherical.computeDistanceBetween(this.user.position(),meetupLatLng) < 40000)){
+          this.meetupMapBounds.max.lat =
+            this.meetupMapBounds.max.lat > meetup.venue.lat ?
+            this.meetupMapBounds.max.lat :
+            meetup.venue.lat;
+          this.meetupMapBounds.max.lng =
+            this.meetupMapBounds.max.lng > meetup.venue.lon ?
+            this.meetupMapBounds.max.lng :
+            meetup.venue.lon;
+          this.meetupMapBounds.min.lat =
+            this.meetupMapBounds.min.lat < meetup.venue.lat ?
+            this.meetupMapBounds.min.lat :
+            meetup.venue.lat;
+          this.meetupMapBounds.min.lng =
+            this.meetupMapBounds.min.lng < meetup.venue.lon ?
+            this.meetupMapBounds.min.lng :
+            meetup.venue.lon;
         }
-      }.bind(this));
-
-    }
-  //$('#user-order').css('margin-top', $('.login').outerHeight(true)).css('height', $(window).height() - 50 - $('#main-form').outerHeight(true));
+      }
 
 
-    //create a mapbounds object and apply it to the map.
-    try {
-      this.mapBounds = {
-        north: this.meetupMapBounds.max.lat,
-        south: this.meetupMapBounds.min.lat,
-        east: this.meetupMapBounds.max.lng,
-        west: this.meetupMapBounds.min.lng
-      };
+      //create a mapbounds object and apply it to the map.
+      try {
+        this.mapBounds = {
+          north: this.meetupMapBounds.max.lat,
+          south: this.meetupMapBounds.min.lat,
+          east: this.meetupMapBounds.max.lng,
+          west: this.meetupMapBounds.min.lng
+        };
 
-      this.map.fitBounds(this.mapBounds);
+        this.map.fitBounds(this.mapBounds);
 
-    }
-    catch(err){
-    }
+      }
+      catch(err){
+      }
 
-  }.bind(this);
+    }.bind(this));
+  }
 
 
   this.removeMapMarks = function(array){
