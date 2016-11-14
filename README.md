@@ -12,8 +12,8 @@ I included the built final deliverable files which can be run from your local ma
         1. cd /project/folder/
     3. Clone the repository
         1. git clone https://github.com/garrettbryan/udacity-project-5.git
-    4. Navigate to the index file
-        1. cd /project/folder/dist/index.html
+    4. Navigate to the dist index file
+        1. cd /project/folder/udacity-project-5/dist/index.html
     5. Open the index file in Chrome or FireFox
 
 
@@ -26,13 +26,15 @@ you will need npm to manage the various dependencies
     2. cd into it
     3. Clone the repository
         1. git clone https://github.com/garrettbryan/udacity-project-5.git
-    4. Install the npm dependencies
+    4. Navigate to the cloned folder
+        1. cd /project/folder/udacity-project-5/
+    5. Install the npm dependencies
         1. npm install
-    5. Install the bower dependencies
+    6. Install the bower dependencies
         1. bower install
-    6. Serve the app for local development
+    7. Serve the app for local development
         1. grunt serve
-    7. Open Chrome and navigate to:
+    8. Open Chrome and navigate to:
         1. http://localhost:9000/
 
 
@@ -41,12 +43,12 @@ you will need npm to manage the various dependencies
     2. cd into it
     3. Clone the repository
         1. git clone https://github.com/garrettbryan/udacity-project-5.git
-    4. Install the npm dependencies
+    4. Navigate to the cloned folder
+        1. cd /project/folder/udacity-project-5/
+    5. Install the npm dependencies
         1. npm install
-    5. Install the bower dependencies
+    6. Install the bower dependencies
         1. bower install
-    6. Serve the app for local development
-        1. grunt serve
     7. Build the app for deployment (optional)
         1. grunt build
     8. Copy the food truck images to the dist folder
