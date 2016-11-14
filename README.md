@@ -2,11 +2,41 @@
 
 This is a web app to enhance your meetups with a food truck experience and weather alerts. This web app is a side project to experiment with KnockoutJS, NodeJS, and Various 3rd Party APIs.
 
-###Run the app
-Prerequisites to running the app:
-you will need npm to manage the various grunt dependencies
+###Important! This app uses Grunt build tools!
+I included the built final deliverable files which can be run from your local machine. However; if you need to interact with the development files, The best way will be to setup a development environment to host the local development files. Which I detail below.
 
-###How to run the web app via the terminal:
+###Run the built final deliverable files
+    1. from the terminal - Create a project folder
+        1. mkdir /project/folder/
+    2. Navigate into it
+        1. cd /project/folder/
+    3. Clone the repository
+        1. git clone https://github.com/garrettbryan/udacity-project-5.git
+    4. Navigate to the index file
+        1. cd /project/folder/dist/index.html
+    5. Open the index file in Chrome or FireFox
+
+
+###Run the app in development
+Prerequisites to running the app:
+you will need npm to manage the various dependencies
+
+###1. How to run the web app via the terminal:
+    1. Create a project folder
+    2. cd into it
+    3. Clone the repository
+        1. git clone https://github.com/garrettbryan/udacity-project-5.git
+    4. Install the npm dependencies
+        1. npm install
+    5. Install the bower dependencies
+        1. bower install
+    6. Serve the app for local development
+        1. grunt serve
+    7. Open Chrome and navigate to:
+        1. http://localhost:9000/
+
+
+###How to build the web app via the terminal:
     1. Create a project folder
     2. cd into it
     3. Clone the repository
@@ -21,6 +51,7 @@ you will need npm to manage the various grunt dependencies
         1. grunt build
     8. Copy the food truck images to the dist folder
         1. cp app/images/*.png dist/images/
+    9. Navigate to the dist folder and open the index.html file in Chrome or Firefox.
 
 Test the deployed site. Static files are served via github. Async request to simple NodeJS backend on Heroku.
 https://garrettbryan.github.io/udacity-project-5/dist/
@@ -28,7 +59,7 @@ https://garrettbryan.github.io/udacity-project-5/dist/
 ###Features to look for
     1. Single page web app removes scroll bars for a super clean look
     2. Main elment and contributor element interaction
-    3. Meetup Search bar includes a dropdown as the user begins to type.
+    3. Meetup filer input includes a dropdown as the user begins to type.
         1. The input will filter both the dropdown and the map icons
     4. Clicking on the Header will roll up the Main element to show the map
     5. Weather overlays update when the map changes boundaries
