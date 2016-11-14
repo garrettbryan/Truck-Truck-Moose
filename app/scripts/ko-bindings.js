@@ -14,6 +14,27 @@ ko.bindingHandlers.closeModal = {
   }
 };
 
+ko.bindingHandlers.disableUntilReady = {
+  init: function(element, valueAccessor, allbindings, data, context) {
+    var readyForNextScreen = valueAccessor;
+    console.log(readyForNextScreen());
+    if (readyForNextScreen()) {
+      $(element).attr('disabled', false);
+    } else {
+      $(element).attr('disabled', true);
+    }
+  },
+  update: function(element, valueAccessor, allBindings, data, context) {
+    var readyForNextScreen = valueAccessor;
+    console.log(readyForNextScreen());
+    if (readyForNextScreen()) {
+      $(element).attr('disabled', false);
+    } else {
+      $(element).attr('disabled', true);
+    }
+  }
+};
+
 
 ko.bindingHandlers.geoToAddress = {
   init: function(element, valueAccessor, allbindings, data, context) {

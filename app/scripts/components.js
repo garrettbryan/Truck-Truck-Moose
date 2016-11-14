@@ -109,8 +109,8 @@ var loginForm = [
 '    </div>',
 '    <div class="side-margin-zero form-group">',
 '      <div class="col-sm-6 col-sm-offset-3">',
-'       <div class="ttm-buttons center">',
-'        <button type="submit" class="ttg-button btn btn-default" id="sign-in-btn" data-bind="click: $parent.changeScreen.bind($parent, \'destination\')">Sign in</button>',
+'       <div class="ttm-buttons text-center">',
+'        <button type="submit" class="ttg-button btn btn-default" id="sign-in-btn" data-bind="disableUntilReady: $parent.readyForNextScreen(), click: $parent.changeScreen.bind($parent, \'destination\')">Sign in</button>',
 '        <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'signup\')">Sign up</button>',
 '       </div>',
 '      </div>',
@@ -150,7 +150,7 @@ var signupForm = [
     '  </div>',
     '  <div class="side-margin-zero form-group">',
     '    <div class="col-sm-6 col-sm-offset-3">',
-'       <div class="ttm-buttons center">',
+'       <div class="ttm-buttons text-center">',
     '      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'backToLogin\')">Sign in</button>',
     '      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'settings\')">Settings</button>',
     '    </div>',
@@ -196,6 +196,7 @@ var settings = [
 '      <input type="text" data-bind="value: $parent.user.ccNumber" class="form-control" id="ccnumber" placeholder="xxxx xxxx xxxx xxxx" disabled>',
 '  </div>',
 '  </div>',
+'  <div class="side-margin-zero form-group">',
 '    <label for="ccexpiration" class="col-sm-3 control-label">Expiration Date</label>',
 '    <div class="col-sm-6">',
 '      <input type="text" data-bind="value: $parent.user.ccExpiration" class="form-control" id="ccexpiration" placeholder="mm/yy" disabled>',
@@ -219,6 +220,7 @@ var settings = [
 '    <label for="" class="col-sm-3 control-label"></label>',
 '    <div class="col-sm-6">',
 '      <div class="checkbox">',
+'        <label><input type="checkbox" data-bind="checked: $parent.user.weatherDisplay"> Include Weather Overlay </label>',
 '      </div>',
 '    </div>',
 '  </div>',
@@ -226,7 +228,7 @@ var settings = [
 '    <div class="col-xs-3 col-md-3">',
 '    </div>',
 '    <div class="col-xs-3 col-md-3">',
-'       <div class="ttm-buttons">',
+'       <div class="ttm-buttons text-center">',
 '      <button class="ttg-button btn btn-default" id="save-settings-btn" data-bind="click: $parent.changeScreen.bind($parent, \'last\'), openMainFormIfClosed">Done</button>',
 '    </div>',
 '  </div>',
@@ -293,8 +295,8 @@ var destinationSelection = [
 '  </div>',
 '  <div class="side-margin-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
-'       <div class="ttm-buttons">',
-'      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'foodtruck\')" id="Done">Food Trucks</button>',
+'       <div class="ttm-buttons text-center">',
+'      <button class="ttg-button btn btn-default" data-bind="disableUntilReady: $parent.readyForNextScreen(), click: $parent.changeScreen.bind($parent, \'foodtruck\')" id="Done">Food Trucks</button>',
 '    </div>',
 '    </div>',
 '  </div>',
@@ -335,9 +337,9 @@ var foodTruckSelection = [
 '    </div>',
 '  <div class="side-margin-zero form-group">',
 '    <div class="col-sm-6 col-sm-offset-3">',
-'       <div class="ttm-buttons">',
+'       <div class="ttm-buttons text-center">',
 '      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'backToMeetups\', true)">Meetups</button>',
-'      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'order\')" id="Done">Menu</button>',
+'      <button class="ttg-button btn btn-default" data-bind="disableUntilReady: $parent.readyForNextScreen(), click: $parent.changeScreen.bind($parent, \'order\')" id="Done">Menu</button>',
 '    </div>',
 '  </div>',
 '  </div>',
@@ -435,9 +437,9 @@ var menuItem = [
 '      </div>',
 '    <div class="side-margin-zero form-group">',
 '      <div class="col-sm-6 col-sm-offset-3">',
-'      <div class="ttm-buttons">',
+'      <div class="ttm-buttons text-center">',
 '      <button class="ttg-button btn btn-default" data-bind="click: $parent.changeScreen.bind($parent, \'backToFoodtrucks\')">Food Trucks</button>',
-'        <button class="ttg-button btn btn-default" id="Done" data-bind="click: $parent.changeScreen.bind($parent, \'confirmation\')">Confirm</button>',
+'        <button class="ttg-button btn btn-default" id="Done" data-bind="disableUntilReady: $parent.readyForNextScreen(), click: $parent.changeScreen.bind($parent, \'confirmation\')">Confirm</button>',
 '      </div>',
 '    </div>',
 '    </div>',
@@ -469,6 +471,7 @@ ko.components.register('food-order', {
     this.order = params.order;
     this.currentOrderLength = this.order.length;
     this.totalPrice = params.orderTotal;
+    this.readyForNextScreen = params.readyForNextScreen;
 
     this.menuSwiper = new Swiper ('.menu-swiper-container', {
       // Optional parameters
@@ -489,6 +492,11 @@ ko.components.register('food-order', {
 
 
     this.order.subscribe(function (dishes) {
+      if (dishes.length > 0) {
+        this.readyForNextScreen(true);
+      } else {
+        this.readyForNextScreen(false);
+      }
       this.newOrderLength = dishes.length;
       if (this.newOrderLength > this.currentOrderLength){
       var updateOrderDivTimeout = setTimeout(function(){

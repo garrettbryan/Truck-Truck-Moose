@@ -111,6 +111,7 @@ var ViewModel = function() {
           this.prunedPossibleFoodTruckNames([]);
           this.foodTrucksAdded = false;
           this.extendBoundsOfMap(this.meetups());
+          //break fall through to destination
         case 'destination':
           this.showSettingsButton(true);
           if((this.meetups()) && !(this.meetupsAdded)){
@@ -673,8 +674,8 @@ Then initialize the map.
 $(document).ready(function() {
   var viewModel = new ViewModel();
   ko.applyBindings(viewModel);
+  viewModel.readyForNextScreen(true);
+  viewModel.changeScreen('login');
   viewModel.initLocalVariables( function(){
-    viewModel.changeScreen('login');
-    viewModel.readyForNextScreen(true);
   });
 });
