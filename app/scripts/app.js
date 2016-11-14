@@ -111,7 +111,7 @@ var ViewModel = function() {
           this.prunedPossibleFoodTruckNames([]);
           this.foodTrucksAdded = false;
           this.extendBoundsOfMap(this.meetups());
-          //break fall through to foodtruck
+          //break fall through to destination
         case 'destination':
           this.showSettingsButton(true);
           if((this.meetups()) && !(this.meetupsAdded)){
