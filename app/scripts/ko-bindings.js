@@ -126,9 +126,6 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
     var pressedKeys;
     var lastArray;
 
-    //var longTouch = 0;
-
-
     context.$root.prunedPossibleDestinations(context.$root.meetups());
 
     var autocompleteCallback = function(predictions, status){
@@ -159,7 +156,6 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
 
     var searchFunction = function(re, meetup){
       var result = false;
-      //result = re.test(foodTruck.description) || re.test(foodTruck.name);
       if (re.test(meetup.description)){
         result = true;
       } else if (re.test(meetup.group.name)){
@@ -175,11 +171,11 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
 
     $(element).keyup( function(){
       pressedKeys = $(element).val();
-      //clearTimeout(finishDestination);
       context.$root.prunedPossibleDestinations([]);
       var observable = valueAccessor();
       observable($(element).val());
-      /* add google destinations
+
+      /* TODO add google destinations
       autocomplete.getQueryPredictions({
         input: $(element).val(),
         location: context.$root.user.position(),
@@ -195,14 +191,7 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
         else {
           context.$data.showDropdown(true);
         }
-        /*
-        if (context.$root.prunedPossibleDestinations().length === 1){
-          var finishDestination = setTimeout( function(){
-            $(element).val(context.$root.prunedPossibleDestinations()[0].group.name);
-          }, 500);
-          context.$data.showDropdown(false);
-        }
-        */
+
       } else {
         searchMeetups('.');
         context.$data.showDropdown(true);
@@ -222,18 +211,8 @@ ko.bindingHandlers.meetupsGoogleAutoComplete = {
       searchMeetups(pressedKeys);
       element.setSelectionRange(0, $(element).val().length);
       context.$data.showDropdown(true);
-      //context.$root.prunedPossibleDestinations(context.$root.meetups());
     });
 
-/*
-    $(element).touchstart(function() {
-        timeoutId = setTimeout(function(){
-          $(element).focus();
-        }, 250);
-    }).bind('touchend', function() {
-        clearTimeout(longTouch);
-    });
-*/
   },
   update: function(element, valueAccessor, allBindings, data, context) {
     var value = valueAccessor();
@@ -263,11 +242,9 @@ ko.bindingHandlers.destinationDropdown = {
     });
 
     $(element).click(function(){
-      //context.$component.showDropdown(false);
       context.$root.user.end(valueAccessor());
       $('#end').val(context.$root.user.end());
-      //context.$root.prunedPossibleDestinations([]);
-      //valueAccessor(20);
+
       context.$root.user.end(valueAccessor());
       $(element).siblings().removeClass('highlight-destination');
       $(element).addClass('highlight-destination');
