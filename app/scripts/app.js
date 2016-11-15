@@ -131,7 +131,6 @@ var ViewModel = function() {
           this.showSettingsButton(true);
           if(this.selectedDestination && this.user.begin() && this.user.end()){
             if (this.previousSelectedDestination !== this.selectedDestination) {
-              console.log('remove trucks');
             }
             this.description('');
             this.selectedDestination.keepChosen(this.map, this);
@@ -218,7 +217,6 @@ var ViewModel = function() {
   */
   this.prunedPossibleFoodTrucks.subscribe(function(foodTrucks) {
     var self = this;
-    console.log(this);
     this.foodTrucks().forEach(function(foodTruck){
       foodTruck.marker.setVisible(false);
       foodTruck.flightPaths.forEach( function (path){
@@ -268,10 +266,6 @@ var ViewModel = function() {
   */
   this.changeScreen = function(newScreen) {
       var screen;
-
-      console.log(this.screenHistory());
-      console.log(this.currentScreen());
-      console.log(newScreen);
 
       if ((newScreen === 'backToLogin') || (newScreen === 'backToMeetups') || (newScreen === 'backToFoodtrucks')) {
         this.readyForNextScreen(true);
@@ -345,7 +339,6 @@ var ViewModel = function() {
 
 
   this.renderMeetups = function() {
-    console.log('rendermeetups');
     this.meetups().forEach( function(meetup){
       meetup.render(this.map, this);
     }.bind(this));

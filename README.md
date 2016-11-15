@@ -51,9 +51,7 @@ you will need npm to manage the various dependencies
         1. bower install
     7. Build the app for deployment (optional)
         1. grunt build
-    8. Copy the food truck images to the dist folder
-        1. cp app/images/*.png dist/images/
-    9. Navigate to the dist folder and open the index.html file in Chrome or Firefox.
+    8. Navigate to the dist folder and open the index.html file in Chrome or Firefox.
 
 Test the deployed site. Static files are served via github. Async request to simple NodeJS backend on Heroku.
 https://garrettbryan.github.io/udacity-project-5/dist/

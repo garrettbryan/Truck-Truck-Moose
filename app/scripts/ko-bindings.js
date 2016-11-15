@@ -14,10 +14,12 @@ ko.bindingHandlers.closeModal = {
   }
 };
 
+/*
+Disable element until app is ready to advance.
+*/
 ko.bindingHandlers.disableUntilReady = {
   init: function(element, valueAccessor, allbindings, data, context) {
     var readyForNextScreen = valueAccessor;
-    console.log(readyForNextScreen());
     if (readyForNextScreen()) {
       $(element).attr('disabled', false);
     } else {
@@ -26,7 +28,6 @@ ko.bindingHandlers.disableUntilReady = {
   },
   update: function(element, valueAccessor, allBindings, data, context) {
     var readyForNextScreen = valueAccessor;
-    console.log(readyForNextScreen());
     if (readyForNextScreen()) {
       $(element).attr('disabled', false);
     } else {

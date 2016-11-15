@@ -355,7 +355,6 @@ FoodTruck.prototype.render = function(viewModel, map) {
     }
     if(this.description){
       viewModel.description(viewModel.description() + this.description);
-      console.log(this);
       this.schedule.forEach( function(stop, i) {
         var stopnum = i + 1;
         viewModel.description(viewModel.description() +'<br>' + stopnum + '. Open at ' + stop.starttime.convertToTime());
@@ -390,7 +389,6 @@ FoodTruck.prototype.keepChosen = function(map, viewModel){
     }
   });
   this.marker.setMap(map);
-  console.log(this);
   this.flightPaths.forEach( function (path){
     path.setMap(map);
   });
