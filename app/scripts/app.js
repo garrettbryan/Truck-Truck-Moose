@@ -111,7 +111,7 @@ var ViewModel = function() {
           this.prunedPossibleFoodTruckNames([]);
           this.foodTrucksAdded = false;
           this.extendBoundsOfMap(this.meetups());
-          //break fall through to destination
+          /* falls through */
         case 'destination':
           this.showSettingsButton(true);
           if((this.meetups()) && !(this.meetupsAdded)){
@@ -126,7 +126,7 @@ var ViewModel = function() {
         case 'backToFoodtrucks':
           this.selectedTruck.removeMapMarks(this.map, this);
           this.order([]);
-          //break fall through to foodtruck
+          /* falls through */
         case 'foodtruck':
           this.showSettingsButton(true);
           if(this.selectedDestination && this.user.begin() && this.user.end()){
@@ -432,7 +432,7 @@ var ViewModel = function() {
       }
 
     }.bind(this));
-  }
+  };
 
 
   this.removeMapMarks = function(array){
