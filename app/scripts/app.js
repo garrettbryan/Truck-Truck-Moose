@@ -349,6 +349,7 @@ var ViewModel = function() {
   addMeetupsToMap adjusts the bounds of the map so that all local meetups are displayed.
   */
   this.addMeetupsToMap = function() {
+    console.log(this.screenHistory());
     //TODO adjust map boundaries so that all icons are within the viable portion of the map. with restpect to the swiper bar.
     var ne = this.map.getBounds().getNorthEast();
     var sw = this.map.getBounds().getSouthWest();
@@ -670,5 +671,8 @@ $(document).ready(function() {
   viewModel.readyForNextScreen(true);
   viewModel.changeScreen('login');
   viewModel.initLocalVariables( function(){
+    initApp( function(){
+      viewModel.changeScreen('destination');
+    });
   });
 });

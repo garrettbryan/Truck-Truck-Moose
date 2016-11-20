@@ -4,8 +4,8 @@ tm is a library to ease the random scheduling of foodtrucks. Values are constrai
   var TimeHelper = function() {
     this.seconds = 0;
 
-    this.convertToTime = function(seconds) {
-      var seconds = seconds || this.seconds;
+    this.convertToTime = function(secs) {
+      var seconds = secs || this.seconds;
       var hour = Math.floor(seconds/3600);
       var minute = Math.floor((seconds/3600 - hour) * 60);
       hour = hour < 10 ? '0' + hour : hour;
