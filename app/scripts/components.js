@@ -94,6 +94,7 @@ ko.components.register('special-thanks', {
 var loginForm = [
 '<div class="container-fluid" data-bind="initializeScreen">',
 '<div id="login" class="login">',
+'<div data-bind="if: !$parent.user.signedIn()">',
 //'  <form class="form-horizontal">',
 '    <div class="row">',
 '      <label for="email" class="col-sm-2 col-sm-offset-1 control-label">Email</label>',
@@ -118,6 +119,9 @@ var loginForm = [
 '      </div>',
 '    </div>',
 //'  </form>',
+'</div>',
+'<div data-bind="if: $parent.user.signedIn">Loading',
+'</div>',
 '</div>',
 '</div>'
 ].join("\n");
@@ -232,6 +236,7 @@ var settings = [
 '    <div class="col-xs-3 col-md-3">',
 '       <div class="ttm-buttons text-center">',
 '      <button class="ttg-button btn btn-default" id="save-settings-btn" data-bind="click: $parent.changeScreen.bind($parent, \'last\'), openMainFormIfClosed">Done</button>',
+'        <button class="ttg-button btn btn-default" id="sign-out-btn" data-bind="click: $parent.signOut">Sign out</button>',
 '    </div>',
 '  </div>',
 '  </div>',

@@ -86,7 +86,7 @@ var ViewModel = function() {
         case 'backToLogin':
         case 'login':
           this.showSettingsButton(false);
-          this.resetUser();
+          //this.resetUser();
           this.turnOffScreens();
           this.loginScreen(true);
             break;
@@ -241,6 +241,19 @@ var ViewModel = function() {
   }.bind(this));
 
   /*
+  signout and relaunch the start/loading screen.
+  */
+  this.signOut = function() {
+    console.log('signout');
+    if (firebase.auth().currentUser) {
+      // [START signout]
+      firebase.auth().signOut();
+      this.readyForNextScreen(true);
+      this.changeScreen('login');
+    }
+  }.bind(this);
+
+  /*
   used for testing the local save function. allows reseting of the local data.
   */
   this.resetUser = function() {
@@ -351,6 +364,7 @@ var ViewModel = function() {
   this.addMeetupsToMap = function() {
     console.log(this.screenHistory());
     //TODO adjust map boundaries so that all icons are within the viable portion of the map. with restpect to the swiper bar.
+    console.log(this.map);
     var ne = this.map.getBounds().getNorthEast();
     var sw = this.map.getBounds().getSouthWest();
 
@@ -617,9 +631,7 @@ var ViewModel = function() {
         mapOptions);
     this.map.setOptions({styles: noPoi});
 
-
-    google.maps.event.addListenerOnce(this.map, 'bounds_changed', function(){
-    });
+    //console.log(this);
 
     /*
     Add a Bounds Change listener to the map. adjust all the necessary map related items.
@@ -655,9 +667,12 @@ var ViewModel = function() {
       }
     }.bind(this));
 
-    cb(this.map);
-  }.bind(this);
+    //make sure map is loaded before proceeding.
+    google.maps.event.addListenerOnce(this.map, 'idle', function(){
+      cb(this.map);
+    });
 
+  }.bind(this);
 };
 
 
@@ -670,6 +685,7 @@ $(document).ready(function() {
   ko.applyBindings(viewModel);
   viewModel.readyForNextScreen(true);
   viewModel.changeScreen('login');
+  console.log(firebase.auth().currentUser);
   viewModel.initLocalVariables( function(){
     initApp( function(){
       viewModel.changeScreen('destination');

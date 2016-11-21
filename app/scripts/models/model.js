@@ -25,6 +25,7 @@ Entity.prototype.constructor = Entity;
 
 var User = function(userData) {
   //populate from the local storage first.
+  this.signedIn = ko.observable(false);
   this.handle = ko.observable('');
   this.password = ko.observable('');
   this.ccNumber = ko.observable('');

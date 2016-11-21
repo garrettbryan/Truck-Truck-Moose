@@ -93,6 +93,7 @@ function initApp() {
      * Handles the sign in button press.
      */
     function toggleSignIn() {
+      console.log('signin');
       if (firebase.auth().currentUser) {
         // [START signout]
         firebase.auth().signOut();
