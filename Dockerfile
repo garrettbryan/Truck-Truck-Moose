@@ -1,5 +1,4 @@
 FROM node:6.17.1 as build
-
 # make directory
 RUN mkdir /source
 # Create a user group

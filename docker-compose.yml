@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   ttm-gui: 
-    image: nginx:latest
+    image: garrettbryan/truck-truck-moose-ui:latest
     ports:
       - 80:80
       - 443:443
