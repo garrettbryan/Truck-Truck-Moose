@@ -6,8 +6,6 @@ RUN mkdir /source
 RUN addgroup --system cgroup
 # Create a user in group -S -D -h
 RUN adduser --system --disabled-password --ingroup cgroup cuser
-# Chown all the files to the user
-RUN chown -R cuser:cgroup /source
 
 COPY app /source/app
 COPY bower.json /source
@@ -17,9 +15,12 @@ COPY Gruntfile.js /source
 WORKDIR /source
 RUN ["npm", "install", "-g", "bower"]
 RUN ["npm", "install", "-g", "grunt"]
+RUN ["npm", "install"]
+
+# Chown all the files to the user
+RUN chown -R cuser:cgroup /source
 
 USER cuser:cgroup
-RUN ["npm", "install"]
 
 RUN ["bower", "install"]
 RUN ["grunt", "build"]

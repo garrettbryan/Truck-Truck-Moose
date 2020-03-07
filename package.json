@@ -1,5 +1,7 @@
 {
-  "name": "Truck-Truck-Moose",
+  "name": "truck-truck-moose-ui",
+  "dockerRepo": "garrettbryan",
+  "version": "0.0.1",
   "description": "Frontend App for Truck-Truck-Moose",
   "repository": "https://github.com/garrettbryan/Truck-Truck-Moose.git",
   "license": "MIT",
