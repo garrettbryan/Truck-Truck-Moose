@@ -1,5 +1,6 @@
 {
   "name": "Truck-Truck-Moose",
+  "description": "Frontend App for Truck-Truck-Moose",
   "repository": "https://github.com/garrettbryan/Truck-Truck-Moose.git",
   "license": "MIT",
   "devDependencies": {
