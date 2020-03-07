@@ -1,11 +1,11 @@
-##Truck Truck Moose
+## Truck Truck Moose
 
 This is a web app to enhance your meetups with a food truck experience and weather alerts. This web app is a side project to experiment with KnockoutJS, NodeJS, and Various 3rd Party APIs.
 
-###Important! This app uses Grunt build tools!
+### Important! This app uses Grunt build tools!
 I included the built final deliverable files which can be run from your local machine. However; if you need to interact with the development files, The best way will be to setup a development environment to host the local development files. Which I detail below.
 
-###Run the built final deliverable files
+### Run the built final deliverable files
     1. from the terminal - Create a project folder
         1. mkdir /project/folder/
     2. Navigate into it
@@ -17,11 +17,11 @@ I included the built final deliverable files which can be run from your local ma
     5. Open the index file in Chrome or FireFox
 
 
-###Run the app in development
+### Run the app in development
 Prerequisites to running the app:
 you will need npm to manage the various dependencies
 
-###1. How to run the web app via the terminal:
+### 1. How to run the web app via the terminal:
     1. Create a project folder
     2. cd into it
     3. Clone the repository
@@ -56,7 +56,7 @@ you will need npm to manage the various dependencies
 Test the deployed site. Static files are served via github. Async request to simple NodeJS backend on Heroku.
 https://garrettbryan.github.io/udacity-project-5/dist/
 
-###Features to look for
+### Features to look for
     1. Single page web app removes scroll bars for a super clean look
     2. Main elment and contributor element interaction
     3. Meetup filer input includes a dropdown as the user begins to type.
@@ -78,7 +78,7 @@ https://garrettbryan.github.io/udacity-project-5/dist/
     13. change the foodtruck meetup visit order.
     14. Navigate forward and backward through the screens
 
-###Future features
+### Future features
 1. Integrate logins
 2. Build a database of Food Trucks
 3. Allow easy updating of their daily offerings possibly by tweet
@@ -92,7 +92,7 @@ https://garrettbryan.github.io/udacity-project-5/dist/
 11. Use google to add destinations besides meetups
 12. Users' data should persist locally and also be saved in a database.
 
-###Contributors
+### Contributors
 1. [Moose Head - Created By Hayley Parke](https://thenounproject.com/search/?q=moose&i=251377)
 2. [Food Trucks - Created By MiniStock](https://www.vecteezy.com/members/ministock)
 3. [Open Meetups - Meetup Organizers](https://www.meetup.com/)

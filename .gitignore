@@ -19,3 +19,4 @@ app/images/old/
 app/scripts/ng-model.js
 images-unused/
 *[Vv]agrant*
+dist/
